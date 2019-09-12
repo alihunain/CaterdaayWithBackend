@@ -1,0 +1,99 @@
+
+
+<body data-spy="scroll" data-target=".menu-row" data-offset="0">
+	<!-- Register Popup -->
+	<div class="login-reg-popup modal fade" id="register">
+	  	<div class="modal-dialog modal-dialog-centered">
+	    	<div class="modal-content">
+
+		    	<!-- Modal Header -->
+		    	<div class="modal-header">
+		        	<button type="button" class="close" data-dismiss="modal" id="closeReg">&times;</button>
+		      	</div>
+
+	      		<!-- Modal body -->
+	      		<div class="modal-body">
+	        		<h4 class="modal-title text-center">Register</h4>
+	        		<form [formGroup]="Signup" (ngSubmit)="onSignup()" >
+	        			<div class="form-group">
+							<input type="text" formControlName="firstname" name="reg-fname" id="reg-fname" class="form-control reg-name" placeholder="First Name">
+							<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
+									<div *ngIf="firstname.errors.required" class="form-error alert-danger">Firstname Is Required</div>
+							</div>
+	        			</div>
+	        			<div class="form-group">
+							<input type="text" formControlName="lastname" name="reg-lname" id="reg-lname" class="form-control reg-name" placeholder="Last Name">
+							<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
+									<div *ngIf="lastname.errors.required" class="form-error alert-danger">Lastname Is Required</div>
+							</div>
+	        			</div>
+	        			<div class="form-group">
+	        				<input type="email" formControlName="username" name="reg-email" id="reg-email" class="form-control reg-email" placeholder="Email">
+							<div *ngIf="username.invalid && (username.dirty || username.touched)">
+									<div *ngIf="username.errors.email" class="form-error alert-danger">Email Is Required</div>
+							</div>						
+						</div>
+	        			<div class="form-group">
+	        				<input type="password" formControlName="password" name="reg-pw" id="reg-pw" class="form-control reg-pw" placeholder="Password">
+							<div *ngIf="password.invalid && (password.dirty || password.touched)">
+									<div *ngIf="password.errors.required" class="form-error alert-danger">Password Is Required</div>
+							</div>
+						</div>
+	        			<div class="form-group">
+	        				<input type="password" formControlName="confirmpassword" name="reg-cpw" id="reg-cpw" class="form-control reg-pw" placeholder="Confirm Password">
+							<div *ngIf="confirmpassword.invalid && (confirmpassword.dirty || confirmpassword.touched)">
+									<div *ngIf="confirmpassword.errors.required" class="form-error alert-danger">Confirm Password Is Required</div>
+							</div>
+							<div *ngIf="!current" class="form-error alert-danger">Password Didnot Match</div>
+						</div>
+	        			<div class="form-group">
+	        				<input type="submit" [disabled]="!Signup.valid" name="reg-sub" id="reg-sub" class="btn  reg-btn" value="Submit">
+	        			</div>
+	        			<div class="form-group text-center">
+	        				<p>Already have an account ? <a href="#" (click)="switchLogin()"  data-toggle="modal" data-target="#login">LogIn</a></p>
+	        			</div>
+	        		</form>
+	      		</div>
+	    	</div>
+	  	</div>
+	</div>
+
+	<!-- Login Popup -->
+	<div class="login-reg-popup modal fade" id="login" >
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+  
+				  <!-- Modal Header -->
+				  <div class="modal-header">
+					  <button type="button" class="close" data-dismiss="modal" id="closeLogin">&times;</button>
+					</div>
+  
+					<!-- Modal body -->
+					<div class="modal-body">
+					  <h4 class="modal-title text-center">Login</h4>
+					  <form [formGroup]="Login" (ngSubmit)="onLogin()">
+						  <div class="form-group">
+							  <input type="loginusername" formControlName="loginusername" class="form-control reg-name" placeholder="Email ID">
+							  <div *ngIf="loginusername.invalid && (loginusername.dirty || loginusername.touched)">
+									  <div *ngIf="loginusername.errors.email" class="form-error alert-danger">Invalid Email Address</div>
+							  </div>
+						  </div>
+						  <div class="form-group">
+							  <input type="password" formControlName="loginpassword" class="form-control reg-pw" placeholder="Password">
+						  </div>
+						  <div class="form-group f-flex">
+							  <label><input type="checkbox" name=""> Keep Me Logged In</label>
+							  <p><a href="#">Forgot Password ?</a></p>
+						  </div>
+						  <div class="form-group">
+							  <input type="submit" [disabled]="!Login.valid" class="btn  reg-btn" value="Submit">
+						  </div>
+						  <div class="form-group f-flex">
+							  <p>Don't have an account ? </p>
+							  <p><a href="#" (click)="switchRegister()" data-toggle="modal"  data-target="#register">Create An Account</a></p>
+						  </div>
+					  </form>
+					</div>
+			  </div>
+			</div>
+	  </div>

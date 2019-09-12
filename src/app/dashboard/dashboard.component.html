@@ -1,0 +1,197 @@
+<app-signup></app-signup>
+<app-header></app-header>
+<!-- Remember  -->
+<div id="main" style="overflow-x: hidden">
+  <section>
+    <div class="slider">
+      <div class="slide slide1 d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-10 mx-auto text-center">
+              <h4 appScrollEnterance anim="fade">Feed Your Guest with Professional Caterers</h4>
+              <!-- <form class="form-inline" action="" method="" appScrollEnterance anim="from-bottom" > -->
+                  <!-- already commented -->
+                  <!-- <select class="custom-select">
+                    <option selected>Select Your City</option>
+                  </select>
+                  <select class="custom-select b-rite">
+                    <option selected>Select Your Cusine</option>
+                  </select> -->
+                  <!-- already commented -->
+                  <!-- <input type="text" name="ent-add" class="ent-add" placeholder="Enter your delivery address">
+                  <input type="submit" class="btn" value="SEARCH">
+              </form> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="bg-grey pt-3 pb-3">
+      <div class="container">
+          <ngx-slick-carousel   [config]="slideConfig" class="carousel logo-slider"  #slickModal="slick-carousel" >
+   
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/wedding-parties-updated.png">
+              <figcaption>Wedding<br>Parties</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/corporate-functions-updated.png">
+              <figcaption>Corporate<br>Functions</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/birthday-parties-updated.png">
+              <figcaption>Birthday<br>Parties</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/famlily-dinner-updated.png">
+              <figcaption>Family<br>Dinner</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/office-food-updated.png">
+              <figcaption>Office<br>Food</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
+              <img src="assets/images/wedding-parties-updated.png">
+              <figcaption>Wedding<br>Parties</figcaption>
+            </figure>
+          </div>
+
+      </ngx-slick-carousel>
+      </div>
+    </section>
+
+  <section id="about" class="pt-5 pb-5 abt-sec">
+    <img src="assets/images/abt.png" alt="" class="abt-img" appScrollEnterance  anim="from-right">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-12">
+          <h4 appScrollEnterance  anim="from-left">Catering for All</h4>
+          <p appScrollEnterance  anim="from-left">Whether you are looking for a caterer for a client meeting, wedding or birthday party, CaterDaay makes it effortless to order online from a vast catalogue of caterers accompanied by A-grade customer service.</p>
+          <h4 appScrollEnterance  anim="from-left">Save Time and Make It Simple</h4>
+          <p appScrollEnterance  anim="from-left">CaterDaay ensures that you will never again need to hassle contacting restaurants and asking if they can deliver to your location. Instead, you can save valuable time and immediately identify caterers who not only serve to your address, but meet your food type, budget, dietary requirements and more. Best part of it all is that you can create, cancel or modify your orders anytime at all. </p>
+        
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hworks pb-5 pt-5 mt-5">
+      <img src="assets/images/refer-friend.png" alt="" class="brgr"  appScrollEnterance anim="from-right">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 col-md-12">
+             <h3 class="heading clr-white" appScrollEnterance anim="from-left">We value friendship.<br>Earn $10 for every friend</h3>
+             <p class="clr-white" appScrollEnterance anim="from-left">when you introduce your friends to place their first order</p>
+             <a href="earn" class="btn ref-btn">Refer a Friend</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pt-5 pb-5 flag-sec">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 text-center">
+              <h3 class="heading " appScrollEnterance anim="from-bottom">The only worldwide network <br>for catering.</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <img src="assets/images/flags-up.jpg" class="img-fluid"> 
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <section class="pt-5 pb-5 foodtype-sec">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 text-center">
+              <h3 class="heading" appScrollEnterance anim="from-bottom">Food Types</h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <ul class="food-types">
+                <li><a href="#">Kosher</a></li>
+                <li><a href="#">Arabian</a></li>
+                <li><a href="#">Halal</a></li>
+                <li><a href="#">Indian</a></li>
+                <li><a href="#">Pakistani</a></li>
+                <li><a href="#">Chinese</a></li>
+                <li><a href="#">Mexican</a></li>
+                <li><a href="#">Japanese</a></li>
+                <li><a href="#">Greek</a></li>
+                <li><a href="#">Thai</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+  <section class="pt-5 pb-5 counter-sec">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-3 col-sm-6">
+                <div class="counter">
+                    <img src="assets/images/satisfied.png" alt="">
+                    <p class="count-text ">Satisfied Customer</p>
+                    <h4 class="timer count-title count-number" data-to="500" data-speed="1500"></h4>
+                  </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="counter">
+                    <img src="assets/images/on-board-caters.png" alt="">
+                    <p class="count-text ">On Board Caters</p>
+                    <h4 class="timer count-title count-number" data-to="50" data-speed="1500"></h4>
+                  </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="counter">
+                    <img src="assets/images/served-location.png" alt="">
+                    <p class="count-text ">Served Locations</p>
+                    <h4 class="timer count-title count-number" data-to="100" data-speed="1500"></h4>
+                  </div>
+              </div>
+              <div class="col-md-3 col-sm-6">
+                <div class="counter">
+                    <img src="assets/images/reviews.png" alt="">
+                    <p class="count-text ">Reviews</p>
+                    <h4 class="timer count-title count-number" data-to="600" data-speed="1500"></h4>
+                  </div>
+              </div>
+            </div>
+          </div>
+  </section>
+  <app-testimonials>
+  </app-testimonials>
+  <!-- <section class="cta">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h3 class="heading clr-white">Now Available</h3>
+          <h4 class="head-sm clr-white">Download our CaterDaay App Today</h4>
+        </div>
+        <div class="col-md-6 text-right">
+          <a href="#"><img src="assets/images/apple.png" alt=""></a>
+          <a href="#"><img src="assets/images/google.png" alt=""></a>
+        </div>
+      </div>
+    </div>
+  </section> -->
+  <app-onboarding></app-onboarding>
+
+</div>
+<app-footer></app-footer>

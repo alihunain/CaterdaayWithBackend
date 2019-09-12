@@ -1,0 +1,792 @@
+
+<app-header3></app-header3>
+<!-- modal -->
+<div class="hotel-popup modal fade" id="hotel-popup">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <figure>
+            <img src="assets/images/bbq.jpg" alt="" class="img-fluid">
+          </figure>
+          <div class="popup-body">
+            <div class="row popup-header">
+              <div class="col-12">
+                <h4>Barbecue Buffet</h4>
+                <p>$11.95 / person, minimum 10 person</p>
+              </div>
+              <div class="col-12">
+                <p class="small">Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              </div>
+            </div>
+            <div class="row popup-body-area">
+              <div class="col-12">
+                <!-- <form>
+                  <div class="row">
+                    <div class="col-12 pb-4">
+                      <h4>Total Servings:</h4>
+                      <select>
+                        <option value="10 persons" selected>10 Person</option>
+                        <option value="10 persons" selected>11 Person</option>
+                        <option value="10 persons" selected>12 Person</option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <h4>Select 2 Buffet Meats:</h4>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-1" id="buffet-check-1">
+                            <label for="buffet-check-1">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-2" id="buffet-check-2">
+                            <label for="buffet-check-2">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-3" id="buffet-check-3">
+                            <label for="buffet-check-3">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-4" id="buffet-check-4">
+                            <label for="buffet-check-4">Most Popular</label>
+                          </div>	
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-5" id="buffet-check-5">
+                            <label for="buffet-check-5">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-6" id="buffet-check-6">
+                            <label for="buffet-check-6">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-7" id="buffet-check-7">
+                            <label for="buffet-check-7">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="buffet-check-8" id="buffet-check-8">
+                            <label for="buffet-check-8">Most Popular</label>
+                          </div>	
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <h4>Select Upto 3 Sides:</h4>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-1" id="sides-check-1">
+                            <label for="sides-check-1">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-2" id="sides-check-2">
+                            <label for="sides-check-2">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-3" id="sides-check-3">
+                            <label for="sides-check-3">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-4" id="sides-check-4">
+                            <label for="sides-check-4">Most Popular</label>
+                          </div>	
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-5" id="sides-check-5">
+                            <label for="sides-check-5">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-6" id="sides-check-6">
+                            <label for="sides-check-6">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-7" id="sides-check-7">
+                            <label for="sides-check-7">Most Popular</label>
+                          </div>
+                          <div class="form-group">
+                            <input type="checkbox" name="sides-check-8" id="sides-check-8">
+                            <label for="sides-check-8">Most Popular</label>
+                          </div>	
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12 pt-4 pb-4">
+                      <div id="special-ins"><i class="fa fa-commenting-o" aria-hidden="true"></i> Add any special instructions</div>
+                      <textarea style="display: none;" id="special-txt"></textarea>
+
+                    </div>
+                    <div class="col-12 text-center">
+                      <input type="submit" name="popup-cart" id="popup-cart" value="Add to Cart">
+                    </div>
+                  </div>
+                </form>	 -->
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- modal end -->
+
+<section class="single-search-header search-header-updated">
+<div class="container">
+<!-- <div class="row">
+  
+  <div class="col-9 mx-auto">
+    <ul id="progressbar">
+          <li class="active"></li>  
+          <li ></li> 
+          <li></li>
+    </ul>
+  </div>
+</div> -->
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="search-titles-row">
+      <h1>Hooter Restaurant Bar</h1>
+      <ul class="header-detail-list">
+        <li>St 23, Lane 4, XYZ Road, Dallas, TX.</li>
+        <li><a href="tel:0000000000">000-0000-000</a></li>
+        <li>
+          <div class="row">
+            <div class="star-rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div>
+            <div class="rating">
+              <span>(4.5)</span>
+              <span><a href="#">247 Reviews</a></span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <ngx-slick-carousel [config]="slideeConfig" class="carousel col-12 search-slider"  #slickModal="slick-carousel"> 
+
+      <div  class="search-slide">
+        <div ngxSlickItem class="slide-flyer">
+          <h4>99% On time <span>Based on last 50 orders</span></h4>
+        </div>
+        <img  src="assets/images/hooter-full.jpg">
+      </div>
+  
+      <div  class="search-slide">
+        <div ngxSlickItem class="slide-flyer">
+          <h4>99% On time <span>Based on last 50 orders</span></h4>
+        </div>
+        <img  src="assets/images/hooter-full.jpg">
+      </div>
+    </ngx-slick-carousel>
+
+   
+</div>
+</div>
+</section>
+
+<section class="filters">
+<div class="container">
+<div class="row">
+  <div class="col-12">
+    <!-- <form action="" method="" class="form-inline">
+      <label>Order</label>
+      <select class="custom-select">
+        <option value="Deliveryy" selected>Delivery</option>
+        <option value="Take Away">Take Away</option>
+      </select>
+      <label>Delivery Address</label>
+      <select class="custom-select">
+        <option selected>Dallas, TX</option>
+      </select>
+      <label>When</label>
+      <input type="date" name="" placeholder="Add event Date">
+      <label>Serving</label>
+      <select class="custom-select">
+        <option selected>Total Head Count</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+        <option value="35">35</option>
+        <option value="36">36</option>
+        <option value="37">37</option>
+        <option value="38">38</option>
+        <option value="39">39</option>
+        <option value="40">40</option>
+        <option value="41">41</option>
+        <option value="42">42</option>
+        <option value="43">43</option>
+        <option value="44">44</option>
+        <option value="45">45</option>
+        <option value="46">46</option>
+        <option value="47">47</option>
+        <option value="48">48</option>
+        <option value="49">49</option>
+        <option value="50">50</option>
+      </select>
+    </form> -->
+  </div>
+</div>
+</div>
+</section>
+
+<section class="inner-cater-search">
+<div class="container">
+<div class="row search-cat-head align-items-center	">
+  <div class="col-md-4">
+    <h3>Catering Menu</h3>
+  </div>
+  <div class="col-md-8 text-right">
+    <a href="#" class="search-tags">Lunches</a>
+    <a href="#" class="search-tags">Entrees</a>
+    <a href="#" class="search-tags">Sides</a>
+    <a href="#" class="search-tags">Deserts</a>
+    <a href="#" class="search-tags">Beverages</a>
+  </div>
+</div>
+
+<!-- ROW WITH SIDEBAR -->
+<div class="row">
+  <div class="col-md-9">
+    <!-- DELIVERY BUFFET ROW -->
+    <div class="row search-menu">
+      <div class="col-12">
+        <div class="row">
+          <h3>Delivery Buffet</h3>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/bbq.jpg" alt=""></a>
+              <div class="most-ord">Most Ordered</div>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Barbecue Buffet</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/bbq-2.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Barbecue Buffet</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/bbq-3.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Barbecue Buffet</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOX LUNCHES -->
+    <div class="row search-menu">
+      <div class="col-12">
+        <div class="row">
+          <h3>Box Lunches</h3>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/box-lunch-1.jpg" alt=""></a>
+              <div class="most-ord">Most Ordered</div>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Deluxe Box Lunch</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/box-lunch-2.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Standard Box Lunch</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/box-lunch-3.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Sandwich</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/box-lunch-4.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Pizza Standard</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOT ENTREES ROW -->
+    <div class="row search-menu">
+      <div class="col-12">
+        <div class="row">
+          <h3>Hot Entrees</h3>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/hot-1.jpg" alt=""></a>
+              <div class="most-ord">Most Ordered</div>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Large Barbecue Platter</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/hot-2.jpg" alt=""></a>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Standard Chicken Platter</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALAD ROW -->
+    <div class="row search-menu">
+      <div class="col-12">
+        <div class="row">
+          <h3>Salad</h3>
+        </div>
+      </div>
+      <div class="col-md-6 menu-item">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><img src="assets/images/salad.jpg" alt=""></a>
+              <div class="most-ord">Most Ordered</div>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup"><h4>Large Barbecue Platter</h4></a>
+              <p>Includes your choices of 2 meats and 3 sides with rolls and condiments. Add drinks and perhaps dessert, and you're all set.</p>
+              <h5 class="price">$11.20</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum 10 people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="col-md-3 right-sidebar">
+    <div class="search-cart">
+      <a href="#"><i class="fa fa-shopping-cart"></i> View Cart</a>
+    </div>
+    <div class="search-supp">
+      <h4>Need Help?</h4>
+      <a href="#" class="supp"><i class="fa fa-headphones"></i>Chat with support team</a>
+      <a href="tel:000000000" class="supp"><i class="fa fa-phone"></i>000-0000-000</a>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<section class="rev-sec">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-7">
+				<div class="row mb-4" >
+					<div class="col-12">
+						<h4 class="rev-head">Reviews</h4>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<ul class="rev-list">
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+							<li>
+								<figure>
+									<img src="assets/images/avatar.png" alt="">
+								</figure>
+								<div class="rev-desc">
+									 <div class="row rev-meta-row">
+									 	<div class="col-12">
+										 	<div class="rev-meta">
+										 		<h5>John Doe</h5>
+										 		<p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+										 	</div>
+										 	<div class="rev-rating">
+										 		<div class="rev-stars">
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 		<i class="fa fa-star"></i>
+											 	</div>
+											 	<div class="rev-rate">
+											 		(4.0)
+											 	</div>
+										 	</div>
+										 </div>
+									 </div>
+									 <div class="row">
+									 	<div class="col-12">
+									 		<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+									 	</div>
+									 </div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12 text-center">
+						<a href="#" class="load-more"> LOAD MORE <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>(340 Reviews)</span></a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-5 cat-det">
+				<div class="row mb-4">
+					<div class="col-12">
+						<h4 class="rev-head">About Restaurant</h4>
+						<h4 class="rev-head">Location</h4>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col-12">
+						<h5>Hooter Restaurant & Bar</h5>
+						<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<ul>
+							<li><strong>Address:</strong> Lorem ipsum is simply dummy text of the printing</li>
+							<li><strong>Phone:</strong> 000-0000-000</li>
+							<li><strong>Email:</strong> abc@yourdomain.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<app-mobile-app></app-mobile-app>
+<app-onboarding></app-onboarding>
+<app-footer></app-footer>

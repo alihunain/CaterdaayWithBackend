@@ -1,0 +1,56 @@
+<div class="frontcartdetail" (click)="stopPropagation($event)">
+  <div class="cartdetail">
+    <h4 class="restoname">
+      <b>{{ kitchenName | uppercase }} </b>
+    </h4>
+    <div class="items">
+      <table class="table itemoname">
+        <tbody>
+          <tr class="text-center">
+            <td colspan="5">
+              <b> Menu Items</b>
+            </td>
+          </tr>
+          <tr>
+            <td class="input-group">
+              <i class="fas fa-minus"></i>
+              <span class="input-group-addon inputgroupy padding0 ">
+                <input class="menuQty mine" min="0" type="number" />
+              </span>
+              <i class="fas fa-plus"></i>
+            </td>
+
+            <td class="cart-item cart-item-width">
+              Big Zinger
+            </td>
+            <td class="currency">
+              <small style="font-size: 9px">
+                <b>
+                  CAD
+                </b>
+                179.2
+              </small>
+            </td>
+            <td>
+              <i class="fas fa-trash-alt"></i>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="checkoutdetail">
+        <div style="padding: 10px">
+          <b>
+            Sub Total : &nbsp; &nbsp;
+            <span class="pull-right">
+              <b> CAD</b>
+              <span>179.20</span>
+            </span>
+          </b>
+        </div>
+        <button class="btn btn-danger btn-block">
+          CHECK OUT
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

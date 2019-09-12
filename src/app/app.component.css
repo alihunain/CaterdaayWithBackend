@@ -1,0 +1,9 @@
+@media (max-width: 991px) {
+  .backdrawer {
+    background: #80808099;
+    position: absolute;
+    width: 100%;
+    z-index: 147;
+    height: 100%;
+  }
+}

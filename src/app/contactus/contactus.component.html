@@ -1,0 +1,68 @@
+<app-signup></app-signup>
+<app-header></app-header>
+<section class="titlebar title-cont">
+	<div class="container">
+		<div class="row text-center">
+			<h1>Contact Us</h1>
+		</div>
+	</div>
+</section>
+
+<section class="pt-5 mt-5 pb-5 mb-5">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-9 col-md-12">
+				<h3 class="head">Contact Us</h3>
+				<p>Send us your feedback by filling out the form below.</p>
+				<div class="form-box">
+					<form [formGroup]="ContactUs" (ngSubmit)="onSubmit()">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" formControlName="name" class="form-control" placeholder="Name"  required>
+								<div *ngIf="name.invalid && (name.dirty || name.touched)">
+									<div *ngIf="name.errors.required" class="form-error alert-danger">Name Is Required</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group" >
+								<input type="email" formControlName="email" class="form-control" placeholder="Email*">
+								<div *ngIf="email.invalid && (email.dirty || email.touched)">
+										<div *ngIf="email.errors.email" class="form-error alert-danger">Invalid Email Address</div>
+										<div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="text" formControlName="phone"  class="form-control" placeholder="Phone*">
+								<div *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+										<div *ngIf="phone.errors.required" class="form-error alert-danger">Phone Required</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<textarea formControlName="message"  placeholder="Enter your feedback here" class="form-control"></textarea>
+								<div *ngIf="message.invalid && (message.dirty || message.touched)">
+										<div *ngIf="message.errors.required" class="form-error alert-danger">Message Required</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<input type="submit" [disabled]="!ContactUs.valid" class="btn btn-form" value="Submit">
+							</div>
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<app-testimonials></app-testimonials>
+<app-onboarding></app-onboarding>
+<app-footer2></app-footer2>
+

@@ -1,0 +1,62 @@
+.frontcartdetail {
+  border-top: 5px solid red;
+  border-radius: 5px;
+  background: white !important;
+  box-shadow: 10px 10px 10px 1px #382828;
+}
+
+.cartdetail {
+  border: 1px solid lightgray;
+}
+
+.restoname {
+  padding-left: 10px;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.items {
+  max-height: 300px;
+  overflow-y: auto;
+  color: black;
+}
+.input-group{
+  position: relative;
+  display: table;
+  border-collapse: separate;
+  padding: 7px 10px;
+}
+.cart-item-width {
+  max-width: 83px;
+}
+
+.cart-item {
+  white-space: initial;
+  word-break: break-all;
+}
+
+.currency {
+  min-width: 57px;
+
+}
+
+.checkoutdetail {
+  padding: 5px;
+  border-top: 2px dashed lightgray;
+}
+.inputgroupy {
+  top: 0 !important;
+  background-color: white;
+}
+.padding0 {
+  padding: 0!important;
+}
+.mine{
+  width: 35px;
+  border: 0;
+}
+.cursorPointer {
+  cursor: pointer!important;
+}

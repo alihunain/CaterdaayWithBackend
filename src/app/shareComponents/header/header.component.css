@@ -1,0 +1,46 @@
+.cart {
+  position: absolute;
+  right: 0px;
+  top: 100%;
+  width: 25em;
+}
+
+.colorgreen {
+  color: #5ba946;
+}
+
+.cartDropDown {
+  position: relative;
+  cursor: pointer;
+}
+
+@media (max-width: 991px) {
+  .drawerBack {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(00, 00, 00, 0.5);
+  }
+
+  .cartDropDown {
+    position: initial;
+  }
+
+  @keyframes from-top {
+    from {
+      transform: translate(0px, -200px)
+    }
+
+    to {
+      transform: translate(0, 0)
+    }
+  }
+
+  .cart {
+    width: 100%;
+    animation-name: from-top;
+    animation-duration: 2s;
+  }
+}
