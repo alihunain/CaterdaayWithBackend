@@ -34,6 +34,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { MobileAppComponent } from './shareComponents/mobile-app/mobile-app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -76,7 +77,15 @@ import { HttpClientModule } from '@angular/common/http'
     CarouselModule,
     SlickCarouselModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot({
+      easing:'ease-in',
+      easeTime:2000,
+      timeOut:1000,
+      closeButton:false,
+      resetTimeoutOnDuplicate:true,
+      preventDuplicates: true,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

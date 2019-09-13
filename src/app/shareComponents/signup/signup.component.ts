@@ -3,6 +3,7 @@ import { FormBuilder, FormControl} from '@angular/forms'
 import { Validators } from '@angular/forms'
 import { UserService } from '../../../Services/user.service'
 import { User } from '../../Models/User'
+import { ToastrService } from 'ngx-toastr'
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -26,7 +27,7 @@ export class SignupComponent implements OnInit {
   forgetPassword = this.fb.group({
     email:['',[Validators.email,Validators.required]],
   })
-  constructor(private fb:FormBuilder,private userService:UserService,private eleRef: ElementRef) { 
+  constructor(private fb:FormBuilder,private userService:UserService,private eleRef: ElementRef,private toastr: ToastrService) { 
     
   }
   onSignup(){
@@ -38,9 +39,9 @@ export class SignupComponent implements OnInit {
     this.signupUser.lastname = this.lastname.value;
     this.signupUser.password = this.password.value;
     this.userService.Signup(this.signupUser).subscribe(data=>{
-      console.log(data);
+      this.toastr.success('Congrats', 'Verify Your Email Before Login');
     },(error)=>{
-      console.log(error);
+      this.toastr.error('Sorry', 'Something Went Wrong');
     })
   }
   }
@@ -51,9 +52,9 @@ export class SignupComponent implements OnInit {
       console.log(data);
       this.userService.setUser(data);
       if(this.userService.getUser() == null){
-        console.log("Not found")
+        this.toastr.warning('Sorry', 'Something Went Wrong');
       }else{
-        console.log(this.userService.getUser().token);
+        this.toastr.success('Suceed', 'You are now login');
       }
     },(error)=>{
       console.log(error);
@@ -66,7 +67,7 @@ export class SignupComponent implements OnInit {
     this.userService.forgetPassword(this.forgetPassword.value).subscribe(data=>{
       console.log(data);
     },(error)=>{
-      console.log(error);
+      this.toastr.warning('Sorry', 'Something Went Wrong');
     })
   }
   ngOnInit() {

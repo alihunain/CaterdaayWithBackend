@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { KitchenService } from '../../Services/kitchen.service'
 import { Kitchen } from '../Models/Kitchen';
+import { ToastrService } from 'ngx-toastr'
 
 declare var functionality: any;
 declare var srcollEnterance: any;
@@ -53,9 +54,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   
 
   constructor(private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
-
+ 
   ngOnInit() {
-
   }
   ngAfterViewInit(): void {
     // srcollEnterance();
