@@ -1,5 +1,9 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder } from '@angular/forms';
+import { KitchenService } from '../../Services/kitchen.service'
+import { Kitchen } from '../Models/Kitchen';
+
 declare var functionality: any;
 declare var srcollEnterance: any;
 @Component({
@@ -42,9 +46,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     
   ]
   };
+  KitchenObject = new Kitchen();
+  Kitchen = this.fb.group({
+    city:['']
+  })
   
 
-  constructor(public router: Router, public changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
 
   ngOnInit() {
 
@@ -69,5 +77,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   navigateToListing(city, cusine) {
     // tslint:disable-next-line:object-literal-shorthand
     this.router.navigate(['/listing'], { queryParams: { city: city, cusine: cusine } });
+  }
+  onFind(){
+    this.KitchenObject = this.Kitchen.value;
+   this.kitchenservice.SetKitchen(this.KitchenObject);
+    // this.kitchenservice.Kitchenfilter(kitchen).subscribe(data=>{
+    //   console.log(data);
+    // },(error)=>{
+    //   console.log(error);
+    // })
+    this.router.navigate(['/listing']);
+  }
+  onFoodType(value){
+    this.KitchenObject.cousine = value;
+    this.kitchenservice.SetKitchen(this.KitchenObject);
+  }
+  get city(){
+    this.router.navigate(['/listing'])
+    return this.Kitchen.get('City');
   }
 }

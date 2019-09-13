@@ -3,45 +3,36 @@ import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http'
 import {throwError} from 'rxjs';
 import {catchError } from 'rxjs/operators';
 import { GlobalService } from '../Services/global.service';
-import {User} from '../app/Models/User'
-import { ThrowStmt } from '@angular/compiler';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   user:any = null;
-  // User obj: abny ;
-  // set user (user){
-  //   this.Us = user;
-  //   loicauser.set
-  // }
-  // get User (){
-  //   if(timingSafeEqual.user){re}else{longStackSupport.contain(user)
-  //   longStackSupport.get(user)= user}
-  //   return uer
-  // }
-  serverUrl = 'http://localhost:4034/';
+
+
+
   httpOptions = {
     header:new HttpHeaders({'Content-Type':'application/json'})
   }
-  constructor(private http:HttpClient,public glob: GlobalService) { }
+  constructor(private http:HttpClient,public server: GlobalService) { }
+  forgetPassword(email:any){
+    return this.http.post(   this.server.development.ms3 + "customers/forget-password",email).pipe(
+      catchError(this.handleError))
+  }
   Login(user:any){
-    console.log(user)
-    return this.http.post(this.serverUrl + "customers/login",user).pipe(
+
+    return this.http.post(   this.server.development.ms3 + "customers/login",user).pipe(
     catchError(this.handleError))
   }
   Signup(user:any){
-    return this.http.post(this.serverUrl + "customers/signup",user).pipe(
+    return this.http.post(this.server.development.ms3 + "customers/signup",user).pipe(
     catchError(this.handleError))
   }
-  private handleError(error: HttpErrorResponse){
-    if(error.error instanceof ErrorEvent){
-      console.log(`An error occured: ${error.error.message}`);
-    }else{
-      console.log(`Backend Error : ${error.status} and message is ${error.message}`);
-    }
-    return throwError("Something Went Wrong");
+  GetCountryList(){
+    return this.http.get(this.server.development.ms6 + "countrylist").pipe(
+      catchError(this.handleError))
   }
   setUser(data){
     this.user = data;
@@ -57,5 +48,17 @@ export class UserService {
     }else{
       return null;
     }
+  }
+  removeUser(){
+    this.user = null;
+    localStorage.removeItem("User");
+  }
+  private handleError(error: HttpErrorResponse){
+    if(error.error instanceof ErrorEvent){
+      console.log(`An error occured: ${error.error.message}`);
+    }else{
+      console.log(`Backend Error : ${error.status} and message is ${error.message}`);
+    }
+    return throwError("Something Went Wrong");
   }
 }

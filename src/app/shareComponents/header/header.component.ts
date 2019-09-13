@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/Services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -6,14 +7,33 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
-  constructor() { }
+  User:any=null;
+  Countrys:any =null;
+  Signin:boolean= true;
+  constructor(public userService:UserService) { }
   showCart = false;
   ngOnInit() {
+      this.getCountries();
   }
   cartBoxAction(e: Event) {
     e.stopPropagation();
     e.preventDefault();
     this.showCart = !this.showCart;
   }
+  checkUser(){
+    this.User = this.userService.getUser();
+      if(!this.User === null){
+        this.Signin = false;
+      }
+  }
+  getCountries(){
+   this.userService.GetCountryList().subscribe((data:any)=>
+   {
+     this.Countrys=data
+     console.log(this.Countrys)
+    },error=>{
+      console.log(error)
+    })
+  }
+ 
 }

@@ -15,9 +15,12 @@ export class InnerCateringSearchComponent implements OnInit {
     "focusOnSelect": false,
     "speed": 1000
   };
-  constructor() { }
+  constructor() { 
+
+  }
 
   ngOnInit() {
+   
   }
 
 }

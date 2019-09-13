@@ -83,7 +83,7 @@
 						  </div>
 						  <div class="form-group f-flex">
 							  <label><input type="checkbox" name=""> Keep Me Logged In</label>
-							  <p><a href="#">Forgot Password ?</a></p>
+							  <p><a href="#" (click)="switchFP()" data-toggle="modal"  data-target="#ForgetPassword">Forgot Password ?</a></p>
 						  </div>
 						  <div class="form-group">
 							  <input type="submit" [disabled]="!Login.valid" class="btn  reg-btn" value="Submit">
@@ -97,3 +97,35 @@
 			  </div>
 			</div>
 	  </div>
+	<!-- ForgetPassword Popup -->
+	<div class="login-reg-popup modal fade" id="ForgetPassword" >
+		<div class="modal-dialog modal-dialog-centered">
+		  <div class="modal-content">
+
+			  <!-- Modal Header -->
+			  <div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" id="closeFP">&times;</button>
+				</div>
+
+				<!-- Modal body -->
+				<div class="modal-body">
+				  <h4 class="modal-title text-center">Forget Password</h4>
+				  <form [formGroup]="forgetPassword" (ngSubmit)="OnFP()">
+					  <div class="form-group">
+						  <input type="email" formControlName="email" class="form-control reg-name" placeholder="Email ID">
+						  <div *ngIf="email.invalid && (email.dirty || email.touched)">
+								  <div *ngIf="email.errors.email" class="form-error alert-danger">Invalid Email Address</div>
+						  </div>
+					  </div>
+					  <div class="form-group">
+						  <input type="submit" [disabled]="!forgetPassword.valid" class="btn  reg-btn" value="Submit">
+					  </div>
+					  <div class="form-group">
+						<input (click)="switchLogin()" data-toggle="modal"  data-target="#login"  class="btn reg-btn" value="Login">
+					</div>
+					 
+				  </form>
+				</div>
+		  </div>
+		</div>
+  </div>

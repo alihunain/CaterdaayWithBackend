@@ -23,6 +23,9 @@ export class SignupComponent implements OnInit {
     loginusername:['',[Validators.email]],
     loginpassword:['',[Validators.required]],
   })
+  forgetPassword = this.fb.group({
+    email:['',[Validators.email,Validators.required]],
+  })
   constructor(private fb:FormBuilder,private userService:UserService,private eleRef: ElementRef) { 
     
   }
@@ -35,12 +38,7 @@ export class SignupComponent implements OnInit {
     this.signupUser.lastname = this.lastname.value;
     this.signupUser.password = this.password.value;
     this.userService.Signup(this.signupUser).subscribe(data=>{
-      this.userService.setUser(data);
-      if(this.userService.getUser() == null){
-        console.log("Not found")
-      }else{
-        console.log(this.userService.getUser());
-      }
+      console.log(data);
     },(error)=>{
       console.log(error);
     })
@@ -57,6 +55,16 @@ export class SignupComponent implements OnInit {
       }else{
         console.log(this.userService.getUser().token);
       }
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  onSignout(){
+    this.userService.removeUser();
+  }
+  OnFP(){
+    this.userService.forgetPassword(this.forgetPassword.value).subscribe(data=>{
+      console.log(data);
     },(error)=>{
       console.log(error);
     })
@@ -85,12 +93,18 @@ export class SignupComponent implements OnInit {
   get loginpassword(){
     return this.Login.get('loginpassword');
   }
+  get email(){
+    return this.forgetPassword.get('email');
+  }
   switchRegister(){
   this.eleRef.nativeElement.querySelector('#closeLogin').click();
   }
   switchLogin(){
-    console.log("working")
     this.eleRef.nativeElement.querySelector('#closeReg').click();
+    this.eleRef.nativeElement.querySelector('#closeFP').click();
+  }
+  switchFP(){
+    this.eleRef.nativeElement.querySelector('#closeLogin').click();
   }
   Compare(){
     console.log(this.password.value);
@@ -102,5 +116,8 @@ export class SignupComponent implements OnInit {
    }else{
      this.current = true;
    }
+  }
+  ForgetPassword(){
+
   }
 }

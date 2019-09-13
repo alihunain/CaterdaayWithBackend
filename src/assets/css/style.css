@@ -84,7 +84,12 @@ margin-left: 20px;
 * {
 	box-sizing: border-box;
 }
-
+.modal-backdrop.show{
+    overflow: hidden !important;
+}
+.modal-backdrop.fade.show{
+    overflow: hidden !important;
+}
 a {
 	text-decoration: none !important;
 	transition: 0.4s ease;

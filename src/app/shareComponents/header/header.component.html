@@ -82,7 +82,8 @@
 				<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
 				<li class="sign-mob"><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 				<li class="sign-mob"><a href="#"><i class="fa fa-commenting" aria-hidden="true"></i></a></li>
-				<li class="mob-hide"><a href="#" data-toggle="modal" data-target="#login" class="signup">Sign In</a></li>
+				<li class="mob-hide"><a href="#" data-toggle="modal" data-target="#login" class="signup" *ngIf="Signin">Sign In</a></li>
+				<li class="mob-hide"><a href="#" class="signup" *ngIf="!Signin">Sign Out</a></li>
 				<li class="mob-hide"><a href="#" class="signup live-chat">Live Chat <i class="fa fa-commenting" aria-hidden="true"></i></a></li>
 				
 			</ul>
