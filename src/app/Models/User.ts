@@ -3,4 +3,5 @@ export class User {
     public lastname:string;
     public password:string;
     public username:string;
+    public email:string
 }

@@ -3,8 +3,6 @@ import { FormBuilder, FormControl} from '@angular/forms'
 import { Validators } from '@angular/forms'
 import { UserService } from '../../../Services/user.service'
 import { User } from '../../Models/User'
-import {CustomValidators} from '../../Validation/CustomValidation'
-import { truncate } from 'fs';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -12,6 +10,7 @@ import { truncate } from 'fs';
 })
 export class SignupComponent implements OnInit {
   Loginuser = new User();
+  signupUser = new User();
   current:boolean = true;
   Signup = this.fb.group({
     firstname:['',[Validators.required]],
@@ -30,9 +29,18 @@ export class SignupComponent implements OnInit {
   onSignup(){
     this.Compare();
     if(this.current){
-    let user = this.Signup.value;
-    this.userService.Signup(user).subscribe(data=>{
-      console.log(data);
+    this.signupUser.email = this.username.value;
+    this.signupUser.username = this.username.value;
+    this.signupUser.firstname = this.firstname.value;
+    this.signupUser.lastname = this.lastname.value;
+    this.signupUser.password = this.password.value;
+    this.userService.Signup(this.signupUser).subscribe(data=>{
+      this.userService.setUser(data);
+      if(this.userService.getUser() == null){
+        console.log("Not found")
+      }else{
+        console.log(this.userService.getUser());
+      }
     },(error)=>{
       console.log(error);
     })
@@ -42,7 +50,13 @@ export class SignupComponent implements OnInit {
     this.Loginuser.username =this.loginusername.value;
     this.Loginuser.password = this.loginpassword.value; 
     this.userService.Login(this.Loginuser).subscribe(data=>{
-     console.log(data);
+      console.log(data);
+      this.userService.setUser(data);
+      if(this.userService.getUser() == null){
+        console.log("Not found")
+      }else{
+        console.log(this.userService.getUser().token);
+      }
     },(error)=>{
       console.log(error);
     })
