@@ -79,11 +79,28 @@
 					</a>
 
 				</li>
-				<li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a></li>
+				<!-- <li (click)="getAllCountry()" class="open">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;" class="fa fa-map-marker">
+								<span class=" glyphicon glyphicon-map-marker"></span> &nbsp; {{Countryname}} is selected
+						</a> 
+						<ul class="dropdown-menu" style="width: 215px;" (click)="sendData($event)" >
+								<li *ngFor="let country of Countrys" class="capitalize2">
+									<a href="javascript:void(0)" (click)="setcountry(country.countryName,country._id)"> 
+										<span class="fa fa-map-marker"></span> &nbsp; {{country.countryName}}
+								    </a>
+								</li>
+						</ul>
+				</li> -->
+				<!-- <li (click)="getAllCountry()">
+					<a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+					<select (change)="Change($event.target.value)">
+							  <option  *ngFor="let coun of Countryname">{{ coun.countryName }} </option>
+					</select>
+				</li> -->
 				<li class="sign-mob"><a href="#"><i class="fa fa-user-plus" aria-hidden="true"></i></a></li>
 				<li class="sign-mob"><a href="#"><i class="fa fa-commenting" aria-hidden="true"></i></a></li>
 				<li class="mob-hide"><a href="#" data-toggle="modal" data-target="#login" class="signup" *ngIf="Signin">Sign In</a></li>
-				<li class="mob-hide"><a href="#" class="signup" *ngIf="!Signin">Sign Out</a></li>
+				<li class="mob-hide"><a href="#" (click)="onSignout()" class="signup" *ngIf="!Signin">Sign Out</a></li>
 				<li class="mob-hide"><a href="#" class="signup live-chat">Live Chat <i class="fa fa-commenting" aria-hidden="true"></i></a></li>
 				
 			</ul>

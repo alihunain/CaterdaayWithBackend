@@ -47,6 +47,7 @@
 								<textarea formControlName="message"  placeholder="Enter your feedback here" class="form-control"></textarea>
 								<div *ngIf="message.invalid && (message.dirty || message.touched)">
 										<div *ngIf="message.errors.required" class="form-error alert-danger">Message Required</div>
+										<div *ngIf="message.errors.minLength" class="form-error alert-danger">Minimum 100 Words Required</div>
 								</div>
 							</div>
 						</div>

@@ -39,35 +39,39 @@ export class SignupComponent implements OnInit {
     this.signupUser.lastname = this.lastname.value;
     this.signupUser.password = this.password.value;
     this.userService.Signup(this.signupUser).subscribe(data=>{
-      this.toastr.success('Congrats', 'Verify Your Email Before Login');
+      this.toastr.success('Verify Your Email Before Login','Congrats');
+      this.eleRef.nativeElement.querySelector('#closeReg').click();
     },(error)=>{
-      this.toastr.error('Sorry', 'Something Went Wrong');
+      this.toastr.error('Something Went Wrong','Sorry');
     })
   }
   }
   onLogin(){
     this.Loginuser.username =this.loginusername.value;
     this.Loginuser.password = this.loginpassword.value; 
-    this.userService.Login(this.Loginuser).subscribe(data=>{
+    this.userService.Login(this.Loginuser).subscribe((data:any)=>{
       console.log(data);
-      this.userService.setUser(data);
-      if(this.userService.getUser() == null){
-        this.toastr.warning('Sorry', 'Something Went Wrong');
+      if(!data.error){
+        this.userService.setUser(data);
+        this.toastr.success( 'You are now login','Suceed');
+        this.userService.UserUpdate(true);
+       this.switchRegister();
       }else{
-        this.toastr.success('Suceed', 'You are now login');
+        this.toastr.error( data.data,'Failed');
       }
+     
     },(error)=>{
       console.log(error);
+      this.toastr.error('Email or password doesnot match','Unauthorized');
     })
   }
-  onSignout(){
-    this.userService.removeUser();
-  }
+ 
   OnFP(){
     this.userService.forgetPassword(this.forgetPassword.value).subscribe(data=>{
-      console.log(data);
+      this.toastr.success('Password reset email has been send to your email address','Sucess');
+      this.eleRef.nativeElement.querySelector('#closeFP').click();
     },(error)=>{
-      this.toastr.warning('Sorry', 'Something Went Wrong');
+      this.toastr.warning('Something Went Wrong','Sorry');
     })
   }
   ngOnInit() {
@@ -119,6 +123,5 @@ export class SignupComponent implements OnInit {
    }
   }
   ForgetPassword(){
-
   }
 }

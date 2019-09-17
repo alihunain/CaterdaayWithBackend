@@ -80,8 +80,8 @@ import { ToastrModule } from 'ngx-toastr';
     HttpClientModule,
     ToastrModule.forRoot({
       easing:'ease-in',
-      easeTime:2000,
-      timeOut:1000,
+      easeTime:1000,
+      timeOut:3000,
       closeButton:false,
       resetTimeoutOnDuplicate:true,
       preventDuplicates: true,
