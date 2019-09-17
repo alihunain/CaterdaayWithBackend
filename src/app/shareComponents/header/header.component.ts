@@ -24,7 +24,7 @@ export class HeaderComponent implements OnInit {
   onSignout(){
     this.userService.removeUser();
     this.userService.UserUpdate(false);
-    this.toastr.success("sign out sucessfull","Sucessfully")
+    this.toastr.success("Sign Out")
   }
   cartBoxAction(e: Event) {
     e.stopPropagation();

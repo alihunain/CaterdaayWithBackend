@@ -39,10 +39,10 @@ export class SignupComponent implements OnInit {
     this.signupUser.lastname = this.lastname.value;
     this.signupUser.password = this.password.value;
     this.userService.Signup(this.signupUser).subscribe(data=>{
-      this.toastr.success('Verify Your Email Before Login','Congrats');
+      this.toastr.success('Verify Your Email Before Login');
       this.eleRef.nativeElement.querySelector('#closeReg').click();
     },(error)=>{
-      this.toastr.error('Something Went Wrong','Sorry');
+      this.toastr.error('Something Went Wrong');
     })
   }
   }
@@ -53,25 +53,25 @@ export class SignupComponent implements OnInit {
       console.log(data);
       if(!data.error){
         this.userService.setUser(data);
-        this.toastr.success( 'You are now login','Suceed');
+        this.toastr.success( 'You are now login');
         this.userService.UserUpdate(true);
        this.switchRegister();
       }else{
-        this.toastr.error( data.data,'Failed');
+        this.toastr.error(data.data);
       }
      
     },(error)=>{
       console.log(error);
-      this.toastr.error('Email or password doesnot match','Unauthorized');
+      this.toastr.error('Unauthorized');
     })
   }
  
   OnFP(){
     this.userService.forgetPassword(this.forgetPassword.value).subscribe(data=>{
-      this.toastr.success('Password reset email has been send to your email address','Sucess');
+      this.toastr.success('Password reset email has been send to your email address');
       this.eleRef.nativeElement.querySelector('#closeFP').click();
     },(error)=>{
-      this.toastr.warning('Something Went Wrong','Sorry');
+      this.toastr.warning('Something Went Wrong');
     })
   }
   ngOnInit() {

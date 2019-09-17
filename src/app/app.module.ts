@@ -35,6 +35,7 @@ import { MobileAppComponent } from './shareComponents/mobile-app/mobile-app.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { ToastrModule } from 'ngx-toastr';
+import { AgmCoreModule } from '@agm/core';
 
 
 
@@ -81,10 +82,16 @@ import { ToastrModule } from 'ngx-toastr';
     ToastrModule.forRoot({
       easing:'ease-in',
       easeTime:1000,
-      timeOut:3000,
+      timeOut:2000,
       closeButton:false,
-      resetTimeoutOnDuplicate:true,
+      resetTimeoutOnDuplicate:false,
       preventDuplicates: true,
+      countDuplicates:true,
+    
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyARx-cMveE9u02YQexvqbxWcemL0nE4UjA',
+      libraries: ['places']
     })
   ],
   providers: [],

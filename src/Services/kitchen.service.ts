@@ -1,31 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Kitchen } from 'src/app/Models/Kitchen';
-import { HttpClient, HttpErrorResponse,HttpHeaders} from '@angular/common/http'
-import {throwError} from 'rxjs';
-import {catchError } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http'
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { GlobalService } from '../Services/global.service';
 @Injectable({
   providedIn: 'root'
 })
 export class KitchenService {
-  filterKitchen = new Kitchen();
-  Kitchenfilter(kitchen:Kitchen){
-    return this.http.post(this.server.development.ms1 + "kitchenfilters",kitchen).pipe(
-    catchError(this.handleError))
+  address: any;
+
+  filterKitchen: Kitchen = new Kitchen();
+  Kitchenfilter(data: any) {
+    console.log(data.getState());
+    let value = data;
+    console.log(data.getState(), "data");
+    console.log(value, "Value");
+    return this.http.post(this.server.development.ms1 + "kitchenfilters", value).pipe(
+      catchError(this.handleError))
   }
-  constructor(private http:HttpClient,public server: GlobalService) { }
-  private handleError(error: HttpErrorResponse){
-    if(error.error instanceof ErrorEvent){
+  constructor(private http: HttpClient, public server: GlobalService) { }
+  private handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
       console.log(`An error occured: ${error.error.message}`);
-    }else{
+    } else {
       console.log(`Backend Error : ${error.status} and message is ${error.message}`);
     }
     return throwError("Something Went Wrong");
   }
-    SetKitchen(data){
-  this.filterKitchen = data;
+  SetKitchen(data) {
+    this.filterKitchen = data;
   }
-   GetKitchen(){
+  GetKitchen() {
     return this.filterKitchen;
   }
 }

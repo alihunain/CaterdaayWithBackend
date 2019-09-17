@@ -18,12 +18,12 @@ export class FooterComponent implements OnInit {
     this.user.AddSubscriber(this.email).subscribe((data:any)=>{
       console.log(data);
       if(data.error){
-        this.toastr.error(data.data,"Error");
+        this.toastr.error(data.data);
       }else{
-        this.toastr.success("Sucessfully","You have been subscripted for newsletter");
+        this.toastr.success("You have been subscripted for newsletter");
       }
     },(error)=>{
-      this.toastr.error("Unexpected Error",error);
+      this.toastr.error(error);
     })
   }
 }

@@ -8,19 +8,18 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-10 mx-auto text-center">
-              <h4 appScrollEnterance anim="fade">Feed Your Guest with Professional Caterers</h4>
-              <form class="form-inline" [formGroup]="Kitchen" (ngSubmit)="onFind()" appScrollEnterance anim="from-bottom" >
-                  <!-- already commented -->
+              <h4  appScrollEnterance  anim="fade">Feed Your Guest with Professional Caterers</h4>
+              <div class="form-inline"  appScrollEnterance  anim="from-bottom"  >
                   <!-- <select class="custom-select">
                     <option selected>Select Your City</option>
                   </select>
                   <select class="custom-select b-rite">
                     <option selected>Select Your Cusine</option>
                   </select> -->
-                  <!-- already commented -->
-                  <input type="text" formControlName="City"  name="ent-add" class="ent-add" placeholder="Enter your delivery address">
-                  <input type="submit" class="btn" value="SEARCH">
-              </form>
+                  <input type="text"  (keydown.enter)="$event.preventDefault()"  class="ent-add" placeholder="Enter your delivery address" #search />
+                  <input type="submit" (click)="AddLocation()" class="btn" value="SEARCH" />
+                  <div  class="form-error alert-danger" *ngIf="addressField">Please enter an address or zip code to see caterers who can deliver to you.</div>
+              </div>
             </div>
           </div>
         </div>
