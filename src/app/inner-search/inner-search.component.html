@@ -3,8 +3,8 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h1>237 Dallas, TX Caters</h1>
-				<p>Discover all the flavors Dallas has to offer. Order catering online from 378 local restaurants who can deliver to your meeting or event. Select a restaurant, view their menu, build and submit your order, and we’ll handle the rest. No upcharges or cancellation fees.</p>
+				<h1>{{address}}</h1>
+				<p>Discover all the flavors {{city}} has to offer. Order catering online from {{totalResturants}} local restaurants who can deliver to your meeting or event. Select a restaurant, view their menu, build and submit your order, and we’ll handle the rest. No upcharges or cancellation fees.</p>
 			</div>
 		</div>
 	</div>
@@ -93,13 +93,11 @@
 				<div class="food-cat side-widget">
 					<h4>All Cusines</h4>
 					<ul>
-						<li><a href="#" class="flaticon-egg">Breakfast</a></li>
-						<li><a href="#" class="flaticon-sandwich">Sandwiches</a></li>
-						<li><a href="#" class="flaticon-buffet">Hot Catering</a></li>
-						<li><a href="#" class="flaticon-fast-food">Mexican</a></li>
-						<li><a href="#" class="flaticon-pizza">Pizza</a></li>
-						<li><a href="#" class="flaticon-turkey">Chicken</a></li>
-						<li class="more"><a href="#">More <i class="fa fa-chevron-down" aria-hidden="true"></i></a></li>
+					
+						<li *ngFor="let cuisine of cuisines">
+							<a (click)="addCuisine(cuisine._id)" class="flaticon-egg">{{cuisine.name}}</a>
+						</li>
+
 					</ul>
 				</div>
 				<div class="side-search side-widget">
@@ -112,7 +110,54 @@
 
 			<div class="col-md-9">
 				<div class="row">
+						<div *ngIf="preloader" style="margin:0 auto;">
+								<img src="/assets/images/preloader.gif" style="position: center" alt="">
+						</div>
+				
+					<div  *ngIf="validation && !preloader" style="margin:0 auto;padding-top: 50px;"><h3>Sorry No Resturant Found</h3></div>
 					<ul class="search-cont">
+							
+						<div *ngIf="!preloader">
+						<li *ngFor="let item of resturants">
+							<figure>
+								<a href="#"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
+							</figure>
+							<div class="s-cont-desc">
+								<a href="#"><h4>{{item.restaurantname}}</h4></a>
+								<div class="row">
+									<div class="cont-spec">
+										{{item.restaurantDescription.substring(1,300).trim()}}.... 
+									</div>
+									<div class="cont-rev">
+										<div class="star-rating">
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+											<i class="fa fa-star"></i>
+										</div>
+										<div class="rating">
+											<span>(4.0)</span><span><a href="#">(320 Reviews)</a></span>
+										</div>
+									</div>
+								</div>
+								<div class="row ord-spec-row">
+									<div class="ord-spec">
+										<strong>$100</strong> Minimum
+									</div>
+									<div class="ord-spec">
+										<strong>$25</strong> Delivery fee
+									</div>
+									<div class="ord-spec">
+										<strong>99%</strong> On time
+									</div>
+								</div>
+								<div class="row">
+									<a href="#" class="ord-btn">Request Order</a>
+								</div>
+							</div>
+							</div>
+						<!-- </li>
 						<li>
 							<figure>
 								<a href="#"><img src="assets/images/hooter-small.jpg" alt=""></a>
@@ -268,46 +313,7 @@
 									<a href="#" class="ord-btn">Request Order</a>
 								</div>
 							</div>
-						</li>
-						<li>
-							<figure>
-								<a href="#"><img src="assets/images/hooter-small.jpg" alt=""></a>
-							</figure>
-							<div class="s-cont-desc">
-								<a href="#"><h4>Hooter Restaurant Bar</h4></a>
-								<div class="row">
-									<div class="cont-spec">
-										Slow smoked - Served fast - 4 mi - $$$$
-									</div>
-									<div class="cont-rev">
-										<div class="star-rating">
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-										<div class="rating">
-											<span>(4.0)</span><span><a href="#">(320 Reviews)</a></span>
-										</div>
-									</div>
-								</div>
-								<div class="row ord-spec-row">
-									<div class="ord-spec">
-										<strong>$100</strong> Minimum
-									</div>
-									<div class="ord-spec">
-										<strong>$25</strong> Delivery fee
-									</div>
-									<div class="ord-spec">
-										<strong>99%</strong> On time
-									</div>
-								</div>
-								<div class="row">
-									<a href="#" class="ord-btn">Request Order</a>
-								</div>
-							</div>
-						</li>
+						</li> -->
 					</ul>
 				</div>
 				<div class="row justify-content-center">
@@ -321,9 +327,8 @@
 				</div>
 				<div class="row justify-content-center">
 					<ul class="breadcrumb">
-					  <li class="breadcrumb-item"><a href="#">United States</a></li>
-					  <li class="breadcrumb-item"><a href="#">Dallas</a></li>
-					  <li class="breadcrumb-item"><a href="#">Texas</a></li>
+					  <li class="breadcrumb-item"><a href="#">{{country}}</a></li>
+					  <li class="breadcrumb-item"><a href="#">{{city}}</a></li>
 					  <li class="breadcrumb-item active">Search Results</li>
 					</ul>
 				</div>

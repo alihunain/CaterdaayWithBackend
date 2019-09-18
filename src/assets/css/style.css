@@ -975,7 +975,8 @@ ul.food-types li a:hover {
     padding-left: 25px;
 }
 .sidebar ul li a:hover {
-    color: #5ba946;
+    color: #5ba946 !important;
+    cursor:pointer !important;
 }
 .side-widget {
     margin-bottom: 45px;

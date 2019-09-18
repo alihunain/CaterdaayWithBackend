@@ -9,8 +9,9 @@ import { GlobalService } from '../Services/global.service';
 })
 export class KitchenService {
   address: any;
-
+  resturants:any;
   filterKitchen: Kitchen = new Kitchen();
+
   Kitchenfilter(data: any) {
     console.log(data.getState());
     let value = data;
@@ -18,6 +19,10 @@ export class KitchenService {
     console.log(value, "Value");
     return this.http.post(this.server.development.ms1 + "kitchenfilters", value).pipe(
       catchError(this.handleError))
+  }
+  Cuisines(){
+    return this.http.get(this.server.development.ms6 + "cuisines").pipe(
+      catchError(this.handleError));
   }
   constructor(private http: HttpClient, public server: GlobalService) { }
   private handleError(error: HttpErrorResponse) {

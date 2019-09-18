@@ -1,7 +1,7 @@
 export class Kitchen {
     public city: string;
     public country: string;
-    public cousine: string;
+    public cousine: Array<string>;
     public favourite: string;
     public lat: string;
     public lng: string;

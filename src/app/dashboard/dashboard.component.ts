@@ -102,8 +102,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // })
     this.router.navigate(['/listing']);
   }
-  onFoodType(value){
-    this.KitchenObject.cousine = value;
+  onFoodType(value:string){
+    this.kitchenservice.filterKitchen.cousine = new Array<string>();
+    this.kitchenservice.filterKitchen.cousine.push(value);
+    alert(this.kitchenservice.filterKitchen.cousine);
     this.kitchenservice.SetKitchen(this.KitchenObject);
   }
 
@@ -116,18 +118,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.kitchenservice.filterKitchen.lat = position.coords.latitude.toString();
         this.kitchenservice.filterKitchen.lng = position.coords.longitude.toString();
-        console.log("b")
         this.getAddress(Number( this.kitchenservice.filterKitchen.lat), Number(this.kitchenservice.filterKitchen.lng)   );
-        console.log("a")
       });
     }
   }
    getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
-        console.log(results);
+
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
-       console.log(results[results.length-1].formatted_address.toLowerCase());
+
         if (results[0]) {
 
           this.kitchenservice.address = results[0].formatted_address;

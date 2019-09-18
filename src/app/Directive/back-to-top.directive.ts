@@ -48,13 +48,12 @@ export class BackToTopDirective {
   viewportChange() {
 
 
-    console.log(this.document.documentElement.scrollTop, 'Directive')
     if (this.document.documentElement.scrollTop > this.offset) {
-      console.log("Fade In");
+
       this.trigger = 'open';
     }
     else {
-      console.log("Fade Out");
+ 
       this.trigger = 'close';
     }
   }
