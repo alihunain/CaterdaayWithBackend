@@ -44,3 +44,39 @@
     animation-duration: 2s;
   }
 }
+.dropdown-menu>li>a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+
+}
+.dropdown-menu {
+  border-radius: 4px;
+  background-clip: padding-box;
+    border: 1px solid #ffffff;
+  left: unset;
+  top: auto;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  position: absolute;
+  z-index: 1000;
+}
+.capitalize2 {
+  text-transform: capitalize;
+  display: block
+}
+.browser-resc:hover {
+  color: #ed212f!important;
+}
+.countries:hover{
+  background: #b7b5b5;
+}

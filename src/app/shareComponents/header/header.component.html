@@ -77,7 +77,19 @@
 						<app-cart class="cart" *ngIf="showCart"></app-cart>
 
 					</a>
-
+				</li>
+				<li >
+			<a class="capitalize2 browser-resc" data-toggle="dropdown" style="color: white;">
+				<span class="fa fa-map-marker"></span>&nbsp;&nbsp;&nbsp;{{Countryname}}
+				<span class="caret"></span>
+				<ul class="dropdown-menu" style="widows: 215px;" >
+						<li class="capitalize2 countries" *ngFor="let country of Countrys">
+								<a href="javascript:void(0)" (click)="Change(country.countryName)"> 
+								  <span class=" fa fa-map-marker"></span> &nbsp; {{country.countryName}}
+								</a>
+						</li>
+				</ul>
+			</a>
 				</li>
 				<!-- <li (click)="getAllCountry()" class="open">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;" class="fa fa-map-marker">
@@ -112,3 +124,16 @@
 
 	</nav>
 </header>
+<!--Start of Tawk.to Script-->
+<!-- <script type="text/javascript">
+	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	(function(){
+	var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+	s1.async=true;
+	s1.src='https://embed.tawk.to/17f35g40afc2c34e96e75909/default';
+	s1.charset='UTF-8';
+	s1.setAttribute('crossorigin','*');
+	s0.parentNode.insertBefore(s1,s0);
+	})();
+</script> -->
+	<!--End of Tawk.to Script-->

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import  { KitchenService} from '../../../Services/kitchen.service'
 
 @Component({
   selector: 'app-header',
@@ -8,13 +9,15 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  headerDesign = 1;
   User:any=null;
-  Countrys:any =[];
+  Countrys:any;
   Signin:boolean= true;
-  Countryname:string= "";
-  constructor(public userService:UserService,private toastr: ToastrService) { }
+  Countryname:string ="Select Country";
+  constructor(public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService) { }
   showCart = false;
   ngOnInit() {
+    this.getCountries();
     this.Signin= true;
     this.userService.checkCurrentUser.subscribe(res =>{
       this.Signin = !res;
@@ -41,16 +44,22 @@ export class HeaderComponent implements OnInit {
    this.userService.GetCountryList().subscribe((data:any)=>
    {
      this.Countrys=data.message;
+     for(let i = 0 ; i < this.Countrys.length;i++){
+       console.log(this.Countrys[i].countryName);
+     }
      console.log(this.Countrys)
     },error=>{
       console.log(error)
     })
   }
-  getAllCountry(){
-    this.getCountries();
-  }
+ 
   Change(selectedCountry: string){
+ 
     this.Countryname = selectedCountry;
+    this.kitchenservice.filterKitchen.city = "";
+    this.kitchenservice.filterKitchen.country = "";
+    this.kitchenservice.address = "";
+    this.kitchenservice.filterKitchen.country =this.Countryname;
   }
  
 }

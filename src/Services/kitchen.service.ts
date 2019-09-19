@@ -13,11 +13,8 @@ export class KitchenService {
   filterKitchen: Kitchen = new Kitchen();
 
   Kitchenfilter(data: any) {
-    console.log(data.getState());
-    let value = data;
-    console.log(data.getState(), "data");
-    console.log(value, "Value");
-    return this.http.post(this.server.development.ms1 + "kitchenfilters", value).pipe(
+    
+    return this.http.post(this.server.development.ms1 + "kitchenfilters", data).pipe(
       catchError(this.handleError))
   }
   Cuisines(){
@@ -39,4 +36,20 @@ export class KitchenService {
   GetKitchen() {
     return this.filterKitchen;
   }
+  OfferList(data){
+    return this.http.get(this.server.development.ms2+"offerlist",data).pipe(
+      catchError(this.handleError)
+    )
+  }
+  FavouriteItemList(data){
+    return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
+      catchError(this.handleError)
+    )
+  }
+  FavouriteList(data){
+    return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
+      catchError(this.handleError)
+    )
+  }
+
 }

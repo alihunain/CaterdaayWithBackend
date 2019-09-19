@@ -819,6 +819,10 @@ ul.food-types li a:hover {
 .owl-carousel .owl-nav .owl-prev {
     left: -70px ;
 }
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
 .owl-theme .owl-nav [class*=owl-] {
     background: #252525 !important;
     color: #fff !important;
