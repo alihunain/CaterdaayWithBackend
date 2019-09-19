@@ -14,6 +14,24 @@
             </div>
             <div class="col-sm-7">
               <h5>Order business catering from 60,577 restaurants nationwide</h5>
+              <p class="mbr-text text-muted display-7" style="word-break: break-word;word-break: initial;color:#5ba946">
+                  <strong>Enter your email to Subscribe for deals &amp; discounts!</strong>
+                </p>
+                <div class="form-group shadow" style="position: relative;">
+                  <form [formGroup]="Subscribe" (ngSubmit)="onSubscribe()">
+                    <input type="text" class="form-control" formControlName="email" placeholder="Please enter Email ID..."  >
+                    <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                        <div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
+                        <div *ngIf="email.errors.email" class="form-error alert-danger">Invalid Email Type</div>
+                    </div>
+                    <button class="btn px-4 btn-danger display-4 subcribebtn" type="submit" [disabled]="!Subscribe.valid">
+                      <i class="fa fa-arrow-right"></i>
+                    </button>
+                  </form>
+                </div>
+            </div>
+            <div class="col-sm-7">
+        
             </div>
           </div>
         </div>
@@ -22,16 +40,16 @@
             <div class="col-sm-4">
               <h4>Company</h4>
               <ul class="foot-menu">
-                <li><a href="/" class="nav-link active">Home</a></li>
-                <li><a href="about-us" class="nav-link">About Us</a></li>
-                <li><a href="contactus" class="nav-link">Contact Us</a></li>
+                <li><a routerLink="/"  class="nav-link active">Home</a></li>
+                <li><a routerLink="/about-us" class="nav-link">About Us</a></li>
+                <li><a  routerLink="/contactus" class="nav-link">Contact Us</a></li>
               </ul>
             </div>
             <div class="col-sm-4">
               <h4>Info</h4>
               <ul class="foot-menu">
                 <li><a href="#" class="nav-link">Testimonials</a></li>
-                <li><a href="term-conditions" class="nav-link">Terms & Conditions</a></li>
+                <li><a routerLink="/term-conditions" class="nav-link">Terms & Conditions</a></li>
                 <li><a href="#" class="nav-link">Privacy & Policy</a></li>
               </ul>
             </div>

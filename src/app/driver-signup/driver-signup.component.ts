@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import { ThrowStmt } from '@angular/compiler';
 import {DriverService} from '../../Services/driver.service'
+
 
 @Component({
   selector: 'app-driver-signup',
@@ -9,6 +9,7 @@ import {DriverService} from '../../Services/driver.service'
   styleUrls: ['./driver-signup.component.css']
 })
 export class DriverSignupComponent implements OnInit {
+
   Driver = this.fb.group({
     firstname:['',[Validators.required]],
     lastname:['',[Validators.required]],
@@ -17,7 +18,6 @@ export class DriverSignupComponent implements OnInit {
     dob:['',[Validators.required]],
     identity:['',[Validators.required]],
     license:['',[Validators.required]],
-    about:[''],
     address:['',[Validators.required]],
     city:['',[Validators.required]],
     state:['',[Validators.required]],
@@ -60,9 +60,8 @@ export class DriverSignupComponent implements OnInit {
   get license(){
     return this.Driver.get('license');
   }
-  get about(){
-    return this.Driver.get('about').value;
-  }
+  
+
   driverSignup(){
     let driverDetails = this.Driver.value;
     this.driver.Signup(driverDetails).subscribe((data:any)=>{

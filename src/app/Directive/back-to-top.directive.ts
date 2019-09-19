@@ -44,7 +44,9 @@ export class BackToTopDirective {
   @HostListener('window:scroll', []) scrolling() {
     this.viewportChange();
   }
-
+  public scrollToTop(){
+    this.animateScrollService.scrollToElement('top', 1000);
+  }
   viewportChange() {
 
 

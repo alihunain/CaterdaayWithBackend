@@ -55,6 +55,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     city:['']
   })
   addressField:boolean;
+  cuisines:Array<any>;
 
   private geoCoder;
   @ViewChild('search')
@@ -62,6 +63,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
  
   ngOnInit() {
+    this.GetCuisine();
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
       this.geoCoder = new google.maps.Geocoder;
@@ -77,7 +79,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
- 
+
+          console.log(place.geometry);
           //set latitude, longitude and zoom
           this.kitchenservice.filterKitchen.lat = place.geometry.location.lat().toString();
           this.kitchenservice.filterKitchen.lng = place.geometry.location.lng().toString();
@@ -103,10 +106,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/listing']);
   }
   onFoodType(value:string){
+
     this.kitchenservice.filterKitchen.cousine = new Array<string>();
+    console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.filterKitchen.cousine.push(value);
-    alert(this.kitchenservice.filterKitchen.cousine);
-    this.kitchenservice.SetKitchen(this.KitchenObject);
+    console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
+
   }
 
   get city(){
@@ -125,7 +130,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
-
+        let isCity = false;
+        for(let i = 0 ; i < results.length && isCity == false;i++){
+          let routes = results[i].types;
+          for(let j = 0 ; j < routes.length;j++){
+            let types = routes[j];
+            if(types == 'locality'){
+              this.kitchenservice.filterKitchen.city =results[i].address_components[0].short_name;
+              isCity = true;
+              break;
+            }
+          }
+        }
+      
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
 
         if (results[0]) {
@@ -143,5 +160,17 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       console.log(this.kitchenservice.filterKitchen);
       this.router.navigate(['/listing']);
     }
+  }
+  GetCuisine(){
+    this.cuisines = new Array<any>();
+  this.kitchenservice.Cuisines().subscribe((data:any)=>{
+
+    for(let i = 0; i < data.message.length && i < 10;i++){
+      this.cuisines.push(data.message[i]);
+    }
+    console.log(this.cuisines);
+  },(error)=>{
+    console.log(error);
+  })
   }
 }

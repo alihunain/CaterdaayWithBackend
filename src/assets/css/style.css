@@ -787,25 +787,48 @@ ul.food-types li a:hover {
     top: 50%;
     transform: translateY(-50%);
 }
-.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev {
+.owl-carousel .owl-nav .owl-next, .owl-carousel .owl-nav .owl-prev {
     position: absolute;
     z-index: 1;
+    text-align: center;
 }
-.owl-carousel .owl-nav button.owl-next {
-    right: -50px;
+.owl-carousel .owl-nav .owl-next {
+    right: -50px !important;
+
 }
-.owl-carousel .owl-nav button.owl-prev {
-    left: -70px;
+.subcribebtn {
+    border-bottom-left-radius: 50px;
+    border-top-left-radius: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 2.5rem!important;
+}
+.btn-danger{
+    color:white;
+    background: #5ba946 !important;
+    border-color: #5ba946!important;
+}
+.alert-danger {
+    text-align: center;
+    width: 100%;
+}
+.col-sm-7{
+    bottom: 17px;
+}
+.owl-carousel .owl-nav .owl-prev {
+    left: -70px ;
 }
 .owl-theme .owl-nav [class*=owl-] {
     background: #252525 !important;
     color: #fff !important;
-    width: 40px;
-    height: 40px;
+    width: 40px !important;
+    height: 40px !important;
     opacity: 1 !important;
-    border-radius: 50%;
+    border-radius: 50% !important;
     font-size: 24px !important;
     line-height: 25px !important;
+    padding: 7px 7px;
 }
 .owl-theme .owl-nav [class*=owl-]:hover {
     background: #ed212f !important;
@@ -3029,19 +3052,29 @@ span.cart-item-price-cur {
     color: #ed212f;
 }
 .slick-prev, .slick-next {
-	width: 40px;
-	height: 40px;
+	width: 40px !important;
+	height: 40px !important;
 	border-radius: 50%;
 	background-color: #fff;
 	transition: 0.4s ease;
 	z-index: 9999;
 }
 .slick-prev:before, .slick-next:before {
-	font-family: fontAwesome;
-	font-size: 16px;
+	font-family: fontAwesome !important;
+	font-size: 16px !important;
 	color: #000;
 	transition: 0.4s ease;
 }
+
+.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev {
+    position: absolute;
+    z-index: 1;
+}
+.owl-carousel .owl-nav button.owl-next {
+    position: absolute;
+    right: -50px !important;
+}
+
 .slick-prev:focus, .slick-next:focus {
 	background-color: #fff;
 }
@@ -3056,10 +3089,10 @@ span.cart-item-price-cur {
     color: #fff;
 }
 .slick-prev:before {
-    content: '\f053';
+    content: '\f053' !important;
 }
 .slick-next:before {
-    content: '\f054';
+    content: '\f054' !important;
 }
 
 .logo-slider .slick-prev, .logo-slider  .slick-next {

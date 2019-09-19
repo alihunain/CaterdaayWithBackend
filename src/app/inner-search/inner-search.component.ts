@@ -44,8 +44,7 @@ export class InnerSearchComponent implements OnInit {
     }else{
       this.Search();
     }
-    let selectedAddress =this.kitchenFilter.address.split(',');
-    this.city = selectedAddress[selectedAddress.length-4];
+    this.city = this.kitchenFilter.filterKitchen.city;
     this.address= this.kitchenFilter.address;
     this.country = this.kitchenFilter.filterKitchen.country.toUpperCase();
   }
@@ -65,7 +64,7 @@ export class InnerSearchComponent implements OnInit {
    Search() {
      this.preloader = true;
     this.kitchenFilter.Kitchenfilter(this.kitchenFilter.filterKitchen).subscribe((data: any) => {
-      console.log(data);
+      console.log(data,"kitchen data");
       this.resturants = data.message;
       this.totalResturants= this.resturants.length;
       if(data.message.length == 0){
@@ -105,6 +104,18 @@ export class InnerSearchComponent implements OnInit {
         console.log(status)
         console.log(self.kitchenFilter.filterKitchen, "I am in get Address");
         if (status === 'OK') {
+          let isCity = false;
+          for(let i = 0 ; i < results.length && isCity == false;i++){
+            let routes = results[i].types;
+            for(let j = 0 ; j < routes.length && isCity == false;j++){
+              let types = routes[j];
+              if(types == 'locality'){
+                self.kitchenFilter.filterKitchen.city =results[i].address_components[0].short_name.toLowerCase();
+                isCity = true;
+              }
+            }
+          }
+        
           self.kitchenFilter.filterKitchen.country = results[results.length - 1].formatted_address.toLowerCase();
           console.log(self.kitchenFilter.filterKitchen.country)
           if (results[0]) {

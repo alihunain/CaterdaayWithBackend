@@ -93,7 +93,7 @@
           <div class="col-lg-6 col-md-12">
              <h3 class="heading clr-white" appScrollEnterance anim="from-left">We value friendship.<br>Earn $10 for every friend</h3>
              <p class="clr-white" appScrollEnterance anim="from-left">when you introduce your friends to place their first order</p>
-             <a href="earn" class="btn ref-btn">Refer a Friend</a>
+             <a routerLink="/earn" class="btn ref-btn">Refer a Friend</a>
           </div>
         </div>
       </div>
@@ -123,17 +123,9 @@
           </div>
           <div class="row">
             <div class="col-12">
-              <ul class="food-types">
-                <li><a href="/listing" (click)="onFoodType('Kosher')">Kosher</a></li>
-                <li><a href="/listing" (click)="onFoodType('Arabian')">Arabian</a></li>
-                <li><a href="/listing" (click)="onFoodType('Halal')">Halal</a></li>
-                <li><a href="/listing" (click)="onFoodType('Indian')">Indian</a></li>
-                <li><a href="/listing" (click)="onFoodType('Pakistani')">Pakistani</a></li>
-                <li><a href="/listing" (click)="onFoodType('Chinese')">Chinese</a></li>
-                <li><a href="/listing" (click)="onFoodType('Mexican')">Mexican</a></li>
-                <li><a href="/listing" (click)="onFoodType('Japanese')">Japanese</a></li>
-                <li><a href="/listing" (click)="onFoodType('Greek')">Greek</a></li>
-                <li><a href="/listing" (click)="onFoodType('Thai')">Thai</a></li>
+              <ul class="food-types" >
+        
+                    <li *ngFor="let cuisine of cuisines"><a routerLink="listing" (click)="onFoodType(cuisine._id)">{{cuisine.name}}</a></li>
               </ul>
             </div>
           </div>

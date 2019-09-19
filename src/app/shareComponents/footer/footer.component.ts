@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { Validators, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-footer',
@@ -8,17 +9,22 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  email:any;
-  constructor(private user:UserService,private toastr: ToastrService) { }
+  Subscribe = this.fb.group({
+    email:['',[Validators.required,Validators.email]]
+  })
+  get email(){
+    return this.Subscribe.get('email');
+  }
+  constructor(private user:UserService,private toastr: ToastrService,private fb:FormBuilder) { }
 
   ngOnInit() {
   }
-  Subscribe()
+  onSubscribe()
   {
-    this.user.AddSubscriber(this.email).subscribe((data:any)=>{
+    this.user.AddSubscriber(this.email.value).subscribe((data:any)=>{
       console.log(data);
       if(data.error){
-        this.toastr.error(data.data);
+        this.toastr.error("You already have been subscribe to newsletter");
       }else{
         this.toastr.success("You have been subscripted for newsletter");
       }
