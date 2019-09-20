@@ -36,20 +36,20 @@ export class KitchenService {
   GetKitchen() {
     return this.filterKitchen;
   }
-  OfferList(data){
-    return this.http.get(this.server.development.ms2+"offerlist",data).pipe(
-      catchError(this.handleError)
-    )
-  }
-  FavouriteItemList(data){
-    return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
-      catchError(this.handleError)
-    )
-  }
-  FavouriteList(data){
-    return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
-      catchError(this.handleError)
-    )
-  }
+  // OfferList(data){
+  //   return this.http.get(this.server.development.ms2+"offerlist",data).pipe(
+  //     catchError(this.handleError)
+  //   )
+  // }
+  // FavouriteItemList(data){
+  //   return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
+  //     catchError(this.handleError)
+  //   )
+  // }
+  // FavouriteList(data){
+  //   return this.http.get(this.server.development.ms3 + "favouriteitem-list",data).pipe(
+  //     catchError(this.handleError)
+  //   )
+  // }
 
 }

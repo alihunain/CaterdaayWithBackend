@@ -6,6 +6,7 @@ import { promise } from 'protractor';
 import { resolveCname } from 'dns';
 import { forEach } from '@angular/router/src/utils/collection';
 import { Router } from '@angular/router';
+import {ResturantService } from '../../Services/resturant.service'
 // import * as  Sliders from '../../assets/js/script.js';
 declare var functionality: any;
 @Component({
@@ -23,7 +24,7 @@ export class InnerSearchComponent implements OnInit {
   totalResturants:number;
   cuisines:any;
   preloader:boolean;
-  constructor(private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router) { }
+  constructor(private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
 
   async ngOnInit() {
     this.preloader = true;
@@ -127,5 +128,8 @@ export class InnerSearchComponent implements OnInit {
         reject(status);
       });
     });
+  }
+  RequestOrder(resturantid:string){
+    this.resturantService.Resturantid = resturantid;
   }
 }

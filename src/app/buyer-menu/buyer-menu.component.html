@@ -5,10 +5,10 @@
       <div class="row">
         <div class="col-12">
           <div class="buyer-header-inner">
-            <h1>Hooter Restaurant Bar <span>Open</span></h1>
+            <h1>{{ResturantObj.restaurantname }}<span>{{ResturantObj.openingstatus }}</span></h1>
             <ul class="header-detail-list">
-              <li>St 23, Lane 4, XYZ Road, Dallas, TX.</li>
-              <li><a href="tel:0000000000">000-0000-000</a></li>
+              <li>{{ResturantObj.address}}</li>
+              <li><a href="tel:ResturantObj.phoneno1">{{ResturantObj.phoneno1}}</a></li>
               <li>
                 <div class="row">
                   <div class="star-rating">
@@ -19,8 +19,8 @@
                     <i class="fa fa-star"></i>
                   </div>
                   <div class="rating">
-                    <span>(4.5)</span>
-                    <span><a href="#">247 Reviews</a></span>
+                    <span>({{AverageRating || 0}})</span>
+                    <span><a href="#" >{{resturantReviews.review.length || 0}} Reviews</a></span>
                   </div>
                 </div>
               </li>
@@ -49,70 +49,37 @@
                 <div class="buyer-menus-head">
                   <h4>Menu</h4>
                 </div>
-                <div class="buyer-menus-body">
-                  <div id="accordion" class="">
+                <div class="buyer-menus-body" >
+                  <div id="accordion"  class="" *ngFor="let menu of menuToDisplay">
                     <!-- Menu1 -->
-                      <div class="card">
-                        <div class="card-header" id="menu1">
+                    <div class="card">
+                        <div class="card-header" id="menu{{menu.uiId}}">
                             <h5 class="mb-0">
-                              <button class="btn btn-link" data-toggle="collapse" data-target="#menu-list1" aria-expanded="true" aria-controls="menu-list1">
+                              <button class="btn btn-link" data-toggle="collapse"  [attr.data-target]="'#menu-list'+menu.uiId" aria-expanded="true"  [attr.aria-controls]="'#menu-list'+menu.uiId">
                                 <figure>
-                                  <img src="assets/images/dish-1.jpg">
+                                  <img src="https://mealdaay.com:4024/uploads/{{menu.menuImage}}">
                                 </figure>
-                                  Burgers
+                                  {{menu.menuName}}
+
                               </button>
                             </h5>
                         </div>
-  
-                        <div id="menu-list1" class="collapse show" aria-labelledby="menu1" data-parent="#accordion">
-                            <div class="card-body">
-                              <ul class="buyer-menus-list">
-                                <li>
+                        
+                        <div id="menu-list{{menu.uiId}}" class="collapse show" [attr.labelledby]="'menu' + menu.uiId" data-parent="#accordion">
+                          <div class="card-body" > 
+                              <ul class="buyer-menus-list"  >
+                         
+                                <li *ngFor="let items of menu.item" style="min-width: 50.00%">
                                   <div class="b-menu">
                                     <figure>
-                                      <img src="assets/images/menu-1.jpg">
+                                        <!-- <img src="assets/images/dish-1.jpg"> -->
+                                      <img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}">
                                     </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
+                                    <h4>{{items.itemName}}</h4>
+                                    <p>{{items.Description}}</p>
                                     <div class="menu-price">
                                       <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
+                                      <span class="menu-price">{{items.price}}</span>
                                     </div>
                                     <div class="menu-add-to-cart">
                                       <a href="#" class="btn">Add to Cart</a>
@@ -123,155 +90,8 @@
                               </ul>
                             </div>
                         </div>
-                      </div>
+                    </div>
   
-                      <!-- Menu2 -->
-                      <div class="card">
-                        <div class="card-header" id="menu2">
-                            <h5 class="mb-0">
-                              <button class="btn btn-link" data-toggle="collapse" data-target="#menu-list2" aria-expanded="true" aria-controls="menu-list2">
-                                <figure>
-                                  <img src="assets/images/dish-1.jpg">
-                                </figure>
-                                  Salads
-                              </button>
-                            </h5>
-                        </div>
-  
-                        <div id="menu-list2" class="collapse" aria-labelledby="menu2" data-parent="#accordion">
-                            <div class="card-body">
-                              <ul class="buyer-menus-list">
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                        </div>
-                      </div>
-  
-                      <!-- Menu3 -->
-                      <div class="card">
-                        <div class="card-header" id="menu3">
-                            <h5 class="mb-0">
-                              <button class="btn btn-link" data-toggle="collapse" data-target="#menu-list3" aria-expanded="true" aria-controls="menu-list3">
-                                <figure>
-                                  <img src="assets/images/dish-1.jpg">
-                                </figure>
-                                  Rice
-                              </button>
-                            </h5>
-                        </div>
-  
-                        <div id="menu-list3" class="collapse" aria-labelledby="menu3" data-parent="#accordion">
-                            <div class="card-body">
-                              <ul class="buyer-menus-list">
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-  
-                                <li>
-                                  <div class="b-menu">
-                                    <figure>
-                                      <img src="assets/images/menu-1.jpg">
-                                    </figure>
-                                    <h4>Mexican Burger</h4>
-                                    <p>You'll love these Mexican Guacamole Burgers. They've got Mexican seasoning baked inside and homemade.</p>
-                                    <div class="menu-price">
-                                      <span class="menu-curr">CAD</span>
-                                      <span class="menu-price">5.00</span>
-                                    </div>
-                                    <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                        </div>
-                      </div>
                   </div>
                 </div>
               </div>
@@ -507,14 +327,14 @@
                 </div>
               </div>
   
-              <div class="buyer-menus" id="meal">
+              <!-- <div class="buyer-menus" id="meal">
                 <div class="buyer-menus-head">
                   <h4>Meal Packages</h4>
                 </div>
                 <div class="buyer-menus-body">
-                  <div id="accordion-meal" class="">
+                  <div id="accordion-meal" class=""> -->
                     <!-- meal1 -->
-                      <div class="card">
+                      <!-- <div class="card">
                         <div class="card-header" id="meal1">
                             <h5 class="mb-0">
                               <button class="btn btn-link" data-toggle="collapse" data-target="#meal-list1" aria-expanded="true" aria-controls="meal-list1">
@@ -586,9 +406,9 @@
                             </div>
                         </div>
                       </div>
-  
+   -->
                       <!-- meal2 -->
-                      <div class="card">
+                      <!-- <div class="card">
                         <div class="card-header" id="meal2">
                             <h5 class="mb-0">
                               <button class="btn btn-link" data-toggle="collapse" data-target="#meal-list2" aria-expanded="true" aria-controls="meal-list2">
@@ -660,9 +480,9 @@
                             </div>
                         </div>
                       </div>
-  
+   -->
                       <!-- meal3 -->
-                      <div class="card">
+                      <!-- <div class="card">
                         <div class="card-header" id="meal3">
                             <h5 class="mb-0">
                               <button class="btn btn-link" data-toggle="collapse" data-target="#meal-list3" aria-expanded="true" aria-controls="meal-list3">
@@ -733,10 +553,10 @@
                               </ul>
                             </div>
                         </div>
-                      </div>
-                  </div>
+                      </div> -->
+                  <!-- </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -746,7 +566,7 @@
           <div class="side-bar-cart">
             <h4 id="side-cart"><i class="fa fa-shopping-cart"><sup class="cart-pop">3</sup></i> Your Order</h4>
             <div class="cart-menu" style="display: none;">
-              <h5>Hooter Restaurant Bar</h5>
+              <h5>{{ResturantObj.restaurantname }}</h5>
               <div class="menu-items">
                 <span>Menu Items</span>
               </div>
@@ -827,7 +647,7 @@
           <div class="row">
             <div class="col-12">
               <ul class="rev-list">
-                <li>
+                <li *ngFor="let resturantReview of resturantReviews.review">
                   <figure>
                     <img src="assets/images/avatar.png" alt="">
                   </figure>
@@ -835,8 +655,8 @@
                      <div class="row rev-meta-row">
                        <div class="col-12">
                          <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
+                           <h5>{{resturantReview.name}}</h5>
+                           <p><i class="fa fa-calendar" aria-hidden="true"></i> {{resturantReview.created_at.split('T')[0]}} </p>
                          </div>
                          <div class="rev-rating">
                            <div class="rev-stars">
@@ -847,174 +667,14 @@
                              <i class="fa fa-star"></i>
                            </div>
                            <div class="rev-rate">
-                             (4.0)
+                             ({{resturantReview.average}})
                            </div>
                          </div>
                        </div>
                      </div>
                      <div class="row">
                        <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-                <li>
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             (4.0)
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-                <li>
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             (4.0)
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-                <li>
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             (4.0)
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-                <li>
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             (4.0)
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-                <li>
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>John Doe</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> Jan-25-2019</p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             (4.0)
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+                         <p >{{resturantReview.review}}</p>
                        </div>
                      </div>
                   </div>
@@ -1037,15 +697,27 @@
           </div>
           <div class="row mb-3">
             <div class="col-12">
-              <h5>Hooter Restaurant & Bar</h5>
-              <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <agm-map id="HERE" style="height:300px;" 
+               
+                [latitude]="latitude" 
+                [longitude]="longitude"
+                [zoom]="zoom"  
+            
+                >
+                <agm-marker 
+                
+                  [latitude]="latitude" 
+                  [longitude]="longitude"></agm-marker>
+                </agm-map>
+              <h5>{{ResturantObj.restaurantname }}</h5>
+              <p>{{ResturantObj.restaurantDescription }}</p>
             </div>
           </div>
           <div class="row">
             <div class="col-12">
               <ul>
-                <li><strong>Address:</strong> Lorem ipsum is simply dummy text of the printing</li>
-                <li><strong>Phone:</strong> 000-0000-000</li>
+                <li><strong>Address:</strong>>{{ResturantObj.address}}</li>
+                <li><strong>Phone:</strong> {{ResturantObj.phoneno1}}</li>
                 <li><strong>Email:</strong> abc@yourdomain.com</li>
               </ul>
             </div>
