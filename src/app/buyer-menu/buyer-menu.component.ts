@@ -5,6 +5,7 @@ import {menu} from '../Models/menu';
 import { menuItem} from '../Models/menu-item';
 import { __values } from 'tslib';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { CartService } from '../../Services/cart.service'
 @Component({
   selector: 'app-buyer-menu',
   templateUrl: './buyer-menu.component.html',
@@ -23,7 +24,7 @@ address:string;
 
   private geoCoder;
   menuToDisplay:any[];
-  constructor(private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader) { }
+  constructor(private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { }
 
   ngOnInit() {
     this.mapsAPILoader.load().then(() => {
@@ -32,6 +33,7 @@ address:string;
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
     console.log(this.resturantService.Resturantid,"I am in buyer menu");
+    this.resturantService.Resturantid = "5b8ca7fd4d830e1b62e4bccf";
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
     }else{
@@ -123,11 +125,15 @@ address:string;
         console.log(error);
       })
   }
-
- 
+  AddtoCart(item,name){
+    this.cart.addOrder(item,name);
+    this.cart.CartUpdate(this.cart.itemsOrder);
+   
+  }
   getActiveItem(){
     this.resturantService.activeItem(this.resturantService.Resturantid).subscribe((data:any)=>{
     let itemsInResturant = data.message;
+    console.log(data.message,"Active Item Object");
 
     let menus = [];
     let items = [];
@@ -148,6 +154,7 @@ address:string;
         itemobj.itemImage = itemsInResturant[i].image;
         itemobj.itemName = itemsInResturant[i].name;
         itemobj.itemPrice = itemsInResturant[i].price; 
+        itemobj.completeItem = itemsInResturant[i];
         menus[itemsInResturant[i].menuId._id].item.push(itemobj);
     }
     let keys = Object.keys(menus);

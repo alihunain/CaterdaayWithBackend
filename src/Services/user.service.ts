@@ -47,6 +47,7 @@ export class UserService {
 
   }
   getUser(){
+    console.log(this.user);
     if(this.user != null){
       return this.user;
     }else if(typeof (localStorage.getItem("User"))!=undefined){

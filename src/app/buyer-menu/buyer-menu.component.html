@@ -82,8 +82,8 @@
                                       <span class="menu-price">{{items.price}}</span>
                                     </div>
                                     <div class="menu-add-to-cart">
-                                      <a href="#" class="btn">Add to Cart</a>
-                                      <a href="#" class="add-menu"><i class="fa fa-plus"></i></a>
+                                      <a (click)="AddtoCart(items.completeItem,ResturantObj.restaurantname)" class="btn">Add to Cart</a>
+                                      <a (click)="AddtoCart(items.completeItem,ResturantObj.restaurantname)" class="add-menu"><i class="fa fa-plus"></i></a>
                                     </div>
                                   </div>
                                 </li>

@@ -62,6 +62,7 @@ export class InnerSearchComponent implements OnInit {
     this.kitchenFilter.filterKitchen.cousine.push(value);
     this.Search();
   }
+
    Search() {
      this.preloader = true;
     this.kitchenFilter.Kitchenfilter(this.kitchenFilter.filterKitchen).subscribe((data: any) => {

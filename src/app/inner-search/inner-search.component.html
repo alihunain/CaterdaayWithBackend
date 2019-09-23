@@ -121,10 +121,10 @@
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
 							<figure>
-								<a href="#"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
+								<a routerLink="/buyer-menu" (click)="RequestOrder(item._id)"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
-							<div class="s-cont-desc">
-								<a href="#"><h4>{{item.restaurantname}}</h4></a>
+							<div class="s-cont-desc" >
+								<a routerLink="/buyer-menu" (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
 								<div class="row">
 									<div class="cont-spec">
 										{{item.restaurantDescription.substring(1,300).trim()}}.... 

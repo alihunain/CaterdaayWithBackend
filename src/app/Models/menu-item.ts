@@ -5,5 +5,5 @@ export class menuItem {
     public itemPrice:string;
     public Description:any[];
     public idmenu:string;
-  
+    public completeItem:any;
 }

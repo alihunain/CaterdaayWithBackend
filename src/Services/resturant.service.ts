@@ -7,7 +7,7 @@ import { GlobalService } from '../Services/global.service';
   providedIn: 'root'
 })
 export class ResturantService {
-  public Resturantid:string ="5b8ca7fd4d830e1b62e4bccf";
+  public Resturantid:string;
   constructor(private http: HttpClient, public server: GlobalService) { }
   //this will return resturn reviews
   resturantReviews(resturantid){
@@ -43,6 +43,7 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
   menuList(resturantid){
     return this.http.get(this.server.development.ms2+ "menu-list/"+resturantid).pipe(catchError(this.handleError));
   }
+
     //this will return active combos of resturant
   activeCombos(resturantid){
     return this.http.get(this.server.development.ms2+ "active-combos/"+resturantid).pipe(catchError(this.handleError));

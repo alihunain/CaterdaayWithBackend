@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import  { KitchenService} from '../../../Services/kitchen.service'
+import {CartService} from '../../../Services/cart.service'
 
 @Component({
   selector: 'app-header',
@@ -14,7 +15,7 @@ export class HeaderComponent implements OnInit {
   Countrys:any;
   Signin:boolean= true;
   Countryname:string ="Select Country";
-  constructor(public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService) { }
+  constructor(public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
       this.Signin = !res;
       console.log("hit");
    });
+   
   }
   onSignout(){
     this.userService.removeUser();

@@ -1,7 +1,7 @@
 <div class="frontcartdetail" (click)="stopPropagation($event)">
   <div class="cartdetail">
-    <h4 class="restoname">
-      <b>{{ kitchenName | uppercase }} </b>
+    <h4 class="restoname" *ngFor="let order of orders">
+      <b>{{ orders.name | uppercase }} </b>
     </h4>
     <div class="items">
       <table class="table itemoname">
@@ -11,24 +11,24 @@
               <b> Menu Items</b>
             </td>
           </tr>
-          <tr>
+          <tr *ngFor="let items of order.items ">
             <td class="input-group">
-              <i class="fas fa-minus"></i>
+              <i class="fas fa-minus" (click)="AddMoreItem(items)"></i>
               <span class="input-group-addon inputgroupy padding0 ">
                 <input class="menuQty mine" min="0" type="number" />
               </span>
-              <i class="fas fa-plus"></i>
+              <i class="fas fa-plus" (click)="RemoveItem(item)"></i>
             </td>
 
             <td class="cart-item cart-item-width">
-              Big Zinger
+              {{items.name}}
             </td>
             <td class="currency">
               <small style="font-size: 9px">
                 <b>
-                  CAD
+                  {{orders.currency}}
                 </b>
-                179.2
+                {{items.price}}
               </small>
             </td>
             <td>
@@ -37,13 +37,14 @@
           </tr>
         </tbody>
       </table>
+      
       <div class="checkoutdetail">
         <div style="padding: 10px">
           <b>
             Sub Total : &nbsp; &nbsp;
             <span class="pull-right">
-              <b> CAD</b>
-              <span>179.20</span>
+              <b>  {{orders.currency}}</b>
+              <span> {{orders.total}}</span>
             </span>
           </b>
         </div>
@@ -52,5 +53,6 @@
         </button>
       </div>
     </div>
+    
   </div>
 </div>
