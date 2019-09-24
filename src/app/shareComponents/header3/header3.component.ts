@@ -5,8 +5,9 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './header3.component.html',
   styleUrls: ['./header3.component.css']
 })
-export class Header3Component implements OnInit {
 
+export class Header3Component implements OnInit {
+  showCart = false;
   constructor() { }
 
   ngOnInit() {

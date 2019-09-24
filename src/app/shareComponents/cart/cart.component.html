@@ -1,8 +1,18 @@
-<div class="frontcartdetail" (click)="stopPropagation($event)">
-  <div class="cartdetail">
-    <h4 class="restoname" *ngFor="let order of orders">
-      <b>{{ orders.name | uppercase }} </b>
-    </h4>
+<div class="frontcartdetail" (click)="stopPropagation($event)" >
+  <div class="cartdetail" >
+   <div  *ngIf="orders.length == 0">
+      <h6 class="restoname" style="text-align: center" >
+      </h6>
+      <div style="    padding-top: 15px;text-align: center;">
+          No Item In Cart
+      </div >
+        <div class="checkoutdetail">
+          </div>
+   </div>
+    <div *ngFor="let order of orders">
+    <h6 class="restoname" >
+      <b>{{ order.name | uppercase }} </b>
+    </h6>
     <div class="items">
       <table class="table itemoname">
         <tbody>
@@ -13,46 +23,48 @@
           </tr>
           <tr *ngFor="let items of order.items ">
             <td class="input-group">
-              <i class="fas fa-minus" (click)="AddMoreItem(items)"></i>
-              <span class="input-group-addon inputgroupy padding0 ">
-                <input class="menuQty mine" min="0" type="number" />
+              <i class="fas fa-minus" style="font-size: 17px" (click)="Minus(items)"></i>
+              <span class="input-group-addon inputgroupy padding0 " style="font-size: 18px;padding: 5px !important">
+               <b> {{items.qty}}</b>
               </span>
-              <i class="fas fa-plus" (click)="RemoveItem(item)"></i>
+              <i class="fas fa-plus" style="font-size: 17px" (click)="Plus(items,order.resturantid)"></i>
             </td>
-
+          
             <td class="cart-item cart-item-width">
               {{items.name}}
             </td>
             <td class="currency">
-              <small style="font-size: 9px">
+              <small style="font-size: 15px">
                 <b>
-                  {{orders.currency}}
+                  {{order.currency}}
                 </b>
                 {{items.price}}
               </small>
             </td>
             <td>
-              <i class="fas fa-trash-alt"></i>
+              <i (click)="RemoveItem(items,order.resturantid)" class="fas fa-trash-alt" style="font-size: 17px"></i>
             </td>
           </tr>
         </tbody>
       </table>
       
       <div class="checkoutdetail">
-        <div style="padding: 10px">
+        <div style="padding: 5px">
           <b>
             Sub Total : &nbsp; &nbsp;
             <span class="pull-right">
-              <b>  {{orders.currency}}</b>
-              <span> {{orders.total}}</span>
+              <b>  {{order.currency}}</b>
+              <span> {{order.total}}</span>
             </span>
           </b>
         </div>
-        <button class="btn btn-danger btn-block">
-          CHECK OUT
-        </button>
+       
       </div>
     </div>
-    
+  </div>
+
+  <button [disabled]="orders.length == 0" style="padding: 2px" class="btn btn-danger btn-block">
+      CHECK OUT
+    </button>
   </div>
 </div>

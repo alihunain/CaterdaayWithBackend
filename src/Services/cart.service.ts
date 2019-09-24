@@ -7,18 +7,19 @@ import {UserService} from '../Services/user.service'
   providedIn: 'root'
 })
 export class CartService {
-  public itemsOrder = new Array<Order>();
+  public itemsOrder=new Array<any>();
   private cartupdate = new Subject<any>();
   checkCart = this.cartupdate.asObservable();
   constructor(private user: UserService) { }
   CartUpdate(update: any) {
-    this.cartupdate.next({update});
-    console.log("working");
+    this.cartupdate.next(update);
+    console.log("Cart Updated");
   }
-  addOrder(item,resturantname){
+  PlusItem(item,resturantname){
+    if(this.itemsOrder === undefined ){
+     this.itemsOrder= new Array<Order>();
+    }
     let index = this.isKitchenExist(item.kitchenId);
-
-    console.log(index);
     if(index==-1){
       let orderObj = new Order();
       orderObj.resturantid = item.kitchenId;
@@ -71,7 +72,17 @@ export class CartService {
     // console.log(this.itemsOrder);
 
   }
-  removeItem(item){
+  RemoveItem(item,kitchenID){
+    let indexResturant = this.isKitchenExist(kitchenID);
+    let indexItem =  this.isItemExist(item._id,this.itemsOrder[indexResturant].items);
+    this.itemsOrder[indexResturant].total-= this.itemsOrder[indexResturant].items[indexItem].price *this.itemsOrder[indexResturant].items[indexItem].qty;
+
+    this.itemsOrder[indexResturant].items.splice(indexItem,1);
+    if(this.itemsOrder[indexResturant].items.length  === 0){
+      this.itemsOrder.splice(indexResturant,1);
+    }
+  }
+  MinusItem(item){
     console.log(item);
 
     let kitchenID = item.kitchenId;
@@ -106,9 +117,11 @@ export class CartService {
     return -1;
   }
   isItemExist(itemId,itemarray){
+
+
     for(let i = 0; i < itemarray.length;i++){
       console.log(itemId,"to search");
-      console.log(itemarray[i].id);
+      console.log(itemarray[i]._id);
       if(itemarray[i]._id == itemId){
         return i;
       }

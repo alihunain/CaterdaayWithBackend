@@ -33,7 +33,7 @@ address:string;
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
     console.log(this.resturantService.Resturantid,"I am in buyer menu");
-    this.resturantService.Resturantid = "5b8ca7fd4d830e1b62e4bccf";
+
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
     }else{
@@ -126,7 +126,7 @@ address:string;
       })
   }
   AddtoCart(item,name){
-    this.cart.addOrder(item,name);
+    this.cart.PlusItem(item,name);
     this.cart.CartUpdate(this.cart.itemsOrder);
    
   }

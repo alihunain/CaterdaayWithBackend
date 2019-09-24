@@ -1,14 +1,17 @@
 .frontcartdetail {
-  border-top: 5px solid red;
+  border-top: 5px solid #5ba946 !important;
   border-radius: 5px;
   background: white !important;
   box-shadow: 10px 10px 10px 1px #382828;
+  /* padding:2px; */
 }
 
 .cartdetail {
   border: 1px solid lightgray;
 }
-
+.table td, .table th{
+  padding: .25rem !important;
+}
 .restoname {
   padding-left: 10px;
   margin: 0px;
@@ -26,11 +29,9 @@
   position: relative;
   display: table;
   border-collapse: separate;
-  padding: 7px 10px;
+  padding: 7px 7px;
 }
-.cart-item-width {
-  max-width: 83px;
-}
+
 
 .cart-item {
   white-space: initial;

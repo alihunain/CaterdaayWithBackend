@@ -17,7 +17,7 @@ import {FaqComponent} from './faq/faq.component';
 import {TermsConditionsComponent} from './terms-conditions/terms-conditions.component'
 const routes: Routes = [
   {
-    path: 'detail/:id ',
+    path: 'detail',
     component: InnerCateringSearchComponent
   },
   {
