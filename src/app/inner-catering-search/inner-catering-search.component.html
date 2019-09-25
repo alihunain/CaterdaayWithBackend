@@ -1,26 +1,23 @@
 
 <app-header3></app-header3>
 <!-- modal -->
-<div *ngFor="let menu of menuToDisplay">
-  <div *ngFor="let items of menu.item">
-<div class="hotel-popup modal fade" id="{{items.itemName}}-popup">
+<div class="hotel-popup modal fade" id="hotel-popup" *ngIf="popupItem != undefined">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-
         <!-- Modal body -->
         <div class="modal-body">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <figure>
-            <img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt="" class="img-fluid">
+            <img src="https://mealdaay.com:4024/uploads/{{popupItem.itemImage}}" alt="" class="img-fluid">
           </figure>
           <div class="popup-body">
             <div class="row popup-header">
               <div class="col-12">
-                <h4>{{items.itemName}}</h4>
-                <p>{{items.price}} / person, minimum 10 person</p>
+                <h4>{{popupItem.itemName}}</h4>
+                <p>{{popupItem.itemPrice}} &nbsp; CAD / person, minimum 10 person</p>
               </div>
               <div class="col-12">
-                <p class="small">{{items.Description}}</p>
+                <p class="small">{{popupItem.Description}}</p>
               </div>
             </div>
             <div class="row popup-body-area">
@@ -134,8 +131,6 @@
     </div>
   </div>
 </div>
-</div>
-</div>
 <!-- modal end -->
 
 <section class="single-search-header search-header-updated">
@@ -150,12 +145,12 @@
     </ul>
   </div>
 </div> -->
-<div class="row mt-5">
+<div class="row mt-5" *ngIf="ResturantObj != undefined">
   <div class="col-12">
     <div class="search-titles-row">
       <h1>{{ResturantObj.restaurantname}}</h1>
       <ul class="header-detail-list">
-        <li>{{ResturantObj.address.substring(0,20).trim()}}</li>
+        <li *ngIf="ResturantObj.address != undefined">{{ResturantObj.address.substring(0,20).trim()}}</li>
         <li><a href="tel:ResturantObj.phoneno1">{{ResturantObj.phoneno1}}</a></li>
         <li>
           <div class="row">
@@ -168,7 +163,7 @@
             </div>
             <div class="rating">
               <span>({{AverageRating || 0}})</span>
-              <span><a href="#">{{resturantReviews.review.length || 0}} Reviews</a></span>
+              <span><a *ngIf="resturantReviews.review != undefined" href="#">{{resturantReviews.review.length || 0}} Reviews</a></span>
             </div>
           </div>
         </li>
@@ -299,15 +294,15 @@
           <div class="row">
             <figure>
               <img src="assets/images/halal-badge.png" class="halal-badge">
-              <a href="#" data-toggle="modal" [attr.data-target]="items.itemName+'-popup'"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
+              <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
               <div class="most-ord">Most Ordered</div>
             </figure>
           </div>	
           <div class="menu-item-desc">
             <div class="row">
-              <a href="#" data-toggle="modal" [attr.data-target]="items.itemName+'-popup'"><h4>{{items.itemName}}</h4></a><br>
+              <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a><br>
               <p>{{items.Description}}</p>
-              <h5 class="price">{{items.price}}</h5>
+              <h5 class="price">{{items.itemPrice}}</h5>
             </div>
             <div class="row item-desc-footer align-items-center">
               <p>person, minimum 10 people</p>

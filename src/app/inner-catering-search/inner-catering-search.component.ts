@@ -30,6 +30,7 @@ export class InnerCateringSearchComponent implements OnInit {
   longitude: number;
    address:string;
   zoom:number=0;
+  popupItem:any;
   private geoCoder;
   menuToDisplay:any[];
   constructor(private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
@@ -58,6 +59,10 @@ export class InnerCateringSearchComponent implements OnInit {
       // this.resturantService.activeMealPackages(this.resturantService.Resturantid).subscribe((data:any)=>{console.log(data,"active mealpackages")},(error)=>{console.log(error)})
       
     }
+  }
+  ResturantPopups(items){
+    console.log(items,"updated");
+    this.popupItem = items;
   }
   getActiveCombos(){
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{

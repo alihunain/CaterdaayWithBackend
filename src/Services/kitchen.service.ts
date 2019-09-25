@@ -11,7 +11,9 @@ export class KitchenService {
   address: any;
   resturants:any;
   filterKitchen: Kitchen = new Kitchen();
-
+  allKitchen(){
+    return this.http.get(this.server.development.ms1 +"kitchen").pipe(catchError(this.handleError));
+  }
   Kitchenfilter(data: any) {
     
     return this.http.post(this.server.development.ms1 + "kitchenfilters", data).pipe(
