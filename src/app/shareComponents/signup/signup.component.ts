@@ -53,6 +53,7 @@ export class SignupComponent implements OnInit {
       console.log(data);
       if(!data.error){
         this.userService.setUser(data);
+        console.log(this.userService.getUser);
         this.toastr.success( 'You are now login');
         this.userService.UserUpdate(true);
        this.switchRegister();

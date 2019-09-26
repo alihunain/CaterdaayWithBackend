@@ -15,6 +15,7 @@ import { ChefComponent } from './chef/chef.component';
 import {ChefIntroComponent} from './chef-intro/chef-intro.component';
 import {FaqComponent} from './faq/faq.component';
 import {TermsConditionsComponent} from './terms-conditions/terms-conditions.component'
+import { ProfileComponent } from './profile/profile.component';
 const routes: Routes = [
   {
     path: 'detail',
@@ -23,6 +24,9 @@ const routes: Routes = [
   {
     path: 'listing',
     component: InnerSearchComponent
+  },{
+    path:'profile',
+    component:ProfileComponent
   },
   {
     path: 'card',

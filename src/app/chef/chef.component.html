@@ -11,14 +11,14 @@
   <section class="pt-5 mt-5 pb-5 mb-5">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 chef-list" *ngFor="let chef of currentchefs">
+        <div class="col-md-6 chef-list"  *ngFor="let chefs of displatchefs" style="display: block">
           <div class="chef">
             <figure>
-              <a href="#"><img src="assets/images/chef-1.jpg" class="chef-img"></a>
+              <a routerLink="/detail" (click)="menuPage(chefs._id)"><img src="https://mealdaay.com:4024/uploads/{{chefs.image[0]}}" class="chef-img"></a>
             </figure>
             <div class="chef-desc">
-              <h4><a href="#">{{chef.restaurantname}}</a></h4>
-              <h6>{{chef.country}}</h6>
+              <h4><a href="#">{{chefs.restaurantname}}</a></h4>
+              <h6>{{chefs.country}}</h6>
               <div class="cont-rev">
                 <div class="star-rating">
                   <i class="fa fa-star"></i>
@@ -28,45 +28,25 @@
                   <i class="fa fa-star"></i>
                 </div>
                 <div class="rating">
-                  <span>(4.0)</span><span><a href="#">(320 Reviews)</a></span>
+                  <span>({{chefs.rating}})</span><span><a href="#">({{chefs.reviews}} Reviews)</a></span>
                 </div>
               </div>
-              <div class="chef-tags">
-                <a href="#" class="tag">American</a>
-                <a href="#" class="tag">Indian</a>
-                <a href="#" class="tag">Mexican</a>
-                <a href="#" class="tag">Canadian</a>
-                <a href="#" class="tag">Labanese</a>
-                <a href="#" class="tag">Continental</a>
+              <div class="chef-tags"> 
+              
+                <a *ngFor="let cuisine of chefs.cuisineNames" href="#" class="tag">{{cuisine}}</a>
+         
               </div>
               <div class="chef-dishes">
-                <div class="chef-d">
+                <div class="chef-d" *ngFor="let menu of chefs.menus">
                   <figure>
-                    <a href="#"><img src="assets/images/dish-1.jpg" class=""></a>
+                    <a href="#"><img src="https://mealdaay.com:4024/uploads/{{menu.image}}" style="max-width: 100px;max-height: 80px" class=""></a>
                   </figure>
                   <div class="dish-desc">
-                    <h4><a href="#">Fast Food</a></h4>
+                    <h4><a href="#">{{menu.name}}</a></h4>
                     <p>Burgers, Sandwich, Pizza,Shawarma and much more</p>
                   </div>
                 </div>
-                <div class="chef-d">
-                  <figure>
-                    <a href="#"><img src="assets/images/dish-1.jpg" class=""></a>
-                  </figure>
-                  <div class="dish-desc">
-                    <h4><a href="#">Fast Food</a></h4>
-                    <p>Burgers, Sandwich, Pizza,Shawarma and much more</p>
-                  </div>
-                </div>
-                <div class="chef-d">
-                  <figure>
-                    <a href="#"><img src="assets/images/dish-1.jpg" class=""></a>
-                  </figure>
-                  <div class="dish-desc">
-                    <h4><a href="#">Fast Food</a></h4>
-                    <p>Burgers, Sandwich, Pizza,Shawarma and much more</p>
-                  </div>
-                </div>
+                
               </div>
             </div>
           </div>
@@ -74,7 +54,7 @@
   
       </div>
       <div class="row text-center">
-        <a href="#" id="loadMore">Load More</a>
+        <a  (click)="push4Loadmore()" id="load" *ngIf="loadmore">Load More</a>
       </div>
     </div>
   </section>

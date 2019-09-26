@@ -36,6 +36,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 import { ToastrModule } from 'ngx-toastr';
 import { AgmCoreModule } from '@agm/core';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -68,7 +69,8 @@ import { AgmCoreModule } from '@agm/core';
     ChefIntroComponent,
     FaqComponent,
     TermsConditionsComponent,
-    MobileAppComponent
+    MobileAppComponent,
+    ProfileComponent
     
   ],
   imports: [

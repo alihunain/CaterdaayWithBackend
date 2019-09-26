@@ -41,13 +41,19 @@ export class UserService {
   AddSubscriber(email:any){
     return this.http.post(this.server.development.ms1 +  "subscriber",email).pipe(catchError(this.handleError))
   }
+  UpdateProfile(userid,profile:any){
+return this.http.put(this.server.development.ms3 + "customers/" + userid,profile).pipe(catchError(this.handleError));
+  }
   setUser(data){
     this.user = data;
     localStorage.setItem("User",data);
 
   }
   getUser(){
+    console.log(this.user);
+    console.log(typeof (localStorage.getItem("User")))
     if(this.user != null){
+ 
       return this.user;
     }else if(typeof (localStorage.getItem("User"))!=undefined){
       this.user = localStorage.getItem("User");

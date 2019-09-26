@@ -1,0 +1,89 @@
+.nav.nav-tabs {
+    float: left;
+    display: block;
+    margin-right: 20px;
+    border-bottom:0;
+    border-right: 1px solid #ddd;
+    padding-right: 15px;
+}
+.nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    /*background: #ccc;*/
+}
+
+.nav-tabs .nav-link.active {
+    color: #fff;
+    background-color:#ed212f !important;
+    border-color: transparent !important;
+    font-weight: 700;
+}
+.nav-tabs .nav-link {
+    color: #727272;
+    font-weight: 700;
+    border: 1px solid transparent;
+    border-top-left-radius: 0rem!important;
+    border-top-right-radius: 0rem!important;
+    cursor: pointer;
+}
+.tab-content>.active {
+    display: block;
+    /*background: #007bff;*/
+    min-height: 165px;
+}
+.nav.nav-tabs {
+    float: left;
+    display: block;
+    margin-right: 20px;
+    border-bottom: 0;
+    border-right: 1px solid transparent;
+    padding-right: 15px;
+}
+
+.tab-box{
+    margin: 100px 0;
+    border: 1px solid #ddd;
+    padding: 15px;
+}
+
+.custom-nav-tabs{
+    width: 100%;
+}
+
+.account-title{
+    padding: 0 15px;
+}
+
+.account-title h3{
+    font-weight: 500;
+    text-align: left;
+    margin:0;
+}
+
+#my-favourite, #saved-addresses h5{
+    text-align: center;
+}
+
+.custom-btn{
+    background-color: #ed212f;
+    color: #fff;
+    border-radius: 0;
+}
+
+.custom-btn:hover{
+    opacity: .7;
+}
+
+.col-form-label {
+    font-weight: 700;
+}
+
+#saved-addresses label{
+    display: block;
+    text-align: center;
+}
+.fa100 {
+    font-size: 100px!important;
+    color: #727272;
+}
