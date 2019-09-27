@@ -33,6 +33,7 @@ export class InnerCateringSearchComponent implements OnInit {
   popupItem:any;
   private geoCoder;
   menuToDisplay:any[];
+  location:boolean= false;
   constructor(private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
 
   }
@@ -44,6 +45,7 @@ export class InnerCateringSearchComponent implements OnInit {
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
     console.log(this.resturantService.Resturantid,"I am in inner catering seach");
+    this.resturantService.Resturantid = "5d45df39969ec012515bbc85";
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
     }else{
@@ -58,6 +60,12 @@ export class InnerCateringSearchComponent implements OnInit {
       // this.resturantService.activeMealPackages(this.resturantService.Resturantid).subscribe((data:any)=>{console.log(data,"active mealpackages")},(error)=>{console.log(error)})
       
     }
+  }
+  switchToAbout(){
+    this.location = false;
+  }
+  switchToLocation(){
+    this.location = true;
   }
   ResturantPopups(items){
     console.log(items,"updated");

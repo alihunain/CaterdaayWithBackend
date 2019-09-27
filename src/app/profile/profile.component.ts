@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { MapsAPILoader } from '@agm/core';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +11,11 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProfileComponent implements OnInit {
   userdata:any;
+  lng:any;
+  lat:any;
+  zoom=10;
+  checkpassword:boolean=false;
+  mapaddress:string;
   Profile = this.fb.group({
     email:['',[Validators.required]],
     lastname:['',[Validators.required]],
@@ -28,8 +34,26 @@ export class ProfileComponent implements OnInit {
     lname: ['',[Validators.required]],
     zip:['',[Validators.required]]
   })
-  constructor(private users:UserService,private fb:FormBuilder,private toastr:ToastrService) { }
-
+  Address= this.fb.group({
+    phoneno: ['',[Validators.required]],
+    address:['',[Validators.required]],
+    city:['',[Validators.required]],
+    zip:['',[Validators.required]],
+    country:['',[Validators.required]]
+  })
+  ResetPassword = this.fb.group({
+    oldpassword:['',[Validators.required]],
+    newpassword:['',[Validators.required]],
+    confirmpassword:['',[Validators.required]]
+  })
+  constructor(private mapsAPILoader: MapsAPILoader,private users:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  private geoCoder;
+  @ViewChild('address')
+  public searchElementRef: ElementRef;
+  @ViewChild('city')
+  public city: ElementRef;
+  @ViewChild('country')
+  public country:ElementRef
   ngOnInit() {
     this.userdata ={ accounttype: "customer",
     cardinfo: [],
@@ -48,8 +72,119 @@ export class ProfileComponent implements OnInit {
     }
     this.Profile.controls['email'].setValue(this.userdata.email);
     this.Profile.controls['lastname'].setValue(this.userdata.lastname);
-    
     this.Profile.controls['firstname'].setValue(this.userdata.firstname);
+    this.getOrderDetails();
+    this.getCustomerRating();
+    this.getCustomer();
+    console.log(this.searchElementRef.nativeElement)
+    this.mapsAPILoader.load().then(() => {
+      console.log("map loaded");
+      this.setCurrentLocation();
+      console.log("current location done");
+      this.geoCoder = new google.maps.Geocoder;
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+     
+        this.ngZone.run(() => {
+    
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+ 
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+
+          console.log(place.geometry);
+          //set latitude, longitude and zoom
+          this.lat = place.geometry.location.lat().toString();
+          this.lng = place.geometry.location.lng().toString();
+        
+          this.getAddress(this.lat,this.lng);
+        });
+      });
+    });
+  }
+  addCard(){
+    console.log(this.Card.value);
+    this.users.verfityCard(this.Card.value).subscribe((data:any)=>{
+      if(!data.error){
+        if(data.message.txn != undefined){
+          this.toastr.error(data.message.txn.errorMessage)
+        }else{
+          this.toastr.error("Sucessfully Added");
+        }
+      }
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  getCustomer(){
+    this.users.getCustomer(this.userdata._id).subscribe((data:any)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error);
+    })  
+  }
+  addUserAddress(){
+    this.users.addCustomerAdress(this.userdata._id,this.Address).subscribe((data:any)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error)
+    })
+  }
+  updateProfile(){
+  let postProfile = this.Profile.value;
+  postProfile._id = this.userdata._id;
+  postProfile.username = postProfile.email;
+
+    this.users.UpdateProfile(this.userdata._id,postProfile).subscribe((data:any)=>{
+    if(!data.error){
+      this.toastr.success("Profile Updated !");
+    }else{
+      this.toastr.error(data.message);
+    }
+    },(error)=>{
+      this.toastr.success("Unexpected Error");
+    });
+  }
+  getOrderDetails(){
+    this.users.getUserOrder(this.userdata._id).subscribe((data:any)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  ResetPass(){
+    if(this.ResetPassword.get('newpassword').value == this.ResetPassword.get('confirmpassword').value){
+      this.checkpassword = false;
+      let credentails = this.ResetPassword.value;
+      credentails.match = true;
+      credentails._id = this.userdata._id;
+      this.users.changePassword(this.userdata._id,credentails).subscribe((data:any)=>{
+        if(data.error){
+          this.toastr.error(data.message);
+        }else{
+          this.toastr.success("Your Password has been changed sucessfully")
+          this.eleRef.nativeElement.querySelector('#closeRP').click();
+        }
+
+      },(error)=>{
+        console.log(error);
+      })
+    }else{
+      this.checkpassword = true;
+    }
+    console.log(this.checkpassword);
+  }
+  getCustomerRating(){
+    this.users.getCustomerRating(this.userdata._id).subscribe((data:any)=>{
+      console.log(data);
+    },(error)=>{
+      console.log(error);
+    })
   }
   get cellphone(){
     return this.Profile.get('cellphone');
@@ -93,20 +228,80 @@ export class ProfileComponent implements OnInit {
   get zip(){
     return this.Card.get('zip');
   }
-  updateProfile(){
-  let postProfile = this.Profile.value;
-  postProfile._id = this.userdata._id;
-  postProfile.username = postProfile.email;
-
-    this.users.UpdateProfile(this.userdata._id,postProfile).subscribe((data:any)=>{
-    if(!data.error){
-      this.toastr.success("Profile Updated !");
-    }else{
-      this.toastr.error(data.message);
+  get oldpassword(){
+    return this.ResetPassword.get('oldpassword');
+  }
+  get newpassword(){
+    return this.ResetPassword.get('newpassword');
+  }
+  get confirmpassword(){
+    return this.ResetPassword.get('confirmpassword');
+  }
+  private setCurrentLocation() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log(this.lat,this.lng)
+        this.lat = position.coords.latitude.toString();
+        this.lng = position.coords.longitude.toString();
+        this.getAddress( this.lat,this.lng );
+      });
     }
-    },(error)=>{
-      this.toastr.success("Unexpected Error");
+  }
+  getAddress(latitude, longitude) {
+    console.log(latitude,longitude)
+    this.geoCoder.geocode({ 'location': { lat: Number(latitude), lng: Number(longitude) } }, (results, status) => {
+      if (status === 'OK') {
+        console.log(status,"status")
+        let isCity = false;
+        if (results[0]) {
+          for(let i = 0 ; i < results.length && isCity == false;i++){
+            let routes = results[i].types;
+            for(let j = 0 ; j < routes.length;j++){
+              let types = routes[j];
+              if(types == 'locality'){
+                this.Address.get('city').setValue(results[i].address_components[0].short_name.toLowerCase());
+                isCity = true;
+                break;
+              }
+            }
+          }
+      
+          this.Address.get('address').setValue(results[0].formatted_address);
+          
+          this.Address.get('country').setValue(results[results.length-1].formatted_address.toLowerCase());
+
+          
+        }
+      }
+ 
     });
   }
+  markerDragEnd($event: any) {
+    console.log($event);
+    this.lat = $event.coords.lat;
+    this.lng = $event.coords.lng;
+    this.getAddress(this.lat, this.lng);
+  }
+  addAddress(){
+      this.users.addCustomerAdress(this.userdata._id,this.Address.value).subscribe((data:any)=>{
+        console.log(data)
+        if(data.error){
 
+          this.toastr.error(data.message)
+        }else{
+          this.eleRef.nativeElement.querySelector('#closeAdress').click();
+          this.toastr.success("Added Sucessfully");
+        }
+      })
+  }
 }
+
+
+
+
+
+
+
+
+
+

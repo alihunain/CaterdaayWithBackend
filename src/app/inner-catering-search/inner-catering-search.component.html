@@ -140,7 +140,7 @@
   <div class="col-9 mx-auto">
     <ul id="progressbar">
           <li class="active"></li>  
-          <li ></li> 
+          <li></li> 
           <li></li>
     </ul>
   </div>
@@ -171,16 +171,13 @@
     </div>
   </div>
   <ngx-slick-carousel [config]="slideeConfig" class="carousel col-12 search-slider"  #slickModal="slick-carousel"> 
-
-      <div  class="search-slide" *ngFor="let image of ResturantObj.image">
-        <div ngxSlickItem class="slide-flyer">
-          <h4>99% On time <span>Based on last 50 orders</span></h4>
-        </div>
-        <img  src="https://mealdaay.com:4024/uploads/{{image}}">
+    <div  class="search-slide" *ngFor="let image of ResturantObj.image">
+      <div ngxSlickItem class="slide-flyer">
+        <h4>99% On time <span>Based on last 50 orders</span></h4>
       </div>
-  
-  
-    </ngx-slick-carousel>
+      <img  src="https://mealdaay.com:4024/uploads/{{image}}">
+    </div>
+  </ngx-slick-carousel>
 
    
 </div>
@@ -283,36 +280,35 @@
   <div class="col-md-9">
     <!-- DELIVERY BUFFET ROW -->
     <div class="row search-menu" *ngIf="menuToDisplay !== undefined">
-        <div class="col-12" *ngFor="let menu of menuToDisplay">
-     
+      <div class="col-12" *ngFor="let menu of menuToDisplay">
         <div class="row">
           <h3>{{menu.menuName}}</h3>
         </div>
-      
-      <div class="col-md-6 menu-item" *ngFor="let items of menu.item">
-        <div class="menu-item-inner">
-          <div class="row">
-            <figure>
-              <img src="assets/images/halal-badge.png" class="halal-badge">
-              <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
-              <div class="most-ord">Most Ordered</div>
-            </figure>
-          </div>	
-          <div class="menu-item-desc">
-            <div class="row">
-              <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a><br>
-              <p>{{items.Description}}</p>
-              <h5 class="price">{{items.itemPrice}}</h5>
-            </div>
-            <div class="row item-desc-footer align-items-center">
-              <p>person, minimum 10 people</p>
-              <a href="#"><i class="fa fa-heart-o"></i></a>
+        <div class="row">
+          <div class="col-md-6 menu-item" *ngFor="let items of menu.item">
+            <div class="menu-item-inner">
+              <div class="row">
+                <figure>
+                  <img src="assets/images/halal-badge.png" class="halal-badge">
+                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
+                  <div class="most-ord">Most Ordered</div>
+                </figure>
+              </div>	
+              <div class="menu-item-desc">
+                <div class="row flex-col">
+                  <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a>
+                  <p>{{items.Description}}</p>
+                  <h5 class="price">{{items.itemPrice}}</h5>
+                </div>
+                <div class="row item-desc-footer align-items-center">
+                  <p>person, minimum 10 people</p>
+                  <a href="#"><i class="fa fa-heart-o"></i></a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-    </div>
 
     </div>
 
@@ -334,96 +330,100 @@
 </section>
 
 <section class="rev-sec">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-7">
-          <div class="row mb-4" >
-            <div class="col-12">
-              <h4 class="rev-head">Reviews</h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-              <ul class="rev-list">
-                <li *ngFor="let resturantReview of resturantReviews.review">
-                  <figure>
-                    <img src="assets/images/avatar.png" alt="">
-                  </figure>
-                  <div class="rev-desc">
-                     <div class="row rev-meta-row">
-                       <div class="col-12">
-                         <div class="rev-meta">
-                           <h5>{{resturantReview.name}}</h5>
-                           <p><i class="fa fa-calendar" aria-hidden="true"></i> {{resturantReview.created_at.split('T')[0]}} </p>
-                         </div>
-                         <div class="rev-rating">
-                           <div class="rev-stars">
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                             <i class="fa fa-star"></i>
-                           </div>
-                           <div class="rev-rate">
-                             ({{resturantReview.average}})
-                           </div>
-                         </div>
-                       </div>
-                     </div>
-                     <div class="row">
-                       <div class="col-12">
-                         <p >{{resturantReview.review}}</p>
-                       </div>
-                     </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-12 text-center">
-              <a href="#" class="load-more"> LOAD MORE <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>(340 Reviews)</span></a>
-            </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-7">
+        <div class="row mb-4" >
+          <div class="col-12">
+            <h4 class="rev-head">Reviews</h4>
           </div>
         </div>
-        <div class="col-md-5 cat-det">
-          <div class="row mb-4">
-            <div class="col-12">
-              <h4 class="rev-head">About Restaurant</h4>
-              <h4 class="rev-head">Location</h4>
-            </div>
+        <div class="row">
+          <div class="col-12">
+            <ul class="rev-list">
+              <li *ngFor="let resturantReview of resturantReviews.review">
+                <figure>
+                  <img src="assets/images/avatar.png" alt="">
+                </figure>
+                <div class="rev-desc">
+                    <div class="row rev-meta-row">
+                      <div class="col-12">
+                        <div class="rev-meta">
+                          <h5>{{resturantReview.name}}</h5>
+                          <p><i class="fa fa-calendar" aria-hidden="true"></i> {{resturantReview.created_at.split('T')[0]}} </p>
+                        </div>
+                        <div class="rev-rating">
+                          <div class="rev-stars">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                          </div>
+                          <div class="rev-rate">
+                            ({{resturantReview.average}})
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <p >{{resturantReview.review}}</p>
+                      </div>
+                    </div>
+                </div>
+              </li>
+            </ul>
           </div>
-          <div class="row mb-3">
-            <div class="col-12">
-                <agm-map id="HERE" style="height:300px;" 
-               
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <a href="#" class="load-more"> LOAD MORE <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>(340 Reviews)</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-5 cat-det">
+        <div class="row mb-4">
+          <div class="col-12">
+            <h4 class="rev-head" (click)="switchToAbout()">About Restaurant</h4>
+            <h4 class="rev-head" (click)="switchToLocation()">Location</h4>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-12">
+         
+              <agm-map id="HERE" *ngIf="location" style="height:300px;" 
+              
+              [latitude]="latitude" 
+              [longitude]="longitude"
+              [zoom]="zoom"  
+          
+              >
+              <agm-marker 
+              
                 [latitude]="latitude" 
-                [longitude]="longitude"
-                [zoom]="zoom"  
-            
-                >
-                <agm-marker 
-                
-                  [latitude]="latitude" 
-                  [longitude]="longitude"></agm-marker>
-                </agm-map>
-              <h5>{{ResturantObj.restaurantname }}</h5>
-              <p>{{ResturantObj.restaurantDescription }}</p>
-            </div>
+                [longitude]="longitude"></agm-marker>
+              </agm-map>
+      
+            <div *ngIf="!location">
+            <h5>{{ResturantObj.restaurantname }}</h5>
+            <p>{{ResturantObj.restaurantDescription }}</p>
           </div>
-          <div class="row">
-            <div class="col-12">
-              <ul>
-                <li><strong>Address:</strong>>{{ResturantObj.address}}</li>
-                <li><strong>Phone:</strong> {{ResturantObj.phoneno1}}</li>
-                <li><strong>Email:</strong> abc@yourdomain.com</li>
-              </ul>
-            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <ul>
+              <li><strong>Address:</strong>>{{ResturantObj.address}}</li>
+              <li><strong>Phone:</strong> {{ResturantObj.phoneno1}}</li>
+              <li><strong>Email:</strong> abc@yourdomain.com</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 <app-mobile-app></app-mobile-app>
 <app-onboarding></app-onboarding>
 <app-footer></app-footer>

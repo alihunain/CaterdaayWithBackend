@@ -38,11 +38,29 @@ export class UserService {
     return this.http.get(this.server.development.ms6 + "countrylist").pipe(
       catchError(this.handleError))
   }
+  verfityCard(cardDetails:any){
+    return this.http.post(this.server.development.ms4+"verify-card",cardDetails).pipe(catchError(this.handleError));
+  }
+  getCustomerRating(userid:any){
+    return this.http.get(this.server.development.ms4 + "rating/customer-rating/" + userid).pipe(catchError(this.handleError));
+  }
+  getUserOrder(userid:any){
+    return this.http.get(this.server.development.ms4 + "customerorder/" + userid).pipe(catchError(this.handleError));
+  }
   AddSubscriber(email:any){
     return this.http.post(this.server.development.ms1 +  "subscriber",email).pipe(catchError(this.handleError))
   }
+  addCustomerAdress(userid:any,address:any){
+    return this.http.post(this.server.development.ms3 + "customer-address/" + userid,address).pipe(catchError(this.handleError));
+  }
   UpdateProfile(userid,profile:any){
 return this.http.put(this.server.development.ms3 + "customers/" + userid,profile).pipe(catchError(this.handleError));
+  }
+  getCustomer(userid:any){
+    return this.http.get(this.server.development.ms3 + "customers/" + userid).pipe(catchError(this.handleError));
+  }
+  changePassword(userid,credentials){
+return this.http.put(this.server.development.ms3+"customers/change-password/" +  userid,credentials).pipe(catchError(this.handleError));
   }
   setUser(data){
     this.user = data;
