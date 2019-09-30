@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KitchenService } from '../../Services/kitchen.service';
+import { GlobalService } from '../../Services/global.service'
 import { ResturantService } from '../../Services/resturant.service';
-import { forEach } from '@angular/router/src/utils/collection';
-import { resolve, reject } from 'q';
-import { isNumber } from 'util';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chef',
@@ -18,9 +15,10 @@ export class ChefComponent implements OnInit {
   rating = 0;
   loadmore = true;
   allCuisines = new Map();
-  constructor(private kitchen: KitchenService, private resturant: ResturantService) { }
+  constructor(private global:GlobalService,private kitchen: KitchenService, private resturant: ResturantService) { }
 
   ngOnInit() {
+    this.global.header = 2;
     this.getCuisines().then((data)=>{
       this.getKitchens();
     })

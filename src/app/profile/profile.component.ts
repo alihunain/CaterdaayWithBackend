@@ -3,6 +3,7 @@ import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader } from '@agm/core';
+import { GlobalService } from '../../Services/global.service'
 
 @Component({
   selector: 'app-profile',
@@ -46,7 +47,7 @@ export class ProfileComponent implements OnInit {
     newpassword:['',[Validators.required]],
     confirmpassword:['',[Validators.required]]
   })
-  constructor(private mapsAPILoader: MapsAPILoader,private users:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  constructor(private global:GlobalService,private mapsAPILoader: MapsAPILoader,private users:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
   private geoCoder;
   @ViewChild('address')
   public searchElementRef: ElementRef;
@@ -55,6 +56,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('country')
   public country:ElementRef
   ngOnInit() {
+    this.global.header = 3;
     this.userdata ={ accounttype: "customer",
     cardinfo: [],
     customeraddresses: [],

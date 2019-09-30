@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import {ResturantService } from '../../Services/resturant.service'
 import { Router } from '@angular/router';
 import {menu} from '../Models/menu';
@@ -7,6 +7,9 @@ import { menuItem} from '../Models/menu-item';
 import { __values } from 'tslib';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { CartService } from '../../Services/cart.service'
+import { GlobalService } from '../../Services/global.service'
+import { ToastrService } from 'ngx-toastr'
+import { min } from 'rxjs/operators';
 @Component({
   selector: 'app-inner-catering-search',
   templateUrl: './inner-catering-search.component.html',
@@ -22,6 +25,8 @@ export class InnerCateringSearchComponent implements OnInit {
     "focusOnSelect": false,
     "speed": 1000
   };
+  max :any;
+  dropdown:any[];
   ResturantObj:any;
   AverageRating:String;
   resturantReviews:any;
@@ -33,12 +38,14 @@ export class InnerCateringSearchComponent implements OnInit {
   popupItem:any;
   private geoCoder;
   menuToDisplay:any[];
+  bufferToDisplay:any[];
   location:boolean= false;
-  constructor(private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
+  constructor(private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
 
   }
 
   ngOnInit() {
+    this.global.header = 3;
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
     })
@@ -52,7 +59,7 @@ export class InnerCateringSearchComponent implements OnInit {
       this.getResturantDetails();
       this.getResturantRating();
       this.getResturantReviews();
-      this.getActiveItem();
+      // this.getActiveItem();
      this.getActiveCombos();
       // this.resturantService.offerList(this.resturantService.Resturantid).subscribe((data:any)=>{console.log(data,"offerlist")},(error)=>{console.log(error)})
      
@@ -68,19 +75,69 @@ export class InnerCateringSearchComponent implements OnInit {
     this.location = true;
   }
   ResturantPopups(items){
+   this.dropdown = new Array<Number>();
+   for(let i = items.min ; i <= (this.max-this.cart.cartCount);i++){
+     this.dropdown.push(i);
+   }
+    console.log(this.dropdown);
     console.log(items,"updated");
     this.popupItem = items;
   }
   getActiveCombos(){
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
-      console.log(data,"active combos")
+      this.bufferToDisplay = [{
+        name:"Mealone",
+        kitchenid:"5d45df39969ec012515bbc85",
+        description:"this is a test data",
+        finalcomboprice:"380",
+        totalprice:"400",
+        image:"file-1564860776723.jpg",
+        status:"true",
+        discount:"20",
+        min:"10",
+        max:"70",
+        menuId:[{
+        cuisine:[],
+        image:"file-1564860776723.jpg",
+        kitchenId:"5d45df39969ec012515bbc85",
+        name:"Biryani"
+        },{
+        cuisine:[],
+        image:"file-1564860776723.jpg",
+        kitchenId:"5d45df39969ec012515bbc85",
+        name:"Haleem"
+        }]},{
+          name:"Mealtwo",
+          kitchenid:"5d45df39969ec012515bbc85",
+          description:"this is a test data",
+          finalcomboprice:"450",
+          totalprice:"500",
+          image:"file-1564860776723.jpg",
+          status:"true",
+          discount:"50",
+          min:"20",
+          max:"70",
+          menuId:[{
+          cuisine:[],
+          image:"file-1564860776723.jpg",
+          kitchenId:"5d45df39969ec012515bbc85",
+          name:"Burger"
+          },{
+          cuisine:[],
+          image:"file-1564860776723.jpg",
+          kitchenId:"5d45df39969ec012515bbc85",
+          name:"Broast"
+          }]
+      }];
+      this.max = this.bufferToDisplay[0].max;
+      console.log(this.bufferToDisplay);
 
      },(error)=>{
        console.log(error)
      })
          
-     }
-      getResturantDetails (){
+  }
+  getResturantDetails (){
        this.resturantService.resturantsDetails(this.resturantService.Resturantid).subscribe((data:any)=>{
    
          if(!data.error){
@@ -97,17 +154,34 @@ export class InnerCateringSearchComponent implements OnInit {
        },(error)=>{
          console.log(error)
        })
-     }
-   
-     getResturantRating(){
+  }
+  CartCombo(popupItem){
+    if(this.cart.currentResturant == undefined||this.cart.currentResturant == null){
+      this.cart.currentResturant = popupItem.kitchenId;
+    }
+    if(!this.cart.currentResturant == popupItem.kitchenId){
+      this.toastr.error("Item Have to remove first");
+    return;
+    }
+    let qty = this.eleRef.nativeElement.querySelector('#total-serving').value;
+    console.log(qty,"quantittyyy");
+   this.eleRef.nativeElement.querySelector('#closePopup').click();
+    this.cart.addBufferItem(popupItem,qty);
+   this.cart.cartCount =this.cart.cartCount+Number(qty);
+   console.log(this.cart.cartCount,"Carttt counttttttttt");
+    console.log((this.max-this.cart.cartCount));
+ 
+
+  }
+  getResturantRating(){
          this.resturantService.resturantRating(this.resturantService.Resturantid).subscribe((data:any)=>{
     
            this.AverageRating = data.message.pack[0].average;
          },(error)=>{
            console.log(error)
          })
-     }
-     getResturantReviews(){
+  }
+  getResturantReviews(){
        this.resturantService.resturantReviews(this.resturantService.Resturantid).subscribe((data:any)=>{
          this.resturantReviews = data.message;
        
@@ -124,8 +198,8 @@ export class InnerCateringSearchComponent implements OnInit {
        },(error)=>{
          console.log(error)
        })
-     }
-     getReviewCustomerName(id){
+  }
+  getReviewCustomerName(id){
        var idsobj= {ids:id}
        this.resturantService.customerById(idsobj).subscribe((data:any)=>{
           this.customerMap = data.message;
@@ -146,13 +220,15 @@ export class InnerCateringSearchComponent implements OnInit {
          },(error)=>{
            console.log(error);
          })
-     }
-     AddtoCart(item,name){
+  }
+  AddtoCart(item,name){
        this.cart.PlusItem(item,name);
        this.cart.CartUpdate(this.cart.itemsOrder);
-      
-     }
-     getActiveItem(){
+  }
+  ExitPopup(){
+    this.eleRef.nativeElement.querySelector('#closePopup').click();
+  }
+  getActiveItem(){
       
        this.resturantService.activeItem(this.resturantService.Resturantid).subscribe((data:any)=>{
        let itemsInResturant = data.message;
@@ -190,5 +266,5 @@ export class InnerCateringSearchComponent implements OnInit {
    
      })
      
-    }
+  }
 }

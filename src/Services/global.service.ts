@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class GlobalService {
   
   constructor() { }
+  public  header:Number = 2;
 public  development = {
   ms1 : 'https://mealdaay.com:4014/',
   ms2 : 'https://mealdaay.com:4024/',

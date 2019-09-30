@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { GlobalService } from '../../Services/global.service'
 @Component({
   selector: 'app-faq',
   templateUrl: './faq.component.html',
@@ -7,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FaqComponent implements OnInit {
 
-  constructor() { }
+  constructor(private global:GlobalService) { }
 
   ngOnInit() {
+    this.global.header = 2;
   }
 
 }

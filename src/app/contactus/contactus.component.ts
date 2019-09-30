@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder , Validators, FormControl} from '@angular/forms'
 import { Contact } from '../Models/ContactUs'
 import {ContactUsService} from '../../Services/contact-us.service'
-
+import { GlobalService } from '../../Services/global.service'
 
 @Component({
   selector: 'app-contactus',
@@ -31,9 +31,10 @@ export class ContactusComponent implements OnInit {
     return this.ContactUs.get('message');
   }
   Contact = new Contact();
-  constructor(private fb:FormBuilder,private ContactService:ContactUsService) { }
+  constructor(private global:GlobalService,private fb:FormBuilder,private ContactService:ContactUsService) { }
 
   ngOnInit() {
+    this.global.header = 2;
   }
   onSubmit(){
     this.Contact = this.ContactUs.value;

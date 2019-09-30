@@ -5,7 +5,7 @@ import { KitchenService } from '../../Services/kitchen.service'
 import { Kitchen } from '../Models/Kitchen';
 import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
-
+import { GlobalService } from '../../Services/global.service'
 
 declare var functionality: any;
 declare var srcollEnterance: any;
@@ -60,9 +60,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  constructor(private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
+  constructor(private global:GlobalService,private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
  
   ngOnInit() {
+    
+    this.global.header = 2;
     this.GetCuisine();
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();

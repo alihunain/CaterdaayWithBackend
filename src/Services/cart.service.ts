@@ -7,8 +7,10 @@ import {UserService} from '../Services/user.service'
   providedIn: 'root'
 })
 export class CartService {
+  public cartCount:number = 0;
   public itemsOrder=new Array<any>();
   private cartupdate = new Subject<any>();
+  public currentResturant = null;
   checkCart = this.cartupdate.asObservable();
   constructor(private user: UserService) { }
   CartUpdate(update: any) {
@@ -82,6 +84,32 @@ export class CartService {
       this.itemsOrder.splice(indexResturant,1);
     }
   }
+  addBufferItem(item,quantity){
+    if(this.itemsOrder === undefined ){
+      this.itemsOrder= new Array<Order>();
+    }
+    let index = this.isBufferExist(item.name);
+    if(index != -1){
+      this.itemsOrder[index].qty=Number(this.itemsOrder[index].qty)+Number(quantity);
+      this.itemsOrder[index].totalprice+=(quantity*item.finalcomboprice);
+    }else{
+      item.qty = quantity;
+      item.totalprice = quantity * item.finalcomboprice;
+      item.totaldiscount = item.discount*quantity;
+      this.itemsOrder.push(item);
+
+    }
+    console.log(this.itemsOrder);
+
+  }
+isBufferExist(name){
+  for(let i = 0; i < this.itemsOrder.length;i++){
+    if(this.itemsOrder[i].name == name){
+        return i;
+    }
+  }
+  return -1;
+}
   MinusItem(item){
     console.log(item);
 

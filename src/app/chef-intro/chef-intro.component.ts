@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../Services/global.service'
 
 @Component({
   selector: 'app-chef-intro',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChefIntroComponent implements OnInit {
 
-  constructor() { }
+  constructor(private global:GlobalService) { }
 
   ngOnInit() {
+    this.global.header = 2;
   }
 
 }

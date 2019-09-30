@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { KitchenService } from 'src/Services/kitchen.service';
-import { async, resolve, reject } from 'q';
-import { promise } from 'protractor';
-import { resolveCname } from 'dns';
-import { forEach } from '@angular/router/src/utils/collection';
+import { GlobalService } from '../../Services/global.service'
 import { Router } from '@angular/router';
 import {ResturantService } from '../../Services/resturant.service'
 // import * as  Sliders from '../../assets/js/script.js';
@@ -24,9 +21,10 @@ export class InnerSearchComponent implements OnInit {
   totalResturants:number;
   cuisines:any;
   preloader:boolean;
-  constructor(private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
+  constructor(private global:GlobalService,private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
 
   async ngOnInit() {
+    this.global.header = 3;
     this.preloader = true;
     this.validation = false;
     console.log(this.kitchenFilter.filterKitchen.cousine,"cousine");

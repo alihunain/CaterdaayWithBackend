@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import  { KitchenService} from '../../../Services/kitchen.service'
+import { GlobalService } from '../../../Services/global.service'
 import {CartService} from '../../../Services/cart.service'
 
 @Component({
@@ -10,12 +11,12 @@ import {CartService} from '../../../Services/cart.service'
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  headerDesign = 1;
+ 
   User:any=null;
   Countrys:any;
   Signin:boolean= true;
   Countryname:string ="Select Country";
-  constructor(public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
+  constructor(private global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();

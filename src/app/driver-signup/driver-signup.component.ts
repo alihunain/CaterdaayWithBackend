@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
-import {DriverService} from '../../Services/driver.service'
+import {DriverService} from '../../Services/driver.service';
+import { GlobalService } from '../../Services/global.service'
 
 
 @Component({
@@ -23,9 +24,10 @@ export class DriverSignupComponent implements OnInit {
     state:['',[Validators.required]],
     yourself:['',[Validators.required,Validators.minLength(100)]]
   })
-  constructor(private fb:FormBuilder,private driver:DriverService) { }
+  constructor(private global:GlobalService,private fb:FormBuilder,private driver:DriverService) { }
 
   ngOnInit() {
+    this.global.header = 2;
   }
   get firstname(){
     return this.Driver.get('firstname');

@@ -1,129 +1,52 @@
 
-<app-header3></app-header3>
+<app-header></app-header>
 <!-- modal -->
 <div class="hotel-popup modal fade" id="hotel-popup" *ngIf="popupItem != undefined">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
         <!-- Modal body -->
         <div class="modal-body">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <button id="closePopup" type="button" class="close" data-dismiss="modal">&times;</button>
           <figure>
-            <img src="https://mealdaay.com:4024/uploads/{{popupItem.itemImage}}" alt="" class="img-fluid">
+            <img src="https://mealdaay.com:4024/uploads/{{popupItem.image}}" alt="" class="img-fluid">
           </figure>
           <div class="popup-body">
             <div class="row popup-header">
               <div class="col-12">
-                <h4>{{popupItem.itemName}}</h4>
-                <p>{{popupItem.itemPrice}} &nbsp; CAD / person, minimum 10 person</p>
+                <h4>{{popupItem.name}}</h4>
+                <p>{{popupItem.finalcomboprice}} &nbsp; CAD / person, minimum {{popupItem.min}} person</p>
               </div>
               <div class="col-12">
-                <p class="small">{{popupItem.Description}}</p>
+                <p class="small">{{popupItem.description}}</p>
               </div>
             </div>
             <div class="row popup-body-area">
               <div class="col-12">
-                <!-- <form>
-                  <div class="row">
-                    <div class="col-12 pb-4">
+         
+                  <div class="row" style="margin-left: -15px">
+                    <div class="col-12 pb-4" *ngIf="dropdown.length  != 0">
                       <h4>Total Servings:</h4>
-                      <select>
-                        <option value="10 persons" selected>10 Person</option>
-                        <option value="10 persons" selected>11 Person</option>
-                        <option value="10 persons" selected>12 Person</option>
+                      <select id="total-serving" >
+                          <option [value]="number" *ngFor="let number of dropdown">{{number}} Person</option>
                       </select>
                     </div>
-                    <div class="col-md-6">
-                      <h4>Select 2 Buffet Meats:</h4>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-1" id="buffet-check-1">
-                            <label for="buffet-check-1">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-2" id="buffet-check-2">
-                            <label for="buffet-check-2">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-3" id="buffet-check-3">
-                            <label for="buffet-check-3">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-4" id="buffet-check-4">
-                            <label for="buffet-check-4">Most Popular</label>
-                          </div>	
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-5" id="buffet-check-5">
-                            <label for="buffet-check-5">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-6" id="buffet-check-6">
-                            <label for="buffet-check-6">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-7" id="buffet-check-7">
-                            <label for="buffet-check-7">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="buffet-check-8" id="buffet-check-8">
-                            <label for="buffet-check-8">Most Popular</label>
-                          </div>	
-                        </div>
+                    <div class="col-12 pb-4" *ngIf="dropdown.length  == 0">
+                        <h4>Resturant Limit Exceed</h4>
                       </div>
-                    </div>
-                    <div class="col-md-6">
-                      <h4>Select Upto 3 Sides:</h4>
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-1" id="sides-check-1">
-                            <label for="sides-check-1">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-2" id="sides-check-2">
-                            <label for="sides-check-2">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-3" id="sides-check-3">
-                            <label for="sides-check-3">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-4" id="sides-check-4">
-                            <label for="sides-check-4">Most Popular</label>
-                          </div>	
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-5" id="sides-check-5">
-                            <label for="sides-check-5">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-6" id="sides-check-6">
-                            <label for="sides-check-6">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-7" id="sides-check-7">
-                            <label for="sides-check-7">Most Popular</label>
-                          </div>
-                          <div class="form-group">
-                            <input type="checkbox" name="sides-check-8" id="sides-check-8">
-                            <label for="sides-check-8">Most Popular</label>
-                          </div>	
-                        </div>
-                      </div>
+                    <div class="col-md-8 text-left">
+                       <div *ngFor="let item of popupItem.menuId">
+                         <a class="search-tags" href="JavaScript:void(0);">{{item.name}}</a>
+                       </div>
                     </div>
                     <div class="col-12 pt-4 pb-4">
                       <div id="special-ins"><i class="fa fa-commenting-o" aria-hidden="true"></i> Add any special instructions</div>
-                      <textarea style="display: none;" id="special-txt"></textarea>
-
+                      <textarea style="display: block;" id="special-txt"></textarea>
                     </div>
                     <div class="col-12 text-center">
-                      <input type="submit" name="popup-cart" id="popup-cart" value="Add to Cart">
+                      <input type="submit"  *ngIf="dropdown.length  != 0" (click)="CartCombo(popupItem)" name="popup-cart" id="popup-cart" value="Add to Cart">
+                      <input type="submit"  *ngIf="dropdown.length  == 0" (click)="ExitPopup()"  name="popup-cart" id="popup-cart"  value="Exit">
                     </div>
                   </div>
-                </form>	 -->
               </div>
             </div>
           </div>
@@ -279,7 +202,7 @@
 <div class="row">
   <div class="col-md-9">
     <!-- DELIVERY BUFFET ROW -->
-    <div class="row search-menu" *ngIf="menuToDisplay !== undefined">
+    <!-- <div class="row search-menu" *ngIf="menuToDisplay !== undefined">
       <div class="col-12" *ngFor="let menu of menuToDisplay">
         <div class="row">
           <h3>{{menu.menuName}}</h3>
@@ -298,7 +221,7 @@
                 <div class="row flex-col">
                   <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a>
                   <p>{{items.Description}}</p>
-                  <h5 class="price">{{items.itemPrice}}</h5>
+                  <h5 class="price">CAD {{items.itemPrice}}</h5>
                 </div>
                 <div class="row item-desc-footer align-items-center">
                   <p>person, minimum 10 people</p>
@@ -309,9 +232,39 @@
           </div>
         </div>
       </div>
-
+    </div> -->
+<!-- DELIVERY BUFFET ROW -->
+<div class="row search-menu" *ngIf="bufferToDisplay !== undefined">
+  <div class="col-12" >
+    <div class="row">
+      <h3>Buffet List</h3>
     </div>
-
+    <div class="row">
+      <div class="col-md-6 menu-item" *ngFor="let items of bufferToDisplay">
+        <div class="menu-item-inner">
+          <div class="row">
+            <figure>
+              <img src="assets/images/halal-badge.png" class="halal-badge">
+              <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.image}}" alt=""></a>
+              <div class="most-ord">Most Ordered</div>
+            </figure>
+          </div>	
+          <div class="menu-item-desc">
+            <div class="row flex-col">
+              <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
+              <p>{{items.description}}</p>
+              <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+            </div>
+            <div class="row item-desc-footer align-items-center">
+              <p>person, minimum {{items.min}} people</p>
+              <a href="#"><i class="fa fa-heart-o"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   </div>
 
   <!-- SIDEBAR -->

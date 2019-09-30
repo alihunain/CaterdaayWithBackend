@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../Services/global.service'
 
 @Component({
   selector: 'app-checkout',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private global:GlobalService) { }
 
   ngOnInit() {
+    this.global.header = 3;
   }
 
 }
