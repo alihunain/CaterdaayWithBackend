@@ -125,11 +125,11 @@ address:string;
         console.log(error);
       })
   }
-  AddtoCart(item,name){
-    this.cart.PlusItem(item,name);
-    this.cart.CartUpdate(this.cart.itemsOrder);
+  // AddtoCart(item,name){
+  //   this.cart.PlusItem(item,name);
+  //   this.cart.CartUpdate(this.cart.itemsOrder);
    
-  }
+  // }
   getActiveItem(){
     this.resturantService.activeItem(this.resturantService.Resturantid).subscribe((data:any)=>{
     let itemsInResturant = data.message;

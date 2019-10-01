@@ -26,6 +26,7 @@ export class InnerCateringSearchComponent implements OnInit {
     "speed": 1000
   };
   max :any;
+  min:any;
   dropdown:any[];
   ResturantObj:any;
   AverageRating:String;
@@ -76,7 +77,16 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   ResturantPopups(items){
    this.dropdown = new Array<Number>();
-   for(let i = items.min ; i <= (this.max-this.cart.cartCount);i++){
+   let min = items.min;
+   console.log(min < (this.min-this.cart.cartCount));
+   if(min < (this.min-this.cart.cartCount)){
+     min = this.min-this.cart.cartCount;
+   }
+   console.log(items.name);
+   if(this.cart.isBufferExist(items.name) != -1){
+    min = 1;
+  }
+   for(let i = min ; i <= (this.max-this.cart.cartCount) && i <= items.max;i++){
      this.dropdown.push(i);
    }
     console.log(this.dropdown);
@@ -85,7 +95,7 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   getActiveCombos(){
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
-      this.bufferToDisplay = [{
+      let response =  {max: "80",min:"30",Combos: [{
         name:"Mealone",
         kitchenid:"5d45df39969ec012515bbc85",
         description:"this is a test data",
@@ -115,7 +125,7 @@ export class InnerCateringSearchComponent implements OnInit {
           image:"file-1564860776723.jpg",
           status:"true",
           discount:"50",
-          min:"20",
+          min:"10",
           max:"70",
           menuId:[{
           cuisine:[],
@@ -128,8 +138,10 @@ export class InnerCateringSearchComponent implements OnInit {
           kitchenId:"5d45df39969ec012515bbc85",
           name:"Broast"
           }]
-      }];
-      this.max = this.bufferToDisplay[0].max;
+      }]};
+      this.bufferToDisplay = response.Combos;
+    this.min  = response.min;
+      this.max = response.max;
       console.log(this.bufferToDisplay);
 
      },(error)=>{
@@ -156,6 +168,7 @@ export class InnerCateringSearchComponent implements OnInit {
        })
   }
   CartCombo(popupItem){
+    
     if(this.cart.currentResturant == undefined||this.cart.currentResturant == null){
       this.cart.currentResturant = popupItem.kitchenId;
     }
@@ -166,12 +179,9 @@ export class InnerCateringSearchComponent implements OnInit {
     let qty = this.eleRef.nativeElement.querySelector('#total-serving').value;
     console.log(qty,"quantittyyy");
    this.eleRef.nativeElement.querySelector('#closePopup').click();
-    this.cart.addBufferItem(popupItem,qty);
+    this.cart.addBufferItem(popupItem,qty,this.ResturantObj.restaurantname);
+    console.log("Add buffer");
    this.cart.cartCount =this.cart.cartCount+Number(qty);
-   console.log(this.cart.cartCount,"Carttt counttttttttt");
-    console.log((this.max-this.cart.cartCount));
- 
-
   }
   getResturantRating(){
          this.resturantService.resturantRating(this.resturantService.Resturantid).subscribe((data:any)=>{
@@ -221,10 +231,10 @@ export class InnerCateringSearchComponent implements OnInit {
            console.log(error);
          })
   }
-  AddtoCart(item,name){
-       this.cart.PlusItem(item,name);
-       this.cart.CartUpdate(this.cart.itemsOrder);
-  }
+  // AddtoCart(item,name){
+  //      this.cart.PlusItem(item,name);
+  //      this.cart.CartUpdate(this.cart.itemsOrder);
+  // }
   ExitPopup(){
     this.eleRef.nativeElement.querySelector('#closePopup').click();
   }
@@ -267,4 +277,5 @@ export class InnerCateringSearchComponent implements OnInit {
      })
      
   }
+ 
 }

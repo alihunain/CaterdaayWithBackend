@@ -1,17 +1,20 @@
 <div class="frontcartdetail" (click)="stopPropagation($event)" >
   <div class="cartdetail" >
-   <div  *ngIf="orders.length == 0">
+
+    <!-- If Cart is empty this will display -->
+   <div  *ngIf=" orders == undefined">
       <h6 class="restoname" style="text-align: center" >
       </h6>
-      <div style="    padding-top: 15px;text-align: center;">
+      <div style=" padding-top: 15px;text-align: center;">
           No Item In Cart
       </div >
         <div class="checkoutdetail">
           </div>
    </div>
-    <div *ngFor="let order of orders">
+
+  <div *ngIf=" orders != undefined">
     <h6 class="restoname" >
-      <b>{{ order.name | uppercase }} </b>
+      <b>{{ orders.kitchenName | uppercase }} </b>
     </h6>
     <div class="items">
       <table class="table itemoname">
@@ -21,13 +24,13 @@
               <b> Menu Items</b>
             </td>
           </tr>
-          <tr *ngFor="let items of order.items ">
+          <tr *ngFor="let items of orders.items ">
             <td class="input-group">
-              <i class="fas fa-minus" style="font-size: 17px" (click)="Minus(items)"></i>
+  
               <span class="input-group-addon inputgroupy padding0 " style="font-size: 18px;padding: 5px !important">
                <b> {{items.qty}}</b>
               </span>
-              <i class="fas fa-plus" style="font-size: 17px" (click)="Plus(items,order.resturantid)"></i>
+            
             </td>
           
             <td class="cart-item cart-item-width">
@@ -36,13 +39,13 @@
             <td class="currency">
               <small style="font-size: 15px">
                 <b>
-                  {{order.currency}}
+                  CAD
                 </b>
-                {{items.price}}
+                {{items.totalprice}}
               </small>
             </td>
             <td>
-              <i (click)="RemoveItem(items,order.resturantid)" class="fas fa-trash-alt" style="font-size: 17px"></i>
+              <i (click)="RemoveCombo(items)" class="fas fa-trash-alt" style="font-size: 17px"></i>
             </td>
           </tr>
         </tbody>
@@ -53,18 +56,19 @@
           <b>
             Sub Total : &nbsp; &nbsp;
             <span class="pull-right">
-              <b>  {{order.currency}}</b>
-              <span> {{order.total}}</span>
+              <b> CAD</b>
+              <span> {{orders.total}}</span>
             </span>
           </b>
         </div>
        
       </div>
     </div>
-  </div>
+
 
   <button [disabled]="orders.length == 0" style="padding: 2px" class="btn btn-danger btn-block">
       CHECK OUT
     </button>
   </div>
+</div>
 </div>
