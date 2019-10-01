@@ -54,6 +54,25 @@
     </div>
   </div>
 </div>
+<div class="login-reg-popup modal fade" id="warning">
+   <div data-toggle="modal" data-target="#warning" id="openWarning"></div>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" id="closeWarning">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <h4 class="modal-title text-center">Do you really want to empty yr cart?</h4>
+            <button (click)="emptyCart(true,selectedItem)">Yes</button>
+            <button (click)="emptyCart(false,selectedItem)">No</button>
+          </div>
+      </div>
+    </div>
+</div>
 <!-- modal end -->
 
 <section class="single-search-header search-header-updated">

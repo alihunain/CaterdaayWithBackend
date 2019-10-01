@@ -10,6 +10,7 @@ import { CartService } from '../../Services/cart.service'
 import { GlobalService } from '../../Services/global.service'
 import { ToastrService } from 'ngx-toastr'
 
+
 @Component({
   selector: 'app-inner-catering-search',
   templateUrl: './inner-catering-search.component.html',
@@ -26,6 +27,7 @@ export class InnerCateringSearchComponent implements OnInit {
     "speed": 1000
   };
   max :any;
+  selectedItem:any;
   min:any;
   dropdown:any[];
   showcart:boolean=false;
@@ -177,7 +179,19 @@ export class InnerCateringSearchComponent implements OnInit {
          console.log(error)
        })
   }
+  emptyCart(status,popupItem){
+    if(status){
+      this.cart.currentResturant = null;
+      this.cart.itemsOrder = undefined;
+      this.CartCombo(popupItem);
+      this.eleRef.nativeElement.querySelector('#closeWarning').click();
+    }else{
+      this.eleRef.nativeElement.querySelector('#closeWarning').click();
+      // /
+    }
+  }
   CartCombo(popupItem){
+    this.selectedItem = popupItem;
     console.log(popupItem)
     console.log(this.cart.currentResturant,"first resturant");
     console.log(!(this.cart.currentResturant == popupItem.kitchenid),"condition")
@@ -186,8 +200,7 @@ export class InnerCateringSearchComponent implements OnInit {
       this.cart.currentResturant = popupItem.kitchenid;
     }
     else if(!(this.cart.currentResturant == popupItem.kitchenid)){
-      console.log("checked");
-      this.toastr.error("Item Have to remove first");
+     this.eleRef.nativeElement.querySelector('#openWarning').click();
     return;
     }
     let qty = this.eleRef.nativeElement.querySelector('#total-serving').value;
