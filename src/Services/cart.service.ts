@@ -73,6 +73,8 @@ export class CartService {
     }
     if (this.itemsOrder.items.length == 0) {
       this.itemsOrder = undefined;
+      this.cartCount = 0;
+      this.currentResturant = null;
     }
   
     this.CartUpdate(this.itemsOrder);
