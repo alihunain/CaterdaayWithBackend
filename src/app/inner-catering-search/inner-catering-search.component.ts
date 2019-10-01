@@ -9,7 +9,7 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { CartService } from '../../Services/cart.service'
 import { GlobalService } from '../../Services/global.service'
 import { ToastrService } from 'ngx-toastr'
-import { min } from 'rxjs/operators';
+
 @Component({
   selector: 'app-inner-catering-search',
   templateUrl: './inner-catering-search.component.html',
@@ -28,6 +28,7 @@ export class InnerCateringSearchComponent implements OnInit {
   max :any;
   min:any;
   dropdown:any[];
+  showcart:boolean=false;
   ResturantObj:any;
   AverageRating:String;
   resturantReviews:any;
@@ -75,6 +76,9 @@ export class InnerCateringSearchComponent implements OnInit {
   switchToLocation(){
     this.location = true;
   }
+  changeCartStatus(){
+    this.showcart = !this.showcart;
+  }
   ResturantPopups(items){
    this.dropdown = new Array<Number>();
    let min = items.min;
@@ -83,10 +87,16 @@ export class InnerCateringSearchComponent implements OnInit {
      min = this.min-this.cart.cartCount;
    }
    console.log(items.name);
-   if(this.cart.isBufferExist(items.name) != -1){
+   let itemincart = this.cart.isBufferExist(items.name);
+   let itemmax;
+   if(itemincart != -1){
     min = 1;
+    itemmax =items.max-this.cart.itemsOrder.items[itemincart].qty;
+  }else{
+    itemmax = items.max;
   }
-   for(let i = min ; i <= (this.max-this.cart.cartCount) && i <= items.max;i++){
+
+   for(let i = min ; i <= (this.max-this.cart.cartCount) && i <= itemmax;i++){
      this.dropdown.push(i);
    }
     console.log(this.dropdown);
@@ -95,7 +105,7 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   getActiveCombos(){
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
-      let response =  {max: "80",min:"30",Combos: [{
+      let response =  {max: "80",min:"10",Combos: [{
         name:"Mealone",
         kitchenid:"5d45df39969ec012515bbc85",
         description:"this is a test data",
@@ -105,7 +115,7 @@ export class InnerCateringSearchComponent implements OnInit {
         status:"true",
         discount:"20",
         min:"10",
-        max:"70",
+        max:"20",
         menuId:[{
         cuisine:[],
         image:"file-1564860776723.jpg",
@@ -118,7 +128,7 @@ export class InnerCateringSearchComponent implements OnInit {
         name:"Haleem"
         }]},{
           name:"Mealtwo",
-          kitchenid:"5d45df39969ec012515bbc85",
+          kitchenid:"5d45df39969ec012515bbc86",
           description:"this is a test data",
           finalcomboprice:"450",
           totalprice:"500",
@@ -126,7 +136,7 @@ export class InnerCateringSearchComponent implements OnInit {
           status:"true",
           discount:"50",
           min:"10",
-          max:"70",
+          max:"20",
           menuId:[{
           cuisine:[],
           image:"file-1564860776723.jpg",
@@ -168,11 +178,15 @@ export class InnerCateringSearchComponent implements OnInit {
        })
   }
   CartCombo(popupItem){
-    
+    console.log(popupItem)
+    console.log(this.cart.currentResturant,"first resturant");
+    console.log(!(this.cart.currentResturant == popupItem.kitchenid),"condition")
     if(this.cart.currentResturant == undefined||this.cart.currentResturant == null){
-      this.cart.currentResturant = popupItem.kitchenId;
+      console.log(this.cart.currentResturant,"null resturant in cart")
+      this.cart.currentResturant = popupItem.kitchenid;
     }
-    if(!this.cart.currentResturant == popupItem.kitchenId){
+    else if(!(this.cart.currentResturant == popupItem.kitchenid)){
+      console.log("checked");
       this.toastr.error("Item Have to remove first");
     return;
     }
