@@ -29,7 +29,7 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<!-- <form>
+							<div>
 								<label for="home-delivery">
 									<input type="radio" name="delivery-method" id="home-delivery">
 									Home Delivery
@@ -38,7 +38,7 @@
 									<input type="radio" name="delivery-method" id="takeaway">
 									Take Away
 								</label>
-							</form> -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -51,32 +51,30 @@
 							</div>
 						</div>
 					</div>
-					<!-- <form>
+					<div>
 					<div class="row">
 						
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Name:</label>
-									<input type="text" name="del-add-name" value="Dell De Cape" class="form-control">
+									<input type="text" name="del-add-name" value="{{currentUserObj.firstname}}" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Email ID:</label>
-									<input type="email" name="del-add-email" value="abc@yourdomain.com" class="form-control">
+									<input type="email" name="del-add-email" value="{{currentUserObj.email}}" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="del-add">
 									<ul>
-										<li><strong>Address:</strong><input type="text" name="del-add-add" value="56 Cleak Ave, Bancroft, ON K0L 1C0, Canada"></li>
-										<li><strong>Landmark:</strong><input type="text" name="del-add-land" placeholder="LCBO"></li>
-										<li><strong>City:</strong><input type="text" name="del-add-city" value="Bancroft"></li>
-										<li><strong>Country:</strong><input type="text" name="del-add-count" value="Canada"></li>
-										<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" value="6047100801"></li>
-										<li><strong>Landline:</strong><input type="text" name="del-add-landline" value="6047100801"></li>
-										<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" value="K0L 1C0
-"></li>
+										<li><strong>Address:</strong><input type="text" name="del-add-add" value="{{currentUserObj.customeraddresses[0].address}}"></li>
+
+										<li><strong>City:</strong><input type="text" name="del-add-city" value="{{currentUserObj.customeraddresses[0].city}}"></li>
+										<li><strong>Country:</strong><input type="text" name="del-add-count" value="{{currentUserObj.customeraddresses[0].country}}"></li>
+										<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" value="{{currentUserObj.customeraddresses[0].phoneno}}"></li>
+										<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" value="{{currentUserObj.customeraddresses[0].zip}}"></li>
 									</ul>
 									<div class="del-add-new">
 										<a href="#"><i class="fa fa-pencil"></i> Add new address</a>
@@ -86,7 +84,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Phone: <span>(optional)</span></label>
-									<input type="text" name="del-add-num" value="000-000-0000" class="form-control">
+									<input type="text" name="del-add-num" value="{{currentUserObj.customeraddresses[0].phoneno}}" class="form-control">
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -96,7 +94,7 @@
 								</div>
 							</div>
 					</div>
-					</form> -->
+					</div>
 				</div>
 
 				<div class="delivery-time">
@@ -107,7 +105,7 @@
 							</div>
 						</div>
 					</div>
-					<!-- <form>
+					<div>
 					<div class="row">
 						<div class="col-12">
 							<div class="form-group">
@@ -122,7 +120,7 @@
 							</div>
 						</div>
 					</div>
-					</form> -->
+					</div>
 				</div>
 
 				<div class="payment-sum">
@@ -136,7 +134,7 @@
 
 					<div class="row">
 						<div class="col-12">
-							<!-- <form>
+							<div>
 								<label for="cod">
 									<input type="radio" name="pay-meth" id="cod">
 									<img src="assets/images/cod.png" class="img-fluid" alt="">
@@ -147,7 +145,7 @@
 									<img src="assets/images/cc.png" class="img-fluid" alt="">
 									<h6>Credit card / Debit card</h6>
 								</label>
-							</form> -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -157,7 +155,7 @@
 				</div>
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
-					<a href="#">Checkout</a>
+					<a style="cursor: pointer;" (click)="PlaceOrder()">Checkout</a>
 				</div>
 			</div>
 
@@ -170,82 +168,25 @@
 						<div class="checkout-sidebar-inner">
 							<div class="customer-order">
 								<ul>
-									<li>
-										<div class="ord-q">
-											3
-										</div>
-										<div class="order-name">
-											<h5>Hot & Sour Soup</h5>
-											Serve 3 - <a href="#" class="clr-green">Need More ?</a><br>
-											Size: Regular
-										</div>
-										<div class="order-price">
-											<span class="ord-curr">CAD</span>
-											<span class="ord-price">4.00</span>
-										</div>
-										<div class="ord-cancel">
-											<a href="#"><i class="fa fa-trash"></i></a>
-										</div>
-									</li>
-									<li>
-										<div class="ord-q">
-											3
-										</div>
-										<div class="order-name">
-											<h5>Hot & Sour Soup</h5>
-											Serve 3 - <a href="#" class="clr-green">Need More ?</a><br>
-											Size: Regular
-										</div>
-										<div class="order-price">
-											<span class="ord-curr">CAD</span>
-											<span class="ord-price">4.00</span>
-										</div>
-										<div class="ord-cancel">
-											<a href="#"><i class="fa fa-trash"></i></a>
-										</div>
-									</li>
-									<li>
+									<li *ngFor="let item of orders.items">
 										<div class="ord-q">
 											1
 										</div>
 										<div class="order-name">
-											<h5>Hot & Sour Soup</h5>
-											Serve 1 - <a href="#" class="clr-green">Need More ?</a><br>
+											<h5>{{item.name}}</h5>
+											Serve {{item.qty}} - <br>
 											Size: Regular
 										</div>
 										<div class="order-price">
 											<span class="ord-curr">CAD</span>
-											<span class="ord-price">4.00</span>
+											<span class="ord-price">{{item.totalprice}}</span>
 										</div>
 										<div class="ord-cancel">
-											<a href="#"><i class="fa fa-trash"></i></a>
+											<a style="cursor: pointer;" (click)="RemoveItem(item)"><i class="fa fa-trash"></i></a>
 										</div>
-									</li>	
+									</li>
 									
 								</ul>
-								<div class="freeware">
-									<div class="freeware-title">
-										<span class="lab-free">Free</span>
-										<h5>TableWare</h5>
-										<span class="freeware-cond">if applicable</span>
-									</div>
-									<div class="freeware-opts">
-										<!-- <form>
-											<label for="napkins">
-												<input type="checkbox" name="freeware" id="napkins">
-												Napkins
-											</label>
-											<label for="plates">
-												<input type="checkbox" name="freeware" id="plates">
-												Plates
-											</label>
-											<label for="utensils">
-												<input type="checkbox" name="freeware" id="utensils">
-												Utensils
-											</label>
-										</form> -->
-									</div>
-								</div>
 							</div>
 
 							<!-- price total table -->
@@ -255,8 +196,8 @@
 										Food & Beverage
 									</div>
 									<div class="total-money">
-										<span>$</span>
-										<span class="subtotal">24.10</span>
+										<span>CAD &nbsp;</span>
+										<span class="subtotal">{{orders.total}}</span>
 									</div>
 								</div>
 								<div class="price-row">
@@ -264,48 +205,22 @@
 										Delivery Fee
 									</div>
 									<div class="total-money">
-										<span>$</span>
-										<span class="subtotal">5.99</span>
+										<span>CAD &nbsp;</span>
+										<span class="subtotal">{{orders.delivery}}</span>
 									</div>
 								</div>
 								<div class="price-row">
 									<div class="total-head">
-										Sales Tax (8.25%)
+										Sales Tax ({{taxpercentage}}%)
 									</div>
 									<div class="total-money">
-										<span>$</span>
-										<span class="subtotal">3.91</span>
+										<span>CAD &nbsp;</span>
+										<span class="subtotal">{{orders.taxAmount}}</span>
 									</div>
 								</div>
 							</div>
 
-							<div class="tip">
-								<div class="tip-head">
-									<div class="tip-title">
-										<h5>Tip for the driver</h5>
-									</div>
-									<div class="tip-amount">
-										<span class="tip-curr">$</span> 24.00
-									</div>
-								</div>
-								<div class="tip-perc">
-									<!-- <form>
-										<label for="ten">
-											<input type="radio" name="tip" id="ten">
-											10%
-										</label>
-										<label for="fifteen">
-											<input type="radio" name="tip" id="fifteen">
-											15%
-										</label>
-										<label for="twenty">
-											<input type="radio" name="tip" id="twenty">
-											20%
-										</label>
-										<input type="text" name="tip-amnt" id="tip-amnt" placeholder="Other Amount">
-									</form> -->
-								</div>
-							</div>
+
 
 							<div class="all-total-row">
 								<div class="all-total">
@@ -313,7 +228,7 @@
 										Total
 									</div>
 									<div class="all-money">
-										CAD <span class="all-price">34.00</span>
+										CAD <span class="all-price">{{orders.total+orders.taxAmount+orders.delivery}}</span>
 									</div>
 								</div>
 								<div class="all-total">
@@ -321,7 +236,7 @@
 										Price Per Head
 									</div>
 									<div class="all-money per-head">
-										CAD <span class="all-price">24.10</span>/Per Head
+										CAD <span class="all-price">{{(orders.total+orders.taxAmount+orders.delivery)/orders.totalqty}}</span>/Per Head
 									</div>
 								</div>
 							</div>
@@ -329,13 +244,13 @@
 							
 
 							<div class="coupon-form">
-								<!-- <form>
-									<input type="text" name="coupon-code" placeholder="Coupon Code">
-									<input type="submit" name="coupon-sub" class="btn-coup" value="Apply">
-								</form> -->
+								<div>
+									<input type="text" name="coupon-code" placeholder="Coupon Code" id="coupon" required>
+									<input type="submit" name="coupon-sub" class="btn-coup" (click)="Reedem()" value="Apply">
+								</div>
 							</div>
 							<div class="edit-ord">
-								<a href="#"><i class="fa fa-pencil"></i> Edit your order</a>
+								<a (click)="EditOrder(orders.items[0].kitchenid)" routerLink="/detail"><i class="fa fa-pencil" ></i> Edit your order</a>
 							</div>
 							
 						</div>	

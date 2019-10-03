@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Order } from '../app/Models/Order'
 import { Subject } from 'rxjs';
 import { UserService } from '../Services/user.service'
-
+import { KitchenService } from './kitchen.service'
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
@@ -14,19 +14,18 @@ export class CartService {
   private cartupdate = new Subject<any>();
   public currentResturant = null;
   checkCart = this.cartupdate.asObservable();
-  constructor(private user: UserService,private toastr:ToastrService) { }
+  constructor(private kitchen : KitchenService,private user: UserService,private toastr:ToastrService) { }
   CartUpdate(update: any) {
     this.cartupdate.next(update);
     console.log("Cart Updated");
   }
-
   addBufferItem(item, quantity, kitchenName) {
-
+    console.log('i am hit')
     if (this.itemsOrder === undefined) {
       this.itemsOrder = new Object();
       this.itemsOrder.items = new Array<Order>();
       this.itemsOrder.kitchenName = kitchenName;
-
+      this.itemsOrder.totalqty = 0;
     }
     let index = this.isBufferExist(item.name);
     if (index != -1) {
@@ -49,6 +48,7 @@ export class CartService {
     this.toastr.success("Item Added")
 
   }
+
   isBufferExist(name) {
     if(this.itemsOrder === undefined){
       return -1;

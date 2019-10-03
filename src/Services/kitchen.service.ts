@@ -35,8 +35,20 @@ export class KitchenService {
   SetKitchen(data) {
     this.filterKitchen = data;
   }
+  getDeliveryCharges(){
+    return this.http.get(this.server.development.ms6 + "deliverycharges").pipe(catchError(this.handleError));
+  }
   GetKitchen() {
     return this.filterKitchen;
+  }
+  Coupon(voucher){
+    return this.http.post(this.server.development.ms2 + "offer/redeem",voucher).pipe(catchError(this.handleError));
+  }
+  Order(order){
+    return this.http.post(this.server.development.ms4 + "order",order).pipe(catchError(this.handleError));
+  }
+  OrderEmail(order){
+    return this.http.post(this.server.development.ms1+"order-email",order).pipe(catchError(this.handleError));
   }
   // OfferList(data){
   //   return this.http.get(this.server.development.ms2+"offerlist",data).pipe(

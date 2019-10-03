@@ -4,7 +4,6 @@ import {ResturantService } from '../../Services/resturant.service'
 import { Router } from '@angular/router';
 import {menu} from '../Models/menu';
 import { menuItem} from '../Models/menu-item';
-import { __values } from 'tslib';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { CartService } from '../../Services/cart.service'
 import { GlobalService } from '../../Services/global.service'
@@ -56,7 +55,7 @@ export class InnerCateringSearchComponent implements OnInit {
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
     console.log(this.resturantService.Resturantid,"I am in inner catering seach");
-    this.resturantService.Resturantid = "5d45df39969ec012515bbc85";
+
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
     }else{
