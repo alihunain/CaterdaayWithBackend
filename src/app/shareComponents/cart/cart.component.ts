@@ -12,7 +12,7 @@ export class CartComponent implements OnInit {
   constructor(private cart:CartService,private toastr:ToastrService) { }
 
   ngOnInit() {
-    this.orders = this.cart.itemsOrder;
+    this.orders = this.cart.getItemOrder();
     this.cart.checkCart.subscribe(res =>{
       this.orders = res;
       console.log(this.orders);

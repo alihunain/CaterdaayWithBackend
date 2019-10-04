@@ -13,6 +13,9 @@ export class ResturantService {
   resturantReviews(resturantid){
 return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-review/" +resturantid).pipe(catchError(this.handleError));
   }
+  allItems(){
+    return this.http.get(this.server.development.ms2 + "item").pipe(catchError(this.handleError));
+  }
    //this will return resturn avg rating
   resturantRating(resturantid){
     return this.http.get(this.server.development.ms4+"rating/restaurant-rating/"+resturantid).pipe(catchError(this.handleError))
@@ -33,7 +36,7 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
   }
     //This Api's Hit only when a user login 
   favouriteList(userid){
-    return this.http.get(this.server.development.ms2 + "favourite-list/"+userid).pipe(catchError(this.handleError))
+    return this.http.get(this.server.development.ms3 + "favourite-list/"+userid).pipe(catchError(this.handleError))
   }
   //This will give resturant active items
   activeItem(resturantid){
@@ -62,5 +65,20 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
       console.log(`Backend Error : ${error.status} and message is ${error.message}`);
     }
     return throwError("Something Went Wrong");
+  }
+  getResturantid(){
+    if(this.Resturantid == undefined || this.Resturantid == null){
+      if(localStorage.getItem("Resturantid") == null || localStorage.getItem("Resturantid") == undefined){
+        return null;
+      }else{
+        this.Resturantid = JSON.parse(localStorage.getItem("Resturantid"));
+        return JSON.parse(localStorage.getItem("Resturantid"));
+      }
+    }else{
+      return this.Resturantid;
+    }
+  }
+  setResturantid(){
+    localStorage.setItem("Resturantid",JSON.stringify(this.Resturantid));
   }
 }

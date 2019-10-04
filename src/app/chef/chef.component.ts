@@ -18,6 +18,7 @@ export class ChefComponent implements OnInit {
   constructor(private global:GlobalService,private kitchen: KitchenService, private resturant: ResturantService) { }
 
   ngOnInit() {
+    this.kitchen.getfilterKitchen();
     this.global.header = 2;
     this.getCuisines().then((data)=>{
       this.getKitchens();
@@ -180,5 +181,6 @@ export class ChefComponent implements OnInit {
   }
   menuPage(resturantid:string){
     this.resturant.Resturantid = resturantid;
+    this.resturant.setResturantid();
   }
 }

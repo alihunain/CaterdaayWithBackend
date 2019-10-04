@@ -44,13 +44,15 @@ export class CartService {
       }
       this.itemsOrder.items.push(item);
     }
-    this.CartUpdate(this.itemsOrder);
+    this.setCartCount();
+    this.setItemOrder();
+    this.CartUpdate(this.getItemOrder());
     this.toastr.success("Item Added")
 
   }
 
   isBufferExist(name) {
-    if(this.itemsOrder === undefined){
+    if(this.itemsOrder === undefined || this.itemsOrder == null){
       return -1;
     }
     for (let i = 0; i < this.itemsOrder.items.length; i++) {
@@ -61,6 +63,7 @@ export class CartService {
     return -1;
   }
   RemoveCombo(item) {
+    console.log(item);
     return new Promise((resolve,reject)=>{
     let items = this.itemsOrder.items;
     for (let i = 0; i < items.length; i++) {
@@ -68,19 +71,87 @@ export class CartService {
         this.itemsOrder.total -= this.itemsOrder.items[i].totalprice;
         this.cartCount -= this.itemsOrder.items[i].qty;
         this.itemsOrder.items.splice(i, 1);
-    
+        console.log("spliced");
+        console.log(this.itemsOrder.items.length);
       }
     }
+    
     if (this.itemsOrder.items.length == 0) {
-      this.itemsOrder = undefined;
+    
+     this.removeItemOrders();
       this.cartCount = 0;
+ 
       this.currentResturant = null;
     }
-  
-    this.CartUpdate(this.itemsOrder);
+    this.setCartCount();
+    console.log(typeof this.itemsOrder);
+    this.setItemOrder();
+    this.CartUpdate(this.getItemOrder());
     resolve();
   })
-}
+  }
+
+  removeItemOrders(){
+    localStorage.removeItem("itemsOrder");
+    this.itemsOrder = undefined;
+  }
+  //Return CartCount Service With LocalStorage
+  getCartCount(){
+    if(this.cartCount == undefined || this.cartCount == null){
+      if(localStorage.getItem("cartCount") == null || localStorage.getItem("cartCount") == undefined){
+        return null;
+      }else{
+        this.cartCount = JSON.parse(localStorage.getItem("cartCount"));
+        return JSON.parse(localStorage.getItem("cartCount"));
+      }
+    }else{
+      return this.cartCount;
+    }
+  }
+  //Set CartCount Service With LocalStorage
+  setCartCount(){
+    localStorage.setItem("cartCount",JSON.stringify(this.cartCount));
+  }
+  getCurrentResturant(){
+    if(this.currentResturant == undefined || this.currentResturant == null){
+      if(localStorage.getItem("currentResturant") == null || localStorage.getItem("currentResturant") == undefined){
+        return null;
+      }else{
+        this.currentResturant = JSON.parse(localStorage.getItem("currentResturant"));
+        return JSON.parse(localStorage.getItem("currentResturant"));
+      }
+    }else{
+      return this.currentResturant;
+    }
+  }
+  setcurrentResturant(){
+    localStorage.setItem("currentResturant",JSON.stringify(this.currentResturant));
+  }
+  setItemOrder(){
+    if(this.itemsOrder == undefined){
+      localStorage.removeItem("itemsOrder");
+      return;
+    }
+    localStorage.setItem("itemsOrder",JSON.stringify(this.itemsOrder));
+  }
+  getItemOrder(){
+    if(this.itemsOrder == undefined || this.itemsOrder == null){
+      console.log(typeof localStorage.getItem('itemsOrder'));
+      console.log(localStorage.getItem("itemsOrder") == undefined,"istrue?")
+      console.log(localStorage.getItem("itemsOrder"),"data")
+      if(localStorage.getItem("itemsOrder") == null || localStorage.getItem("itemsOrder") ==  undefined ){
+        
+        console.log("not returning item orders from local storage")
+        return null;
+      }else{
+        console.log("returning item orders from local storage")
+        this.itemsOrder = JSON.parse(localStorage.getItem("itemsOrder"));
+        return JSON.parse(localStorage.getItem("itemsOrder"));
+      }
+    }else{
+      return this.itemsOrder;
+    }
+  }
 
 
 

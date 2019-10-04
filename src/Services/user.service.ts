@@ -62,27 +62,24 @@ return this.http.put(this.server.development.ms3 + "customers/" + userid,profile
   changePassword(userid,credentials){
 return this.http.put(this.server.development.ms3+"customers/change-password/" +  userid,credentials).pipe(catchError(this.handleError));
   }
-  setUser(data){
-    this.user = data;
-    localStorage.setItem("User",data);
-
+  setUser(){
+    localStorage.setItem("user",JSON.stringify(this.user));
   }
   getUser(){
-    console.log(this.user);
-    console.log(typeof (localStorage.getItem("User")))
-    if(this.user != null){
- 
-      return this.user;
-    }else if(typeof (localStorage.getItem("User"))!=undefined){
-      this.user = localStorage.getItem("User");
-      return this.user;
+    if(this.user == undefined || this.user == null){
+      if(localStorage.getItem("user") == null || localStorage.getItem("user") == undefined){
+        return null;
+      }else{
+        this.user = JSON.parse(localStorage.getItem("user"));
+        return JSON.parse(localStorage.getItem("user"));
+      }
     }else{
-      return null;
+      return this.user;
     }
   }
   removeUser(){
     this.user = null;
-    localStorage.removeItem("User");
+    localStorage.removeItem("user");
   }
   private handleError(error: HttpErrorResponse){
     if(error.error instanceof ErrorEvent){

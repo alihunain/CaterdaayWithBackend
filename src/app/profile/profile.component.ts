@@ -4,7 +4,9 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader } from '@agm/core';
 import { GlobalService } from '../../Services/global.service'
-
+import { Router } from '@angular/router';
+import { KitchenService } from '../../Services/kitchen.service'
+import { ResturantService} from '../../Services/resturant.service'
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -12,6 +14,7 @@ import { GlobalService } from '../../Services/global.service'
 })
 export class ProfileComponent implements OnInit {
   userdata:any;
+  items=new Map();
   lng:any;
   lat:any;
   zoom=10;
@@ -47,7 +50,7 @@ export class ProfileComponent implements OnInit {
     newpassword:['',[Validators.required]],
     confirmpassword:['',[Validators.required]]
   })
-  constructor(private global:GlobalService,private mapsAPILoader: MapsAPILoader,private users:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  constructor(private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
   private geoCoder;
   @ViewChild('address')
   public searchElementRef: ElementRef;
@@ -57,27 +60,18 @@ export class ProfileComponent implements OnInit {
   public country:ElementRef
   ngOnInit() {
     this.global.header = 3;
-    this.userdata ={ accounttype: "customer",
-    cardinfo: [],
-    customeraddresses: [],
-    customerfavrestro: [],
-    customerpoints: 15,
-    dtype: "Customer",
-    email: "ali.hunain@koderlabs.com",
-    firstname: "Ali Hunain",
-    lastname: "Narsinh",
-    password: "123456",
-    status: true,
-    username: "ali.hunain@koderlabs.com",
-    __v: 0,
-    _id: "5d8caeb843e7df31d8330208"
+    this.userservices.getUser();
+    if(this.userservices.user == null || this.userservices.user == undefined){
+      this.router.navigate(['/detail']);
     }
+    this.userdata =this.userservices.user;
     this.Profile.controls['email'].setValue(this.userdata.email);
     this.Profile.controls['lastname'].setValue(this.userdata.lastname);
     this.Profile.controls['firstname'].setValue(this.userdata.firstname);
     this.getOrderDetails();
     this.getCustomerRating();
     this.getCustomer();
+    this.getFavourite();this.allItems();
     console.log(this.searchElementRef.nativeElement)
     this.mapsAPILoader.load().then(() => {
       console.log("map loaded");
@@ -111,7 +105,7 @@ export class ProfileComponent implements OnInit {
   }
   addCard(){
     console.log(this.Card.value);
-    this.users.verfityCard(this.Card.value).subscribe((data:any)=>{
+    this.userservices.verfityCard(this.Card.value).subscribe((data:any)=>{
       if(!data.error){
         if(data.message.txn != undefined){
           this.toastr.error(data.message.txn.errorMessage)
@@ -124,17 +118,45 @@ export class ProfileComponent implements OnInit {
     })
   }
   getCustomer(){
-    this.users.getCustomer(this.userdata._id).subscribe((data:any)=>{
+    this.userservices.getCustomer(this.userdata._id).subscribe((data:any)=>{
       console.log(data);
     },(error)=>{
       console.log(error);
     })  
   }
   addUserAddress(){
-    this.users.addCustomerAdress(this.userdata._id,this.Address).subscribe((data:any)=>{
+    this.userservices.addCustomerAdress(this.userdata._id,this.Address).subscribe((data:any)=>{
       console.log(data);
     },(error)=>{
       console.log(error)
+    })
+  }
+  getFavourite(){
+    this.resturantservices.favouriteList(this.userdata._id).subscribe((data:any)=>{
+      console.log(data,"favourite data");
+      let item = data.message[0].customerfavrestro[0].items;
+      console.log(item,"items")
+    },(error)=>{
+      console.log(error);
+    })
+  }
+  allItems(){
+    this.resturantservices.allItems().subscribe((data:any)=>{
+      let count =0;
+      if(!data.error){
+
+        this.items = new Map();
+        let all = data.message;
+        for(let i = 0 ; i < all.length;i++){
+          let subitems = all[i];
+          for(let j = 0 ;j < subitems.length;j++){
+            this.items[subitems[i]._id] = subitems[i];
+            count++;
+          }
+        }
+      }
+      console.log(count);
+      console.log(this.items,"all item array")
     })
   }
   updateProfile(){
@@ -142,7 +164,7 @@ export class ProfileComponent implements OnInit {
   postProfile._id = this.userdata._id;
   postProfile.username = postProfile.email;
 
-    this.users.UpdateProfile(this.userdata._id,postProfile).subscribe((data:any)=>{
+    this.userservices.UpdateProfile(this.userdata._id,postProfile).subscribe((data:any)=>{
     if(!data.error){
       this.toastr.success("Profile Updated !");
     }else{
@@ -153,7 +175,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   getOrderDetails(){
-    this.users.getUserOrder(this.userdata._id).subscribe((data:any)=>{
+    this.userservices.getUserOrder(this.userdata._id).subscribe((data:any)=>{
       console.log(data);
     },(error)=>{
       console.log(error);
@@ -165,7 +187,7 @@ export class ProfileComponent implements OnInit {
       let credentails = this.ResetPassword.value;
       credentails.match = true;
       credentails._id = this.userdata._id;
-      this.users.changePassword(this.userdata._id,credentails).subscribe((data:any)=>{
+      this.userservices.changePassword(this.userdata._id,credentails).subscribe((data:any)=>{
         if(data.error){
           this.toastr.error(data.message);
         }else{
@@ -182,7 +204,7 @@ export class ProfileComponent implements OnInit {
     console.log(this.checkpassword);
   }
   getCustomerRating(){
-    this.users.getCustomerRating(this.userdata._id).subscribe((data:any)=>{
+    this.userservices.getCustomerRating(this.userdata._id).subscribe((data:any)=>{
       console.log(data);
     },(error)=>{
       console.log(error);
@@ -285,7 +307,7 @@ export class ProfileComponent implements OnInit {
     this.getAddress(this.lat, this.lng);
   }
   addAddress(){
-      this.users.addCustomerAdress(this.userdata._id,this.Address.value).subscribe((data:any)=>{
+      this.userservices.addCustomerAdress(this.userdata._id,this.Address.value).subscribe((data:any)=>{
         console.log(data)
         if(data.error){
 

@@ -63,7 +63,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   constructor(private global:GlobalService,private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
  
   ngOnInit() {
-    
+    this.kitchenservice.getAddress();
+    this.kitchenservice.getfilterKitchen();
+    this.kitchenservice.getresturant();
     this.global.header = 2;
     this.GetCuisine();
     this.mapsAPILoader.load().then(() => {
@@ -91,6 +93,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         });
       });
     });
+    this.kitchenservice.setfilterKitchen();
   }
   ngAfterViewInit(): void {
 
@@ -100,6 +103,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   onFind(){
     this.KitchenObject = this.Kitchen.value;
    this.kitchenservice.SetKitchen(this.KitchenObject);
+  
     // this.kitchenservice.Kitchenfilter(kitchen).subscribe(data=>{
     //   console.log(data);
     // },(error)=>{
@@ -113,6 +117,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.filterKitchen.cousine.push(value);
     console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
+    this.kitchenservice.setfilterKitchen();
 
   }
 
@@ -125,6 +130,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       navigator.geolocation.getCurrentPosition((position) => {
         this.kitchenservice.filterKitchen.lat = position.coords.latitude.toString();
         this.kitchenservice.filterKitchen.lng = position.coords.longitude.toString();
+        this.kitchenservice.setfilterKitchen();
         this.getAddress(Number( this.kitchenservice.filterKitchen.lat), Number(this.kitchenservice.filterKitchen.lng)   );
       });
     }
@@ -151,6 +157,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
           this.kitchenservice.address = results[0].formatted_address;
         }
+        this.kitchenservice.setfilterKitchen();
       }
  
     });
@@ -158,8 +165,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   AddLocation(){
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;
+    }else if(this.kitchenservice.address == null || this.kitchenservice.address == null){
+      alert("Kindly Select Address from dropdown");
+      return;
     }else{
       console.log(this.kitchenservice.filterKitchen);
+      this.kitchenservice.setfilterKitchen();
+      this.kitchenservice.setaddress();
       this.router.navigate(['/listing']);
     }
   }

@@ -31,11 +31,11 @@
 						<div class="col-12">
 							<div>
 								<label for="home-delivery">
-									<input type="radio" name="delivery-method" id="home-delivery">
+									<input type="radio" value="Home Delivery" name="delivery-method" id="home-delivery" checked>
 									Home Delivery
 								</label>
 								<label for="takeaway">
-									<input type="radio" name="delivery-method" id="takeaway">
+									<input type="radio" value="Take Away" name="delivery-method" id="takeaway">
 									Take Away
 								</label>
 							</div>
@@ -53,17 +53,24 @@
 					</div>
 					<div>
 					<div class="row">
-						
+						<form [formGroup]="deliveryAddress">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Name:</label>
-									<input type="text" name="del-add-name" value="{{currentUserObj.firstname}}" class="form-control">
+									<input type="text" formControlName="name" name="del-add-name" value="{{currentUserObj.firstname}}" class="form-control">
+									<div *ngIf="name.invalid && (name.dirty || name.touched)">
+										<div *ngIf="name.errors.required" class="form-error alert-danger">Name Is Required</div>
+								    </div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Email ID:</label>
-									<input type="email" name="del-add-email" value="{{currentUserObj.email}}" class="form-control">
+									<input type="email" formControlName="email" name="del-add-email" value="{{currentUserObj.email}}" class="form-control">
+									<div *ngIf="email.invalid && (email.dirty || email.touched)">
+										<div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
+										<div *ngIf="email.errors.email && !email.errors.required" class="form-error alert-danger">Invalid Email</div>
+								    </div>
 								</div>
 							</div>
 							<div class="col-md-12">
@@ -84,7 +91,10 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Phone: <span>(optional)</span></label>
-									<input type="text" name="del-add-num" value="{{currentUserObj.customeraddresses[0].phoneno}}" class="form-control">
+									<input type="text" formControlName="phone" name="del-add-num" value="{{currentUserObj.customeraddresses[0].phoneno}}" class="form-control">
+									<div *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+										<div *ngIf="phone.errors.required" class="form-error alert-danger">Phone Is Required</div>
+								    </div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -93,7 +103,8 @@
 									<input type="text" name="del-add-n" placeholder="John Smith" class="form-control">
 								</div>
 							</div>
-					</div>
+						</form>
+						</div>
 					</div>
 				</div>
 
@@ -107,18 +118,27 @@
 					</div>
 					<div>
 					<div class="row">
+					<form [formGroup]="deliveryTime">
 						<div class="col-12">
 							<div class="form-group">
 								<label>Event Date *</label>
-								<input type="date" name="del-date" id="del-date">
+								<input  formControlName="date" type="date" name="del-date" id="del-date">
+								<div *ngIf="date.invalid && (date.dirty || date.touched)">
+										<div *ngIf="date.errors.required" class="form-error alert-danger">Date Is Required</div>
+								</div>
+								<div *ngIf="!date.invalid && !dateValidation" class="form-error alert-danger">Date Should be greater then today</div>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-group">
 								<label>Time *</label>
-								<input type="time" name="del-time" id="del-time">
+								<input  formControlName="time" type="time" name="del-time" id="del-time">
+								<div *ngIf="time.invalid && (time.dirty || time.touched)">
+									<div *ngIf="time.errors.required" class="form-error alert-danger">Time Is Required</div>
+								</div>
 							</div>
 						</div>
+					</form>
 					</div>
 					</div>
 				</div>
@@ -136,12 +156,12 @@
 						<div class="col-12">
 							<div>
 								<label for="cod">
-									<input type="radio" name="pay-meth" id="cod">
+									<input type="radio" value="Cash" name="pay-meth" id="cod" checked>
 									<img src="assets/images/cod.png" class="img-fluid" alt="">
 									<h6>Cash on delivery</h6>
 								</label>
 								<label for="cc">
-									<input type="radio" name="pay-meth" id="cc">
+									<input type="radio" value="card" name="pay-meth" id="cc">
 									<img src="assets/images/cc.png" class="img-fluid" alt="">
 									<h6>Credit card / Debit card</h6>
 								</label>
@@ -151,11 +171,11 @@
 				</div>
 
 				<div class="agree-check">
-					<p>By ordering through Credit Card you agree to the <a href="#">Terms and conditions</a></p>
+					<p>By ordering through Credit Card you agree to the <a routerLink="/term-conditions">Terms and conditions</a></p>
 				</div>
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
-					<a style="cursor: pointer;" (click)="PlaceOrder()">Checkout</a>
+					<button [disabled]="!deliveryAddress.valid && !deliveryTime.valid && !dateValidation" style="cursor: pointer;" (click)="PlaceOrder()">Checkout</button>
 				</div>
 			</div>
 
@@ -236,7 +256,7 @@
 										Price Per Head
 									</div>
 									<div class="all-money per-head">
-										CAD <span class="all-price">{{(orders.total+orders.taxAmount+orders.delivery)/orders.totalqty}}</span>/Per Head
+										CAD <span class="all-price">{{((orders.total+orders.taxAmount+orders.delivery)/orders.totalqty).toFixed(2)}}</span>/Per Head
 									</div>
 								</div>
 							</div>

@@ -52,8 +52,8 @@ export class SignupComponent implements OnInit {
     this.userService.Login(this.Loginuser).subscribe((data:any)=>{
       console.log(data);
       if(!data.error){
-        this.userService.setUser(data);
-        console.log(this.userService.getUser);
+        this.userService.user = data.data;
+        this.userService.setUser();
         this.toastr.success( 'You are now login');
         this.userService.UserUpdate(true);
        this.switchRegister();
@@ -76,6 +76,7 @@ export class SignupComponent implements OnInit {
     })
   }
   ngOnInit() {
+     this.userService.getUser();
   }
   get loginusername(){
     return this.Login.get('loginusername');

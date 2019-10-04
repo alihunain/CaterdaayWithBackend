@@ -48,6 +48,10 @@ export class InnerCateringSearchComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.cart.getCartCount();
+    this.cart.getCurrentResturant();
+    this.cart.getItemOrder();
+    this.resturantService.getResturantid();
     this.global.header = 3;
     this.mapsAPILoader.load().then(() => {
       this.geoCoder = new google.maps.Geocoder;
@@ -83,21 +87,21 @@ export class InnerCateringSearchComponent implements OnInit {
   ResturantPopups(items){
    this.dropdown = new Array<Number>();
    let min = items.min;
-   console.log(min < (this.min-this.cart.cartCount));
-   if(min < (this.min-this.cart.cartCount)){
-     min = this.min-this.cart.cartCount;
+   console.log(min < (this.min-this.cart.getCartCount()));
+   if(min < (this.min-this.cart.getCartCount())){
+     min = this.min-this.cart.getCartCount();
    }
    console.log(items.name);
    let itemincart = this.cart.isBufferExist(items.name);
    let itemmax;
    if(itemincart != -1){
     min = 1;
-    itemmax =items.max-this.cart.itemsOrder.items[itemincart].qty;
+    itemmax =items.max-this.cart.getItemOrder().items[itemincart].qty;
   }else{
     itemmax = items.max;
   }
 
-   for(let i = min ; i <= (this.max-this.cart.cartCount) && i <= itemmax;i++){
+   for(let i = min ; i <= (this.max-this.cart.getCartCount()) && i <= itemmax;i++){
      this.dropdown.push(i);
    }
     console.log(this.dropdown);
@@ -188,15 +192,18 @@ export class InnerCateringSearchComponent implements OnInit {
       this.eleRef.nativeElement.querySelector('#closeWarning').click();
       // /
     }
+    this.cart.setcurrentResturant();
+    this.cart.setItemOrder();
   }
   CartCombo(popupItem){
     this.selectedItem = popupItem;
     console.log(popupItem)
-    console.log(this.cart.currentResturant,"first resturant");
-    console.log(!(this.cart.currentResturant == popupItem.kitchenid),"condition")
-    if(this.cart.currentResturant == undefined||this.cart.currentResturant == null){
-      console.log(this.cart.currentResturant,"null resturant in cart")
+    console.log(this.cart.getCurrentResturant(),"first resturant");
+    console.log(!(this.cart.getCurrentResturant() == popupItem.kitchenid),"condition")
+    if(this.cart.getCurrentResturant() == undefined||this.cart.getCurrentResturant() == null){
+      console.log(this.cart.getCurrentResturant(),"null resturant in cart")
       this.cart.currentResturant = popupItem.kitchenid;
+      
     }
     else if(!(this.cart.currentResturant == popupItem.kitchenid)){
      this.eleRef.nativeElement.querySelector('#openWarning').click();
@@ -207,7 +214,10 @@ export class InnerCateringSearchComponent implements OnInit {
    this.eleRef.nativeElement.querySelector('#closePopup').click();
     this.cart.addBufferItem(popupItem,qty,this.ResturantObj.restaurantname);
     console.log("Add buffer");
-   this.cart.cartCount =this.cart.cartCount+Number(qty);
+  this.cart.cartCount = this.cart.getCartCount()+Number(qty);
+   this.cart.setCartCount();
+   console.log(this.cart.getCartCount());
+   this.cart.setItemOrder();
   }
   getResturantRating(){
          this.resturantService.resturantRating(this.resturantService.Resturantid).subscribe((data:any)=>{

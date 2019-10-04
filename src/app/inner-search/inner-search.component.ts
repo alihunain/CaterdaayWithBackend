@@ -24,6 +24,7 @@ export class InnerSearchComponent implements OnInit {
   constructor(private global:GlobalService,private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
 
   async ngOnInit() {
+    
     this.global.header = 3;
     this.preloader = true;
     this.validation = false;
@@ -46,6 +47,7 @@ export class InnerSearchComponent implements OnInit {
     this.city = this.kitchenFilter.filterKitchen.city;
     this.address= this.kitchenFilter.address;
     this.country = this.kitchenFilter.filterKitchen.country.toUpperCase();
+    this.kitchenFilter.setfilterKitchen();
   }
   Cuisines(){
     this.kitchenFilter.Cuisines().subscribe((data:any)=>{
@@ -59,6 +61,8 @@ export class InnerSearchComponent implements OnInit {
     this.kitchenFilter.filterKitchen.cousine = new Array<string>();
     this.kitchenFilter.filterKitchen.cousine.push(value);
     this.Search();
+    this.kitchenFilter.setfilterKitchen();
+  
   }
 
    Search() {
@@ -90,6 +94,7 @@ export class InnerSearchComponent implements OnInit {
           self.kitchenFilter.filterKitchen.lng = position.coords.longitude.toString();
           console.log(self.kitchenFilter.filterKitchen, "I am In Current Location");
           await self.setAddress(Number(self.kitchenFilter.filterKitchen.lat), Number(self.kitchenFilter.filterKitchen.lng));
+          self.kitchenFilter.setfilterKitchen();
           resolve(true);
         });
       }else{
@@ -122,13 +127,16 @@ export class InnerSearchComponent implements OnInit {
             self.kitchenFilter.address = results[0].formatted_address;
             console.log(self.kitchenFilter.address);
           }
+          this.kitchenFilter.setfilterKitchen();
           return resolve(true);
         }
         reject(status);
+        
       });
     });
   }
   RequestOrder(resturantid:string){
     this.resturantService.Resturantid = resturantid;
+    this.resturantService.setResturantid();
   }
 }

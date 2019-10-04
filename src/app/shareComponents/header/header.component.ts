@@ -22,9 +22,17 @@ export class HeaderComponent implements OnInit {
     this.getCountries();
     this.Signin= true;
     this.userService.checkCurrentUser.subscribe(res =>{
-      this.Signin = !res;
-      console.log("hit");
+      console.log(this.userService.user,"user in subscribe");
+      if(this.userService.user != undefined && this.userService.user != null){
+        this.Signin = false;
+      }else{
+        this.Signin = true;
+      }
+      console.log("hit")
    });
+   
+   this.userService.getUser();
+   this.userService.UserUpdate(true);
    
   }
   onSignout(){

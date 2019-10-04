@@ -34,6 +34,7 @@ export class KitchenService {
   }
   SetKitchen(data) {
     this.filterKitchen = data;
+    this.setfilterKitchen();
   }
   getDeliveryCharges(){
     return this.http.get(this.server.development.ms6 + "deliverycharges").pipe(catchError(this.handleError));
@@ -65,5 +66,54 @@ export class KitchenService {
   //     catchError(this.handleError)
   //   )
   // }
-
+  getAddress(){
+    if(this.address == undefined || this.address == null){
+      if(localStorage.getItem("address") == null || localStorage.getItem("address") == undefined){
+        return null;
+      }else{
+        this.address = JSON.parse(localStorage.getItem("address"));
+        return JSON.parse(localStorage.getItem("address"));
+      }
+    }else{
+      return this.address;
+    }
+  }
+  setaddress(){
+    localStorage.setItem("address",JSON.stringify(this.address));
+  }
+  setCartCount(){
+    localStorage.setItem("address",JSON.stringify(this.address));
+  }
+  setresturants(){
+    localStorage.setItem("resturants",JSON.stringify(this.resturants));
+  }
+  
+  getresturant(){
+    if(this.resturants == undefined || this.resturants == null){
+      if(localStorage.getItem("resturants") == null || localStorage.getItem("resturants") == undefined){
+        return null;
+      }else{
+        this.resturants = JSON.parse(localStorage.getItem("resturants"));
+        return JSON.parse(localStorage.getItem("resturants"));
+      }
+    }else{
+      return this.resturants;
+    }
+  }
+  getfilterKitchen(){
+    
+    if(this.filterKitchen == undefined || this.filterKitchen == null){
+      if(localStorage.getItem("filterKitchen") == null || localStorage.getItem("filterKitchen") == undefined){
+        return null;
+      }else{
+        this.filterKitchen = JSON.parse(localStorage.getItem("filterKitchen"));
+        return JSON.parse(localStorage.getItem("filterKitchen"));
+      }
+    }else{
+      return this.filterKitchen;
+    }
+  }
+  setfilterKitchen(){
+    localStorage.setItem("filterKitchen",JSON.stringify(this.filterKitchen));
+  }
 }

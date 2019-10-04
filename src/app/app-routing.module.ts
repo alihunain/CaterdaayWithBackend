@@ -16,6 +16,7 @@ import {ChefIntroComponent} from './chef-intro/chef-intro.component';
 import {FaqComponent} from './faq/faq.component';
 import {TermsConditionsComponent} from './terms-conditions/terms-conditions.component'
 import { ProfileComponent } from './profile/profile.component';
+import { ThankyouComponent } from './thankyou/thankyou.component';
 const routes: Routes = [
   {
     path: 'detail',
@@ -77,7 +78,10 @@ const routes: Routes = [
     path: 'term-conditions',
     component: TermsConditionsComponent
   }
-  ,
+  ,{
+    path:'thankyou',
+    component:ThankyouComponent
+  },
   {
     path: '**', component: DashboardComponent
 

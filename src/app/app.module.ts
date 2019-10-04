@@ -37,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http'
 import { ToastrModule } from 'ngx-toastr';
 import { AgmCoreModule } from '@agm/core';
 import { ProfileComponent } from './profile/profile.component';
+import { ThankyouComponent } from './thankyou/thankyou.component';
 
 
 
@@ -70,7 +71,8 @@ import { ProfileComponent } from './profile/profile.component';
     FaqComponent,
     TermsConditionsComponent,
     MobileAppComponent,
-    ProfileComponent
+    ProfileComponent,
+    ThankyouComponent
     
   ],
   imports: [
