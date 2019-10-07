@@ -138,6 +138,7 @@ this.cart.RemoveCombo(item).then(()=>{
     })
   }
   PlaceOrder(){
+    console.log(this.orders.items)
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
     if(payment == "Cash"){
@@ -147,7 +148,7 @@ this.cart.RemoveCombo(item).then(()=>{
         deliveryCharges:this.orders.delivery,
         addOnitem:[],
         addOnTotal:[],
-        Combo:this.orders.items,
+        combo:this.orders.items,
         coupon:this.coupon,
         delvierySlot:{},
         delvierySlotsWeek:{},
@@ -159,7 +160,7 @@ this.cart.RemoveCombo(item).then(()=>{
         note:"",
         ordertiming:{
           type:"later",
-          datetime:this.deliveryTime.get('date') + " " + this.deliveryTime.get('time'),
+          datetime:this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value,
         },
         ordertype:"",
         package:[],

@@ -25,7 +25,7 @@
 
 			<div class="col-md-8">
 				<div class="sign-form">
-					<form [formGroup]="Driver" (ngSubmit)="driverSignup()">
+					<form [formGroup]="Waiter" (ngSubmit)="waiterSignup()">
 						<div class="row">
 							<div class="col-12 text-center">
 								<h3>Dummy Title For Form</h3>
@@ -33,20 +33,13 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" formControlName="firstname" class="form-control" placeholder="First Name">
-									<div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)">
-											<div *ngIf="firstname.errors.required" class="form-error alert-danger">Firstname Is Required</div>
+									<input type="text" formControlName="name" class="form-control" placeholder="Name">
+									<div *ngIf="name.invalid && (name.dirty || name.touched)">
+											<div *ngIf="name.errors.required" class="form-error alert-danger">Name Is Required</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<input type="text"  formControlName="lastname" class="form-control" placeholder="Last Name">
-									<div *ngIf="lastname.invalid && (lastname.dirty || lastname.touched)">
-											<div *ngIf="lastname.errors.required" class="form-error alert-danger">Lastname Is Required</div>
-									</div>
-								</div>
-							</div>
+					
 							<div class="col-md-6">
 								<div class="form-group">
 									<input type="email" formControlName="email"  class="form-control" placeholder="Email">
@@ -64,39 +57,16 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<input type="date" formControlName="dob"  class="form-control" placeholder="Date Of Birth">
-									<div *ngIf="dob.invalid && (dob.dirty || dob.touched)">
-											<div *ngIf="dob.errors.required" class="form-error alert-danger">DOB Is Required</div>
-									</div>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<SELECT  class="form-control">
-										<option disabled>How did you hear about us?</option>
-										<option selected>Facebook</option>
-										<option>Twitter</option>
-									</SELECT>
-								</div>
-							</div>
+					
 							<div class="col-md-6">
 								<div class="form-group">
 									<input type="text" formControlName="identity" class="form-control" placeholder="National Identity">
 									<div *ngIf="identity.invalid && (identity.dirty || identity.touched)">
-											<div *ngIf="identity.errors.required" class="form-error alert-danger">Phone Is Required</div>
+											<div *ngIf="identity.errors.required" class="form-error alert-danger">Identity is Required</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6">
-								<div class="form-group">
-									<input type="text" formControlName="license" class="form-control" placeholder="Driver's License">
-									<div *ngIf="license.invalid && (license.dirty || license.touched)">
-											<div *ngIf="license.errors.required" class="form-error alert-danger">License Is Required</div>
-									</div>
-								</div>
-							</div>
+					
 							<div class="col-md-12">
 								<div class="form-group">
 									<input type="text" formControlName="address" class="form-control" placeholder="Address">
@@ -125,13 +95,13 @@
 								<div class="form-group">
 									<textarea formControlName="yourself" placeholder="About Youself" class="form-control"></textarea>
 									<div *ngIf="yourself.invalid && (yourself.dirty || yourself.touched)">
-											<div *ngIf="yourself.errors.required" class="form-error alert-danger">Intro is required</div>
+											<div *ngIf="yourself.errors.required" class="form-error alert-danger">Introduction Is Required</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="form-group text-center">
-									<input type="submit" name="" [disabled]="!Driver.valid" class="btn" value="Sign up">
+									<input type="submit" name="" [disabled]="!Waiter.valid" class="btn" value="Sign up">
 								</div>
 							</div>
 						</div>

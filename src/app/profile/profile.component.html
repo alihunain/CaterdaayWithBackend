@@ -45,7 +45,7 @@
         </div>
         <div class="col-sm-9">
           <div class="tab-content">
-            <div class="tab-pane " id="account-info" role="tabpanel">
+            <div class="tab-pane active " id="account-info" role="tabpanel">
               <form [formGroup]="Profile" (ngSubmit)="updateProfile()">
                   <div class="form-group row">
                     <label class="col-sm-2 col-form-label" for="email">Email:</label>
@@ -114,45 +114,19 @@
                 </form>
             </div>
             <div class="tab-pane" id="my-favourite" role="tabpanel">
-              <div class="profile-box favourite-box">
-                <h3>Rahat</h3>
+              <div class="profile-box favourite-box" *ngFor="let resturant of favouriteItems">
+                <h3>{{resturant.resturantName}}</h3>
                 <div class="row">
-                  <div class="col-sm-4 pr-0">
+                  <div class="col-sm-4 pr-0" *ngFor="let items of resturant.item">
                     <div class="media">
                       <div class="media-left">
-                        <img class="media-object imageitem-size" src="https://mealdaay.com:4024/uploads/file-1564861315812.jpeg">
+                        <img class="media-object imageitem-size" src="https://mealdaay.com:4024/uploads/{{items.image}}">
                       </div>
                       <div class="media-body">
                         <h5 class="media-heading">
-                          <a data-toggle="tooltip" href="javascript:void(0);" title="Punjabi Chicken Karahi">Punjabi Chicken Karahi </a>
+                          <a data-toggle="tooltip" href="javascript:void(0);" title="Punjabi Chicken Karahi">{{items.name}} </a>
                         </h5>
-                        <p><small><b>CAD</b></small>1.12</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4 p-0">
-                    <div class="media">
-                      <div class="media-left">
-                        <img class="media-object imageitem-size" src="https://mealdaay.com:4024/uploads/file-1564861315812.jpeg">
-                      </div>
-                      <div class="media-body">
-                        <h5 class="media-heading">
-                          <a data-toggle="tooltip" href="javascript:void(0);" title="Punjabi Chicken Karahi">Punjabi Chicken Karahi </a>
-                        </h5>
-                        <p><small><b>CAD</b></small>1.12</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-sm-4 p-0">
-                    <div class="media">
-                      <div class="media-left">
-                        <img class="media-object imageitem-size" src="https://mealdaay.com:4024/uploads/file-1564861315812.jpeg">
-                      </div>
-                      <div class="media-body">
-                        <h5 class="media-heading">
-                          <a data-toggle="tooltip" href="javascript:void(0);" title="Punjabi Chicken Karahi">Punjabi Chicken Karahi </a>
-                        </h5>
-                        <p><small><b>CAD</b></small>1.12</p>
+                        <p><small><b>CAD</b></small>{{items.price}}</p>
                       </div>
                     </div>
                   </div>
@@ -163,13 +137,17 @@
               <div class="add-address-btn">
                 <button class="btn custom-btn" data-toggle="modal" data-target="#myModal1">Add Address</button>
               </div>
-              <div class="profile-box saved-addresses-box">
+              <div  class="profile-box saved-addresses-box" *ngIf="customerAddress == undefined || customerAddress.address == undefined">
+                <p style="text-align: center">There are no saved addresses to display</p>
+              </div>
+              <div class="profile-box saved-addresses-box" *ngIf="customerAddress != undefined && customerAddress.address != undefined">
+                
                 <div class="row">
                   <div class="col-sm-3">
                     <h5>Home Address</h5>
                   </div>
-                  <div class="col-sm-9">
-                    <p>104 B, Mohammad Ali Society Muhammad Ali Chs (Machs), Karachi, Karachi City, Sindh, Pakistan</p>
+                  <div class="col-sm-9" *ngIf="customerAddress.address != undefined">
+                    <p>{{customerAddress.address}}</p>
                   </div>
                 </div>
 
@@ -177,8 +155,8 @@
                   <div class="col-sm-3">
                     <h5>Mobile Number</h5>
                   </div>
-                  <div class="col-sm-9">
-                    <p>+92 333 5456789</p>
+                  <div class="col-sm-9" *ngIf="customerAddress.phoneno != undefined">
+                    <p>{{customerAddress.phoneno}}</p>
                   </div>
                 </div>
 
@@ -186,8 +164,8 @@
                   <div class="col-sm-3">
                     <h5>City</h5>
                   </div>
-                  <div class="col-sm-9">
-                    <p>Karachi</p>
+                  <div class="col-sm-9" *ngIf="customerAddress.city != undefined">
+                    <p>{{customerAddress.city}}</p>
                   </div>
                 </div>
 
@@ -195,8 +173,8 @@
                   <div class="col-sm-3">
                     <h5>Zipcode</h5>
                   </div>
-                  <div class="col-sm-9">
-                    <p>765876</p>
+                  <div class="col-sm-9"  *ngIf="customerAddress.zip != undefined">
+                    <p>{{customerAddress.zipcode}}</p>
                   </div>
                 </div>
 
@@ -204,37 +182,58 @@
                   <div class="col-sm-3">
                     <h5>Country</h5>
                   </div>
-                  <div class="col-sm-9">
-                    <p>Pakistan</p>
+                  <div class="col-sm-9" *ngIf="customerAddress.country != undefined">
+                    <p>{{customerAddress.country}}</p>
                   </div>
                 </div>
 
                 <div class="add-address-del-btn">
-                  <span>Default Address</span><button class="btn custom-btn">Delete</button>
+                  <span>Default Address</span><button (click)="deleteUserAddress()" class="btn custom-btn">Delete</button>
                 </div>
+              
               </div>
             </div>
-            <div class="tab-pane active" id="my-orders" role="tabpanel">
+            <div class="tab-pane" id="my-orders" role="tabpanel">
               <div class="profile-box">
-                <div class="row">
+                <div class="row" *ngFor="let orders of allOrders" style="margin-bottom: 10px">
                   <div class="col-sm-4">
                     <div class="myorder-img">
-                      <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                      <img src="https://mealdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
                     </div>
                   </div>
                   <div class="col-sm-8">
                     <div class="myorder-content">
-                      <p><span>Abdullah Prod</span> Order Prepared Waiting For Driver!</p>
-                      <p><span>Order ID:</span> fe8579</p>
-                      <p><span>Order Amount:</span> PKR 32.87</p>
-                      <p><span>Today:</span> Sep 26, 2019, 7:10:04 AM</p>
-                      <p><a data-toggle="modal" data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
+                      <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
+                      <p><span>Order ID:</span> {{orders._id}}</p>
+                      <p><span>Order Amount:</span> CAD {{orders.total}}</p>
+                      <p><span>Today:</span> {{orders.ordertiming.datetime}}</p>
+                      <p><a data-toggle="modal" (click)="selectOrder(orders)"  data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="tab-pane" id="past-orders" role="tabpanel">
+                <div class="profile-box">
+                  <div class="row" *ngFor="let orders of pastOrders" style="margin-bottom: 10px">
+                    <div class="col-sm-4">
+                      <div class="myorder-img">
+                        <img src="https://mealdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                      </div>
+                    </div>
+                    <div class="col-sm-8">
+                      <div class="myorder-content">
+                        <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
+                        <p><span>Order ID:</span> {{orders._id}}</p>
+                        <p><span>Order Amount:</span> CAD {{orders.total}}</p>
+                        <p><span>Today:</span> {{orders.ordertiming.datetime}}</p>
+                        <p><a data-toggle="modal" (click)="SelectPorder(orders)"  data-target="#myModal5">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- <div class="tab-pane" id="past-orders" role="tabpanel">
               <div class="profile-box">
                 <div class="row">
                   <div class="col-sm-4">
@@ -248,12 +247,12 @@
                       <p><span>Order ID:</span> fe8579</p>
                       <p><span>Order Amount:</span> PKR 32.87</p>
                       <p><span>Today:</span> Sep 26, 2019, 7:10:04 AM</p>
-                      <p><a data-toggle="modal" data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
+                      <p><a data-toggle="modal" data-target="#myModal5">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="tab-pane" id="saved-card" role="tabpanel">
                 <button class="btn custom-btn" data-toggle="modal" data-target="#myModal2">Add Card</button>
                 <hr />
@@ -604,27 +603,27 @@
                     <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
-                    <div class="profile-box2-content">
-                      <p>Abdullah Prod</p>
-                      <p>Order Prepared Waiting For Driver!</p>
-                      <p><b>Today: </b>Sep 26, 2019, 7:10:04 AM</p>
-                      <p><b>Address: </b> 105 Tipu Sultan Rd, Mohammad Ali Society Karachi, Karachi City, Sindh 75350, Pakistan</p>
-                      <p><b>Order ID: </b> fe8579</p>
-                      <p><b>Payment Type: </b> cash</p>
+                    <div class="profile-box2-content" *ngIf="orderForPopup != undefined">
+                      <p>{{orderForPopup.kitchenDetail.restaurantname}}</p>
+                      <p>Order {{orderForPopup.status}}</p>
+                      <p><b>Today: </b>{{orderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Address: </b> {{orderForPopup.kitchenDetail.address}}</p>
+                      <p><b>Order ID: </b> {{orderForPopup._id}}</p>
+                      <p><b>Payment Type: </b>{{orderForPopup.paymenttype}}</p>
                       </div>
                   </div>
                 </div>
               </div>
 
-              <div class="profile-box3 profile-box">
+              <div class="profile-box3 profile-box" *ngIf="orderForPopup != undefined">
                 <h5>Daily Menu Item</h5>
-                <div class="row">
+                <div class="row" *ngFor="let items of orderForPopup.combo">
                   <div class="col-sm-1 p-0">
-                    <img src="https://mealdaay.com:4024/uploads/file-1564475011935.png" class="img-fluid" alt="img" />
+                    <img src="https://mealdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box3-content">
-                      <p>Haleem PKR 26.88 X 2</p>
+                      <p>{{items.name}} CAD {{items.finalcomboprice}} X {{items.qty}}</p>
                     </div>
                   </div>
                 </div>
@@ -632,8 +631,8 @@
 
               <div class="profile-box4 profile-box">
                 <h5>Delivery Timings</h5>
-                <div class="profile-box4-content">
-                  <p><b>For Daily Menu</b> : Day : Thursday Time : 7:09 PM</p>
+                <div class="profile-box4-content" *ngIf="orderForPopup != undefined">
+                  <p><b>For Daily Menu</b> {{orderForPopup.ordertiming.datetime}}</p>
                 </div>
               </div>
 
@@ -648,11 +647,135 @@
                     </div>
                   </div>
                   <div class="col-sm-6">
-                    <div class="profile-box5-right">
-                      <p><small>PKR</small> 26.88</p>
-                      <p><small>PKR</small> 5.99</p>
-                      <p><small>PKR</small> 0.00</p>
-                      <p><small>PKR</small> 32.87</p>
+                    <div class="profile-box5-right" *ngIf="orderForPopup != undefined">
+                      <p><small>PKR</small> {{orderForPopup.subtotal}}</p>
+                      <p><small>PKR</small> {{orderForPopup.deliveryCharges}}</p>
+                      <p><small>PKR</small> {{orderForPopup.tax}}</p>
+                      <p><small>PKR</small> {{orderForPopup.total}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          
+        </div>
+      </div>
+  </div>
+
+
+
+
+  <div class="modal fade" id="myModal5">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Order Detail</h4>
+            <button type="button" class="close" data-dismiss="modal" id="closeRP">&times;</button>
+          </div>
+          
+          <!-- Modal body -->
+          <div class="modal-body">
+              <div class="profile-box">
+                <h5>Daily Menu Items</h5> 
+                <div class="p-15">
+                  <div class="stepwizard-order">
+                    <div class="stepwizard-row-order">
+                      <div class="stepwizard-step-order stpewiz-green">
+                        <button class="btn btn-default btn-circle-order btn-danger" type="button">1</button>
+                        <p>Order Placed</p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-green">
+                        <button class="btn btn-default btn-circle-order btn-danger" type="button">2</button>
+                        <p>Payment <br>Received</p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-green">
+                        <button class="btn btn-default btn-circle-order btn-danger" type="button">3</button>
+                        <p>Preparing <br>
+                          your Order
+                        </p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-green">
+                        <button class="btn btn-default btn-circle-order btn-danger" type="button">4</button>
+                        <p>
+                          Send Order Request  for Driver!
+                        </p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-grey">
+                        <button class="btn btn-default btn-circle-order" type="button">5</button>
+                        <p> Driver Accepted Order Request</p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-grey">
+                        <button class="btn btn-default btn-circle-order" type="button">6</button>
+                        <p> On the Way </p>
+                      </div>
+                      <div class="stepwizard-step-order stpewiz-grey">
+                        <button class="btn btn-default btn-circle-order" type="button">7</button>
+                        <p> Order <br>
+                          Delivered
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-box">
+                <div class="row">
+                  <div class="col-sm-1 p-0">
+                    <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                  </div>
+                  <div class="col-sm-11">
+                    <div class="profile-box2-content" *ngIf="porderForPopup != undefined">
+                      <p>{{porderForPopup.kitchenDetail.restaurantname}}</p>
+                      <p>Order {{porderForPopup.status}}</p>
+                      <p><b>Today: </b>{{porderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Address: </b> {{porderForPopup.kitchenDetail.address}}</p>
+                      <p><b>Order ID: </b> {{porderForPopup._id}}</p>
+                      <p><b>Payment Type: </b>{{porderForPopup.paymenttype}}</p>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-box3 profile-box" *ngIf="porderForPopup != undefined">
+                <h5>Daily Menu Item</h5>
+                <div class="row" *ngFor="let items of porderForPopup.combo">
+                  <div class="col-sm-1 p-0">
+                    <img src="https://mealdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
+                  </div>
+                  <div class="col-sm-11">
+                    <div class="profile-box3-content">
+                      <p>{{items.name}} CAD {{items.finalcomboprice}} X {{items.qty}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="profile-box4 profile-box">
+                <h5>Delivery Timings</h5>
+                <div class="profile-box4-content" *ngIf="porderForPopup != undefined">
+                  <p><b>For Daily Menu</b> {{porderForPopup.ordertiming.datetime}}</p>
+                </div>
+              </div>
+
+              <div class="profile-box5 profile-box">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="profile-box5-left">
+                      <p>Subtotal</p>
+                      <p>Delivery Charges</p>
+                      <p>Included Tax(0%)</p>
+                      <p>Total Amount</p>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="profile-box5-right" *ngIf="porderForPopup != undefined">
+                      <p><small>PKR</small> {{porderForPopup.subtotal}}</p>
+                      <p><small>PKR</small> {{porderForPopup.deliveryCharges}}</p>
+                      <p><small>PKR</small> {{porderForPopup.tax}}</p>
+                      <p><small>PKR</small> {{porderForPopup.total}}</p>
                     </div>
                   </div>
                 </div>

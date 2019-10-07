@@ -7,6 +7,9 @@ import { GlobalService } from '../../Services/global.service'
 import { Router } from '@angular/router';
 import { KitchenService } from '../../Services/kitchen.service'
 import { ResturantService} from '../../Services/resturant.service'
+import { map } from 'rxjs/operators';
+import { promise } from 'protractor';
+import { POINT_CONVERSION_COMPRESSED } from 'constants';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -20,6 +23,13 @@ export class ProfileComponent implements OnInit {
   zoom=10;
   checkpassword:boolean=false;
   mapaddress:string;
+  favouriteItems:any;
+  allKitchens:any;
+  customerAddress:any;
+  allOrders:any;
+  pastOrders:any;
+  orderForPopup:any;
+  porderForPopup:any;
   Profile = this.fb.group({
     email:['',[Validators.required]],
     lastname:['',[Validators.required]],
@@ -50,7 +60,7 @@ export class ProfileComponent implements OnInit {
     newpassword:['',[Validators.required]],
     confirmpassword:['',[Validators.required]]
   })
-  constructor(private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  constructor(private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
   private geoCoder;
   @ViewChild('address')
   public searchElementRef: ElementRef;
@@ -68,15 +78,26 @@ export class ProfileComponent implements OnInit {
     this.Profile.controls['email'].setValue(this.userdata.email);
     this.Profile.controls['lastname'].setValue(this.userdata.lastname);
     this.Profile.controls['firstname'].setValue(this.userdata.firstname);
-    this.getOrderDetails();
+
+
     this.getCustomerRating();
     this.getCustomer();
-    this.getFavourite();this.allItems();
-    console.log(this.searchElementRef.nativeElement)
+    this.getAllKitchen().then((allKitchenRes)=>{
+      if(allKitchenRes){
+        this.getOrderDetails();
+      this.allItems().then((allItemRes)=>{
+        if(allItemRes){
+        this.getFavourite();
+        }
+      })
+    }
+    });
+ 
+
     this.mapsAPILoader.load().then(() => {
-      console.log("map loaded");
+
       this.setCurrentLocation();
-      console.log("current location done");
+ 
       this.geoCoder = new google.maps.Geocoder;
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["address"]
@@ -93,7 +114,7 @@ export class ProfileComponent implements OnInit {
             return;
           }
 
-          console.log(place.geometry);
+
           //set latitude, longitude and zoom
           this.lat = place.geometry.location.lat().toString();
           this.lng = place.geometry.location.lng().toString();
@@ -104,7 +125,7 @@ export class ProfileComponent implements OnInit {
     });
   }
   addCard(){
-    console.log(this.Card.value);
+  
     this.userservices.verfityCard(this.Card.value).subscribe((data:any)=>{
       if(!data.error){
         if(data.message.txn != undefined){
@@ -119,45 +140,74 @@ export class ProfileComponent implements OnInit {
   }
   getCustomer(){
     this.userservices.getCustomer(this.userdata._id).subscribe((data:any)=>{
-      console.log(data);
+      this.customerAddress = data.message.customeraddresses[0];
+      console.log(this.customerAddress);
     },(error)=>{
       console.log(error);
     })  
   }
-  addUserAddress(){
-    this.userservices.addCustomerAdress(this.userdata._id,this.Address).subscribe((data:any)=>{
-      console.log(data);
+  deleteUserAddress(){
+    let userid = {
+      "_id":this.userdata._id
+    }
+    this.userservices.addCustomerAdress(this.userdata._id,userid).subscribe((data:any)=>{
+      if(!data.error){
+        this.customerAddress = data.message.customeraddresses;
+        console.log(this.customerAddress);
+      console.log(data.message.customeraddresses,"After Delete")
+        this.toastr.success("Address Has Been Removed")
+      }
     },(error)=>{
-      console.log(error)
+      console.log(error);
     })
   }
+
   getFavourite(){
     this.resturantservices.favouriteList(this.userdata._id).subscribe((data:any)=>{
-      console.log(data,"favourite data");
+
+
       let item = data.message[0].customerfavrestro[0].items;
-      console.log(item,"items")
+      let favourite = new Map();
+     
+      for(let i = 0 ; i < item.length;i++){
+        let kitchenid = this.items[item[i]].kitchenId;
+       if(favourite[kitchenid] == undefined){
+         favourite.set(kitchenid,new Object());
+         favourite[kitchenid] = new Object();
+         favourite[kitchenid].resturantName = this.allKitchens[kitchenid].restaurantname;
+         favourite[kitchenid].item = new Array();
+         favourite[kitchenid].item.push(this.items[item[i]]);
+        }else{
+          favourite[kitchenid].item.push(this.items[item[i]]);
+        }
+     }
+     this.favouriteItems = favourite;
+
+      this.convertMaptoArray(favourite).then((converted)=>{
+      this.favouriteItems = converted;
+
+
+      })
     },(error)=>{
       console.log(error);
     })
   }
   allItems(){
+    return new Promise((resolve,reject)=>{
     this.resturantservices.allItems().subscribe((data:any)=>{
-      let count =0;
       if(!data.error){
-
         this.items = new Map();
         let all = data.message;
         for(let i = 0 ; i < all.length;i++){
-          let subitems = all[i];
-          for(let j = 0 ;j < subitems.length;j++){
-            this.items[subitems[i]._id] = subitems[i];
-            count++;
-          }
+          this.items[all[i]._id] = all[i];
         }
+       
+        resolve(true);
+      }else{
+        reject(false);
       }
-      console.log(count);
-      console.log(this.items,"all item array")
     })
+  })
   }
   updateProfile(){
   let postProfile = this.Profile.value;
@@ -174,9 +224,31 @@ export class ProfileComponent implements OnInit {
       this.toastr.success("Unexpected Error");
     });
   }
+  selectOrder(order){
+this.orderForPopup = order;
+console.log(this.orderForPopup,"uploaded");
+  }
+  SelectPorder(order){
+    this.porderForPopup = order;
+  }
   getOrderDetails(){
     this.userservices.getUserOrder(this.userdata._id).subscribe((data:any)=>{
-      console.log(data);
+      let orders = data.message;
+      let neworders = new Array();
+      let porders = new Array();
+      for(let i = 0 ; i < orders.length;i++){
+        if(orders[i].combo == undefined){
+          continue;
+        }
+        orders[i].kitchenDetail = this.allKitchens[orders[i].restaurantid];
+        neworders.push(orders[i]);
+        if(orders[i].status == "delivered"){
+          porders.push(orders[i]);
+        }
+      }
+      this.allOrders = neworders;
+      this.pastOrders = porders;
+      console.log(this.allOrders);
     },(error)=>{
       console.log(error);
     })
@@ -201,11 +273,10 @@ export class ProfileComponent implements OnInit {
     }else{
       this.checkpassword = true;
     }
-    console.log(this.checkpassword);
   }
   getCustomerRating(){
     this.userservices.getCustomerRating(this.userdata._id).subscribe((data:any)=>{
-      console.log(data);
+ 
     },(error)=>{
       console.log(error);
     })
@@ -264,7 +335,8 @@ export class ProfileComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(this.lat,this.lng)
+ 
+        
         this.lat = position.coords.latitude.toString();
         this.lng = position.coords.longitude.toString();
         this.getAddress( this.lat,this.lng );
@@ -272,10 +344,10 @@ export class ProfileComponent implements OnInit {
     }
   }
   getAddress(latitude, longitude) {
-    console.log(latitude,longitude)
+
     this.geoCoder.geocode({ 'location': { lat: Number(latitude), lng: Number(longitude) } }, (results, status) => {
       if (status === 'OK') {
-        console.log(status,"status")
+
         let isCity = false;
         if (results[0]) {
           for(let i = 0 ; i < results.length && isCity == false;i++){
@@ -301,22 +373,56 @@ export class ProfileComponent implements OnInit {
     });
   }
   markerDragEnd($event: any) {
-    console.log($event);
+
     this.lat = $event.coords.lat;
     this.lng = $event.coords.lng;
     this.getAddress(this.lat, this.lng);
   }
+  getAllKitchen(){
+    return new Promise((resolve,reject)=>{
+      this.kitchenService.allKitchen().subscribe((data:any)=>{
+
+        let kitchens = data.message;
+        this.allKitchens = new Map();
+        for(let i = 0; i < kitchens.length;i++){
+         this.allKitchens[kitchens[i]._id] = kitchens[i];
+        }
+        resolve(true);
+      },(error)=>{
+
+        
+        reject(false);
+      })
+    })
+  }
   addAddress(){
       this.userservices.addCustomerAdress(this.userdata._id,this.Address.value).subscribe((data:any)=>{
         console.log(data)
-        if(data.error){
+        
+        if(data.error == true){
 
           this.toastr.error(data.message)
         }else{
+          
+        this.customerAddress = data.message.customeraddresses[0];
+        console.log(this.customerAddress);
           this.eleRef.nativeElement.querySelector('#closeAdress').click();
           this.toastr.success("Added Sucessfully");
         }
+      },(error)=>{
+        console.log(error,"Add Address Error")
       })
+  }
+  convertMaptoArray(map:any){
+    return new Promise((resolve,reject)=>{
+      let ret = [];
+
+        map.forEach((val, key) => {
+
+            ret.push(map[key]);
+        });
+        resolve(ret);
+    })
   }
 }
 

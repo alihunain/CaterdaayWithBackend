@@ -8,7 +8,7 @@ import { GlobalService } from '../../Services/global.service'
 export class ThankyouComponent implements OnInit {
 
   constructor(private global:GlobalService) { }
-
+  stage=1;
   ngOnInit() {
     this.global.header = 3;
   }

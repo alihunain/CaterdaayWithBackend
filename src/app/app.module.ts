@@ -38,6 +38,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AgmCoreModule } from '@agm/core';
 import { ProfileComponent } from './profile/profile.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
+import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
 
 
 
@@ -72,7 +73,8 @@ import { ThankyouComponent } from './thankyou/thankyou.component';
     TermsConditionsComponent,
     MobileAppComponent,
     ProfileComponent,
-    ThankyouComponent
+    ThankyouComponent,
+    WaiterSignupComponent
     
   ],
   imports: [

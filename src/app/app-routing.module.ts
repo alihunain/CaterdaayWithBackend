@@ -17,6 +17,7 @@ import {FaqComponent} from './faq/faq.component';
 import {TermsConditionsComponent} from './terms-conditions/terms-conditions.component'
 import { ProfileComponent } from './profile/profile.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
+import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
 const routes: Routes = [
   {
     path: 'detail',
@@ -81,7 +82,10 @@ const routes: Routes = [
   ,{
     path:'thankyou',
     component:ThankyouComponent
-  },
+  },{
+    path:'waiter-signup',
+    component:WaiterSignupComponent
+    },
   {
     path: '**', component: DashboardComponent
 

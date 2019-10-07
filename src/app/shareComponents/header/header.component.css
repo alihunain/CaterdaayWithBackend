@@ -212,7 +212,7 @@
 
 /* Click to expand button */
 
-.custom-drop label{
+.header-design-2 .custom-drop label{
   font-family: RobotoRegular;
   color: #fff;
   padding: 10px 25px;
@@ -225,7 +225,17 @@
   -ms-user-select: none;
   user-select: none;
 }
-
+.header-design-3 .custom-drop label{
+  font-family: RobotoRegular;
+  padding: 10px 25px;
+  font-weight: 500;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 .custom-drop label:hover{
   color: #ed212f;
 }

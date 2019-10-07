@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   Countrys:any;
   Signin:boolean= true;
   Countryname:string ="Select Country";
-  constructor(private global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
+  constructor(public global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
