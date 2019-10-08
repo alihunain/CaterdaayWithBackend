@@ -1,4 +1,4 @@
-import { Component, OnInit,ElementRef } from '@angular/core';
+import { Component, OnInit,ElementRef, ViewChild , NgZone } from '@angular/core';
 import { GlobalService } from '../../Services/global.service'
 import { KitchenService } from '../../Services/kitchen.service'
 import {CartService} from '../../Services/cart.service'
@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr'
 import { Promise, reject } from 'q';
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
+import { MapsAPILoader } from '@agm/core';
+import { Stats } from 'fs';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -15,12 +17,20 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class CheckoutComponent implements OnInit {
 
-  constructor(private fb:FormBuilder,private user:UserService, private eleRef:ElementRef,private toastr:ToastrService,private resturant:ResturantService,private router: Router,private cart:CartService,private global:GlobalService,private kitchen:KitchenService) { }
+  constructor(private fb:FormBuilder,private ngZone: NgZone,private mapsAPILoader: MapsAPILoader,private user:UserService, private eleRef:ElementRef,private toastr:ToastrService,private resturant:ResturantService,private router: Router,private cart:CartService,private global:GlobalService,private kitchen:KitchenService) { }
   orders:any;
+  @ViewChild('address')
+  public searchElementRef: ElementRef;
   delivery:any;
   taxpercentage:any;
   currentUserId:any;
   coupon:any;
+  saveCard:any;
+  CardStatus:boolean=true;
+  customerAddress:any;
+  lat:any;
+  lng:any;
+  paycard:boolean=false;
   currentUserObj:any;
   dateValidation:boolean= false;
   deliveryAddress = this.fb.group({
@@ -32,6 +42,38 @@ export class CheckoutComponent implements OnInit {
     date:['',[Validators.required]],
     time:['',[Validators.required]]
   })
+  Address= this.fb.group({
+    phoneno: ['',[Validators.required]],
+    address:['',[Validators.required]],
+    city:['',[Validators.required]],
+    zip:['',[Validators.required]],
+    country:['',[Validators.required]]
+  })
+  Card = this.fb.group({
+    address: ['',[Validators.required]],
+    cardnumber: ['',[Validators.required]],
+    cvv: ['',[Validators.required]],
+    expirymonth: ['',[Validators.required]],
+    expiryyear: ['',[Validators.required]],
+    fname: ['',[Validators.required]],
+    lname: ['',[Validators.required]],
+    zip:['',[Validators.required]]
+  })
+  private geoCoder;
+  validCvv:boolean=true;
+  validCn:boolean=true;
+  validM:boolean=true;
+  validY:boolean=true;
+
+
+
+
+
+
+
+
+
+
   ngOnInit() {
     this.resturant.getResturantid();
     this.user.getUser();
@@ -69,7 +111,35 @@ export class CheckoutComponent implements OnInit {
       console.log(that.orders,"order in checkout");
     });
   });
+  this.mapsAPILoader.load().then(() => {
+
+    this.setCurrentLocation();
+
+    this.geoCoder = new google.maps.Geocoder;
+    let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+      types: ["address"]
+    });
+    autocomplete.addListener("place_changed", () => {
+   
+      this.ngZone.run(() => {
   
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+
+        //set latitude, longitude and zoom
+        this.lat = place.geometry.location.lat().toString();
+        this.lng = place.geometry.location.lng().toString();
+      
+        this.getAddress(this.lat,this.lng);
+      });
+    });
+  });
   }
   getDeliveryCharges(){
     return Promise((resolve, reject) => {
@@ -238,5 +308,254 @@ this.cart.RemoveCombo(item).then(()=>{
       this.dateValidation = false;
     }
   }
+    // Address From  Google Map Function <-- Start -->
+    getAddress(latitude, longitude) {
+
+      this.geoCoder.geocode({ 'location': { lat: Number(latitude), lng: Number(longitude) } }, (results, status) => {
+        if (status === 'OK') {
   
+          let isCity = false;
+          if (results[0]) {
+            for(let i = 0 ; i < results.length && isCity == false;i++){
+              let routes = results[i].types;
+              for(let j = 0 ; j < routes.length;j++){
+                let types = routes[j];
+                if(types == 'locality'){
+                  this.Address.get('city').setValue(results[i].address_components[0].short_name.toLowerCase());
+                  isCity = true;
+                  break;
+                }
+              }
+            }
+        
+            this.Address.get('address').setValue(results[0].formatted_address);
+            
+            this.Address.get('country').setValue(results[results.length-1].formatted_address.toLowerCase());
+  
+            
+          }
+        }
+   
+      });
+    }
+    markerDragEnd($event: any) {
+  
+      this.lat = $event.coords.lat;
+      this.lng = $event.coords.lng;
+      this.getAddress(this.lat, this.lng);
+    }
+    private setCurrentLocation() {
+      if ('geolocation' in navigator) {
+        navigator.geolocation.getCurrentPosition((position) => {
+   
+          
+          this.lat = position.coords.latitude.toString();
+          this.lng = position.coords.longitude.toString();
+          this.getAddress( this.lat,this.lng );
+        });
+      }
+    }
+     // Address From  Google Map Function <-- End -->
+     addAddress(){
+      this.user.addCustomerAdress(this.currentUserId,this.Address.value).subscribe((data:any)=>{
+        console.log(data)
+        
+        if(data.error == true){
+
+          this.toastr.error(data.message)
+        }else{
+          
+        this.customerAddress = data.message.customeraddresses[0];
+        console.log(this.customerAddress);
+        this.getUser();
+          this.eleRef.nativeElement.querySelector('#closeAdress').click();
+          this.toastr.success("Added Sucessfully");
+        }
+      },(error)=>{
+        console.log(error,"Add Address Error")
+      })
+    }
+    selectCard(card){
+      this.saveCard = card;
+    }
+    UnselectCard(){
+      this.saveCard = null;
+    }
+    paystatus(status){
+      console.log(status);
+      this.paycard = status;
+    }
+
+
+
+    
+    formatCn(number){
+      let currentcurrent= "";
+      for(let i = 0 ; i < number.length;i++){
+        if(number[i] == '-'){
+          continue;
+        }else{
+          currentcurrent+=number[i];
+        }
+      }
+      if(currentcurrent.length != 16){
+        this.validCn =false;
+      }else{
+        this.validCn = true;
+      }
+      let final = "";
+      for(let i = 0; i < currentcurrent.length;i++){
+ 
+        if((i) % 4 == 0 && i != 0){
+        
+          final+= '-' + currentcurrent[i];
+        }else{
+          final+= currentcurrent[i];
+        }
+      }
+      return final;
+    }
+    verifyCard(){
+    
+      this.user.verfityCard(this.Card.value).subscribe((data:any)=>{
+        if(!data.error){
+          // if(data.message.txn != undefined){
+          //   this.toastr.error(data.message.txn.errorMessage)
+          // }else{
+          //   this.toastr.error("Sucessfully Added");
+          // }
+          if(data.message.txn.errorCode == undefined && data.message.txn.ssl_result_message != "INVALID CARD"){
+          let card = this.Card.value;
+          card.email = this.currentUserObj.email;
+          console.log(card,"before sending");
+          this.generateCardToken(card);
+         }else{
+           this.toastr.error(data.message.txn.errorMessage || data.message.txn.ssl_result_message);
+         }
+        }
+      },(error)=>{
+        console.log(error);
+      })
+    }
+    generateCardToken(credentials){
+      this.user.generateToken(credentials).subscribe((data:any)=>{
+        if(data.message.txn.errorCode != undefined){
+          this.toastr.error(data.message.txn.errorName);
+          return;
+        }
+        let res = data.message.txn;
+      let card = {
+        cardinfo: [{
+        cardnumber:res.ssl_card_number,
+        cardtype:res.ssl_card_short_description,
+        default:true,
+        token:res.ssl_token,
+      }],_id:this.currentUserObj._id
+    }
+    console.log(this.CardStatus);
+    if(this.CardStatus){
+
+    this.addCard(card);
+  }else{
+    this.saveCard = card;
+    this.toastr.success("Sucessfully Added For This Order");
+    this.eleRef.nativeElement.querySelector("#closeCardForm").click();
+  }
+      },(error)=>{
+        console.log(error);
+      })
+    }
+    addCard(cardinfo){
+      console.log(cardinfo,"before adding card");
+  
+      this.user.UpdateProfile(this.currentUserObj._id,cardinfo).subscribe((data:any)=>{
+        if(!data.error){
+
+          this.getUser();
+
+          this.eleRef.nativeElement.querySelector("#closeCardForm").click();
+          this.saveCard = cardinfo;
+        }else{
+          this.toastr.error(data.message);
+        }
+      })
+    }
+    WannaSave(status){
+      console.log("Wanna Save is hit :D");
+      this.saveCard =status;
+    }
+    deleteCard(){
+  
+      let update = {
+        cardinfo:[]
+      }
+      this.user.UpdateProfile(this.currentUserObj._id,update).subscribe((data:any)=>{
+        if(!data.error){
+          this.getUser();
+          this.toastr.success("Sucessfully Deleted");
+        }
+      })
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    get address(){
+      return this.Card.get('address');
+    }
+    get cardnumber(){
+      let card = this.Card.get('cardnumber').value;
+      this.Card.get('cardnumber').setValue(this.formatCn(card)); 
+      return this.Card.get('cardnumber');
+    }
+    get cvv(){
+  
+      if(this.Card.get('cvv').value.length != 3){
+        this.validCvv = false;
+      }else{
+        this.validCvv = true;
+      }
+      return this.Card.get('cvv');
+    }
+    get expirymonth(){
+      if(this.Card.get('expirymonth').value.length != 2){
+        this.validM = false;
+      }else{
+        this.validM = true;
+      }
+      return this.Card.get('expirymonth');
+     
+    }
+    get expiryyear(){
+      if(this.Card.get('expiryyear').value.length != 2){
+        this.validY = false;
+      }else{
+        this.validY = true;
+      }
+      return this.Card.get('expiryyear');
+     
+    }
+    get fname(){
+      return this.Card.get('fname');
+    }
+    get lname(){
+      return this.Card.get('lname');
+    }
+    get zip(){
+      return this.Card.get('zip');
+    }
 }

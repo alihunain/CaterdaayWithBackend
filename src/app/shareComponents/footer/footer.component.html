@@ -20,10 +20,7 @@
                 <div class="form-group shadow" style="position: relative;">
                   <form [formGroup]="Subscribe" (ngSubmit)="onSubscribe()">
                     <input type="text" class="form-control" formControlName="email" placeholder="Please enter Email ID..."  >
-                    <div *ngIf="email.invalid && (email.dirty || email.touched)">
-                        <div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
-                        <div *ngIf="email.errors.email" class="form-error alert-danger">Invalid Email Type</div>
-                    </div>
+                  
                     <button class="btn px-4 btn-danger display-4 subcribebtn" type="submit" [disabled]="!Subscribe.valid">
                       <i class="fa fa-arrow-right"></i>
                     </button>

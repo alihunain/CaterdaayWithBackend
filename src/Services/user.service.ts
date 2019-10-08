@@ -65,6 +65,9 @@ return this.http.put(this.server.development.ms3 + "customers/" + userid,profile
   changePassword(userid,credentials){
 return this.http.put(this.server.development.ms3+"customers/change-password/" +  userid,credentials).pipe(catchError(this.handleError));
   }
+  generateToken(credentials){
+    return this.http.post(this.server.development.ms4+"generate-card-token",credentials).pipe(catchError(this.handleError));
+  }
   setUser(){
     localStorage.setItem("user",JSON.stringify(this.user));
   }

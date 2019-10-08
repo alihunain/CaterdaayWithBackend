@@ -16,6 +16,7 @@ declare var srcollEnterance: any;
   
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
+  update:any;
   slideConfig = {
     "slidesToShow": 5, 
     "slidesToScroll": 1,
@@ -156,6 +157,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         if (results[0]) {
 
           this.kitchenservice.address = results[0].formatted_address;
+          this.update = this.searchElementRef.nativeElement.value
         }
         this.kitchenservice.setfilterKitchen();
       }
@@ -165,7 +167,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   AddLocation(){
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;
-    }else if(this.kitchenservice.address == null || this.kitchenservice.address == null){
+    }else if(this.update == null || this.update == undefined || this.update != this.searchElementRef.nativeElement.value){
       alert("Kindly Select Address from dropdown");
       return;
     }else{

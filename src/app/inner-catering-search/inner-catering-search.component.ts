@@ -42,7 +42,7 @@ export class InnerCateringSearchComponent implements OnInit {
   private geoCoder;
   menuToDisplay:any[];
   bufferToDisplay:any[];
-  location:boolean= false;
+  location:boolean= true;
   constructor(private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
 
   }
@@ -112,7 +112,7 @@ export class InnerCateringSearchComponent implements OnInit {
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
       let response =  {max: "80",min:"10",Combos: [{
         name:"Mealone",
-        kitchenid:"5d45df39969ec012515bbc85",
+        kitchenid:this.resturantService.Resturantid,
         description:"this is a test data",
         finalcomboprice:"380",
         totalprice:"400",
@@ -124,16 +124,16 @@ export class InnerCateringSearchComponent implements OnInit {
         menuId:[{
         cuisine:[],
         image:"file-1564860776723.jpg",
-        kitchenId:"5d45df39969ec012515bbc85",
+        kitchenId:this.resturantService.Resturantid,
         name:"Biryani"
         },{
         cuisine:[],
         image:"file-1564860776723.jpg",
-        kitchenId:"5d45df39969ec012515bbc85",
+        kitchenId:this.resturantService.Resturantid,
         name:"Haleem"
         }]},{
           name:"Mealtwo",
-          kitchenid:"5d45df39969ec012515bbc86",
+          kitchenid:this.resturantService.Resturantid,
           description:"this is a test data",
           finalcomboprice:"450",
           totalprice:"500",
@@ -145,12 +145,12 @@ export class InnerCateringSearchComponent implements OnInit {
           menuId:[{
           cuisine:[],
           image:"file-1564860776723.jpg",
-          kitchenId:"5d45df39969ec012515bbc85",
+          kitchenId:this.resturantService.Resturantid,
           name:"Burger"
           },{
           cuisine:[],
           image:"file-1564860776723.jpg",
-          kitchenId:"5d45df39969ec012515bbc85",
+          kitchenId:this.resturantService.Resturantid,
           name:"Broast"
           }]
       }]};
@@ -186,6 +186,8 @@ export class InnerCateringSearchComponent implements OnInit {
     if(status){
       this.cart.currentResturant = null;
       this.cart.itemsOrder = undefined;
+      this.cart.setItemOrder();
+      this.cart.setcurrentResturant();
       this.CartCombo(popupItem);
       this.eleRef.nativeElement.querySelector('#closeWarning').click();
     }else{

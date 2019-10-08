@@ -3,6 +3,7 @@ import { FormBuilder , Validators, FormControl} from '@angular/forms'
 import { Contact } from '../Models/ContactUs'
 import {ContactUsService} from '../../Services/contact-us.service'
 import { GlobalService } from '../../Services/global.service'
+import { ToastrService } from 'ngx-toastr'
 
 @Component({
   selector: 'app-contactus',
@@ -31,7 +32,7 @@ export class ContactusComponent implements OnInit {
     return this.ContactUs.get('message');
   }
   Contact = new Contact();
-  constructor(private global:GlobalService,private fb:FormBuilder,private ContactService:ContactUsService) { }
+  constructor(private global:GlobalService,private fb:FormBuilder,private ContactService:ContactUsService,private toastr:ToastrService) { }
 
   ngOnInit() {
     this.global.header = 2;
@@ -39,7 +40,7 @@ export class ContactusComponent implements OnInit {
   onSubmit(){
     this.Contact = this.ContactUs.value;
     this.ContactService.ContactPost(this.Contact).subscribe(data=>{
-      console.log(data);
+      this.toastr.success('Your Message Has Been Sent')
     },(error)=>{
       console.log(error);
     })

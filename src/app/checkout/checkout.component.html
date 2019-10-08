@@ -14,7 +14,8 @@
 				</ul>
 			</div>
 		</div>
- -->
+ --> 
+
 		<div class="row mt-5">
 			<div class="col-lg-8 checkout-updated">
 				
@@ -84,7 +85,7 @@
 										<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" value="{{currentUserObj.customeraddresses[0].zip}}"></li>
 									</ul>
 									<div class="del-add-new">
-										<a href="#"><i class="fa fa-pencil"></i> Add new address</a>
+										<a style="cursor: pointer;" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil"></i> Add new address</a>
 									</div>
 								</div>
 							</div>
@@ -155,17 +156,43 @@
 					<div class="row">
 						<div class="col-12">
 							<div>
-								<label for="cod">
+								<label for="cod" (click)="paystatus(false)">
 									<input type="radio" value="Cash" name="pay-meth" id="cod" checked>
 									<img src="assets/images/cod.png" class="img-fluid" alt="">
 									<h6>Cash on delivery</h6>
+							
 								</label>
-								<label for="cc">
+								<label for="cc" (click)="paystatus(true)">
 									<input type="radio" value="card" name="pay-meth" id="cc">
 									<img src="assets/images/cc.png" class="img-fluid" alt="">
 									<h6>Credit card / Debit card</h6>
 								</label>
+								
 							</div>
+							<div>
+									<button class="btn custom-btn" data-toggle="modal" data-target="#myModal2" *ngIf="paycard">Add Card</button>
+							</div>
+							<div *ngIf=" currentUserObj.cardinfo != undefined && paycard">
+									<div class="profile-box saved-card-box" *ngFor="let card of currentUserObj.cardinfo">
+										
+						
+										<div class="row">
+										  <div class="col-sm-2">
+											<h6>Card No</h6>
+										  </div>
+										  <div class="col-sm-10">
+											<p>{{card.cardnumber}}</p>
+										  </div>
+										</div>
+								
+						
+										<div class="add-address-del-btn">
+										  <button (click)="deleteCard()" class="btn custom-btn">Delete</button>
+										  <button (click)="selectCard(card)" class="btn custom-btn" *ngIf="saveCard != card">Select</button>
+										  <button (click)="UnselectCard(card)" class="btn custom-btn" *ngIf="saveCard == card">Un-Select</button>
+										</div>
+									  </div>
+									</div>
 						</div>
 					</div>
 				</div>
@@ -175,7 +202,7 @@
 				</div>
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
-					<button [disabled]="!deliveryAddress.valid && !deliveryTime.valid && !dateValidation" style="cursor: pointer;" (click)="PlaceOrder()">Checkout</button>
+					<button [disabled]="!deliveryAddress.valid && !deliveryTime.valid && !dateValidation"  style="cursor: pointer;" (click)="PlaceOrder()">Checkout</button>
 				</div>
 			</div>
 
@@ -284,7 +311,166 @@
 </section>
 
 
-
+  <!--Modal for Saved Address-->
+  <div class="modal fade" id="myModal1">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+		  
+			<!-- Modal Header -->
+			<div class="modal-header">
+			  <h4 class="modal-title">Add New Address</h4>
+			  <button type="button" class="close" data-dismiss="modal" id="closeAdress">&times;</button>
+			</div>
+		   
+			<!-- Modal body -->
+			<div class="modal-body">
+			  <div class="row">
+				<div class="col-sm-12 mb-20">
+				  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
+					<agm-marker [latitude]="lat"  [longitude]="lng" [markerDraggable]="true"
+					  (dragEnd)="markerDragEnd($event)"></agm-marker>
+				  </agm-map>
+				</div>
+			  </div>
+			  <form [formGroup]="Address" (ngSubmit)="addAddress()">
+				<div class="form-group row">
+				  <div class="col-sm-6">
+					<input type="email" class="form-control" formControlName="phoneno" id="phone" placeholder="Phone No" name="phone">
+				  </div>
+				  <div class="col-sm-6">
+					<input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  id="address" >
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <div class="col-sm-6">          
+					<input type="text" class="form-control" formControlName="city" id="city" placeholder="City" name="city" #city> 
+				  </div>
+				  <div class="col-sm-6">          
+					  <input type="text" class="form-control" formControlName="zip" id="zip" placeholder="ZipCode" name="zip">
+					</div>
+				</div>
+				<div class="form-group row">
+				  <div class="col-sm-12">          
+					<input type="text" class="form-control" id="country" formControlName="country" placeholder="Country" name="country"  #country>
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <div class="col-sm-12">          
+					<button class="btn custom-btn" [disabled]="!this.Address.valid">Saved Address</button>
+				  </div>
+				</div>
+			  </form>
+			</div>
+			
+		  </div>
+		</div>
+</div>
+<div class="modal fade" id="myModal2">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+		  
+			<!-- Modal Header -->
+			<div class="modal-header">
+			  <h4 class="modal-title">Add New Card</h4>
+			  <button type="button" class="close" data-dismiss="modal" id="closeCardForm">&times;</button>
+			</div>
+			
+			<!-- Modal body -->
+			<div class="modal-body">
+			  <form  [formGroup]="Card" (ngSubmit)="verifyCard()">
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="holder">Card Number:</label>
+				  <div class="col-sm-8">          
+					<input type="text"  formControlName="cardnumber" class="form-control"  placeholder="Enter Card Number" name="holder">
+					<div *ngIf="cardnumber.invalid && (cardnumber.dirty || cardnumber.touched)">
+						<div *ngIf="cardnumber.errors.required" class="form-error alert-danger">Card Number Is Required</div>
+					</div>
+					<div  *ngIf="!cardnumber.invalid">
+					  <div *ngIf="!validCn" class="form-error alert-danger">Should be of 16 Character</div>
+					</div>
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="expiration">Expiration Date:</label>
+				  <div class="col-sm-4">          
+					<input type="text" formControlName="expirymonth" class="form-control" id="mm" placeholder="MM" name="mm">
+					<div *ngIf="expirymonth.invalid && (expirymonth.dirty || expirymonth.touched)">
+						<div *ngIf="expirymonth.errors.required" class="form-error alert-danger">expirymonth Is Required</div>
+					</div>
+					<div  *ngIf="!expirymonth.invalid">
+						<div *ngIf="!validM" class="form-error alert-danger">Should be of 2 Character</div>
+					  </div>
+				  </div>
+				  <div class="col-sm-4">          
+					<input type="text" formControlName="expiryyear" class="form-control" id="yy" placeholder="YY" name="yy">
+					<div *ngIf="expiryyear.invalid && (expiryyear.dirty || expiryyear.touched)">
+						<div *ngIf="expiryyear.errors.required" class="form-error alert-danger">expiryyear Is Required</div>
+					</div>
+					<div  *ngIf="!expiryyear.invalid">
+						<div *ngIf="!validY" class="form-error alert-danger">Should be of 2 Character</div>
+					</div>
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="dob">CVV:</label>
+				  <div class="col-sm-8">          
+					<input type="text" formControlName="cvv" class="form-control" id="cvv" placeholder="CVV" name="cvv">
+					<div *ngIf="cvv.invalid && (cvv.dirty || cvv.touched)">
+						<div *ngIf="cvv.errors.required" class="form-error alert-danger">cvv Is Required</div>
+					</div>
+					<div  *ngIf="!cvv.invalid">
+						<div *ngIf="!validCvv" class="form-error alert-danger">Should be of 3 Character</div>
+					</div>
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="holder">First Name:</label>
+				  <div class="col-sm-8">          
+					<input type="text" formControlName="fname" class="form-control"   placeholder="Enter First Name" name="holder">
+					<div *ngIf="fname.invalid && (fname.dirty || fname.touched)">
+											  <div *ngIf="fname.errors.required" class="form-error alert-danger">fname Is Required</div>
+									  </div>
+				  </div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 col-form-label" for="holder">Last Name:</label>
+					<div class="col-sm-8">          
+					  <input type="text" formControlName="lname" class="form-control" placeholder="Enter Last Name" name="holder">
+					  <div *ngIf="lname.invalid && (lname.dirty || lname.touched)">
+						  <div *ngIf="lname.errors.required" class="form-error alert-danger">lname Is Required</div>
+					  </div>
+					</div>
+				  </div>
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="holder">Zip</label>
+				  <div class="col-sm-8">          
+					<input type="text" formControlName="zip" class="form-control" placeholder="Enter Zip" name="holder">
+					<div *ngIf="zip.invalid && (zip.dirty || zip.touched)">
+						<div *ngIf="zip.errors.required" class="form-error alert-danger">zip Is Required</div>
+					</div>
+				  </div>
+				</div>
+				<div class="form-group row">
+				  <label class="col-sm-4 col-form-label" for="holder">Address</label>
+				  <div class="col-sm-8">          
+					<input type="text" formControlName="address" class="form-control" placeholder="Enter Address" name="holder">
+					<div *ngIf="address.invalid && (address.dirty || address.touched)">
+						<div *ngIf="address.errors.required" class="form-error alert-danger">address Is Required</div>
+					</div>
+				  </div>
+				</div>
+				<div class="form-group row">        
+				  <div class="offset-sm-4 col-sm-8">
+					<button type="submit" (click)="WannaSave(true)" class="btn custom-btn pull-right">Save & Proceed </button>
+					<button type="submit" (click)="WannaSave(false)" class="btn custom-btn pull-right">Don't</button>
+				  </div>
+				</div>
+			  </form>
+			</div>
+			
+		  </div>
+		</div>
+	</div>
   
   
 <app-footer2></app-footer2>
