@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef } from '@angular/core';
 import { UserService } from 'src/Services/user.service';
 import { ToastrService } from 'ngx-toastr';
 import  { KitchenService} from '../../../Services/kitchen.service'
@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
   Countrys:any;
   Signin:boolean= true;
   Countryname:string ="Select Country";
-  constructor(public global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
+  constructor(private eleRef:ElementRef, public global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
@@ -31,12 +31,15 @@ export class HeaderComponent implements OnInit {
       }
       console.log("hit")
    });
+   this.userService.getLoginElement.subscribe(res=>{
+     if(res){
+       this.eleRef.nativeElement.querySelector("#loginn").click();
+     }
+   })
    
    this.userService.getUser();
    this.userService.UserUpdate(true);
-  //  let login = this.eleRef.nativeElement.querySelector("loginn");
-  //  console.log(login);
-  //  this.userService.UpdateLoginElement(login);
+
   }
   onSignout(){
     this.userService.removeUser();

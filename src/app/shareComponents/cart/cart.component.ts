@@ -21,9 +21,7 @@ export class CartComponent implements OnInit {
       this.orders = res;
       console.log(this.orders);
     });
-    // this.userservice.getLoginElement.subscribe(res =>{
-    //  console.log(res);
-    // });
+   
   }
   RemoveCombo(items){
     this.cart.RemoveCombo(items).then(()=>{
@@ -39,7 +37,7 @@ export class CartComponent implements OnInit {
     let user = this.userservice.getUser();
     if(user == null || user == undefined){
   
-      console.log(   this.eleRef.nativeElement.querySelector('#loginn'));
+      this.userservice.UpdateLoginElement(true);
 
     }else{
       this.router.navigate(['/checkout']);

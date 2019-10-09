@@ -12,18 +12,18 @@ export class UserService {
   user:any = null;
   private login = new Subject<any>();
   checkCurrentUser = this.login.asObservable();
-  // private LoginElement = new Subject<any>();
-  // getLoginElement = this.LoginElement.asObservable();
+  private LoginElement = new Subject<any>();
+  getLoginElement = this.LoginElement.asObservable();
 
 
   httpOptions = {
     header:new HttpHeaders({'Content-Type':'application/json'})
   }
   constructor(private http:HttpClient,public server: GlobalService) { }
-  // UpdateLoginElement(ele){
-  //   console.log(ele);
-  //   this.LoginElement.next(ele);
-  // }
+  UpdateLoginElement(ele){
+
+     this.LoginElement.next(ele);
+   }
   UserUpdate(mission: boolean) {
     this.login.next(mission);
   }
