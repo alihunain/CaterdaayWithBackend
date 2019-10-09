@@ -27,6 +27,14 @@ export class CartComponent implements OnInit {
     this.cart.RemoveCombo(items).then(()=>{
       this.toastr.success("Item Remove");
     })
+    if(this.cart.cartCount == 0){
+      if(this.router.url == "/checkout"){
+        this.toastr.warning("Your Cart Is Empty Kindly Fill First");
+        this.router.navigate['/details'];
+      }else{
+        return;
+      }
+    }
   }
 
   stopPropagation(e: Event) {

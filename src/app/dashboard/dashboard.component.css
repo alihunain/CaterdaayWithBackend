@@ -14,6 +14,9 @@
     min-width: 50px;
     text-align: center;
   }
+  .icon:hover {
+    color: #5ba946;
+  }
   
   /* Style the input fields */
   .ent-add {

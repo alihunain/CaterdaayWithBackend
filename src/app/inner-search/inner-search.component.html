@@ -102,12 +102,7 @@
 
 					</ul>
 				</div>
-				<div class="side-search side-widget">
-					<h4>Search</h4>
-					<!-- <form>
-						<input type="text" name="" placeholder="Cater, Cusine etc" class="form-control">
-					</form> -->
-				</div>
+			
 			</div>
 
 			<div class="col-md-9">
@@ -121,10 +116,10 @@
 							
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
-							<figure>
+							<figure *ngIf="item.page == CurrentPage">
 								<a routerLink="/detail" (click)="RequestOrder(item._id)"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
-							<div class="s-cont-desc" >
+							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
 								<a routerLink="/detail" (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
 								<div class="row">
 									<div class="cont-spec">
@@ -139,20 +134,18 @@
 											<i class="fa fa-star"></i>
 										</div>
 										<div class="rating">
-											<span>(4.0)</span><span><a style="cursor: pointer;">(320 Reviews)</a></span>
+											<span>({{item.rating}})</span><span><a style="cursor: pointer;">({{item.review}}Reviews)</a></span>
 										</div>
 									</div>
 								</div>
 								<div class="row ord-spec-row">
 									<div class="ord-spec">
-										<strong>$100</strong> Minimum
+										<strong>{{item.minimumorder}} </strong> Minimum Person
 									</div>
 									<div class="ord-spec">
-										<strong>$25</strong> Delivery fee
+										<strong>{{item.preorderforlaterafterdays}}</strong> Pre Order
 									</div>
-									<div class="ord-spec">
-										<strong>99%</strong> On time
-									</div>
+									
 								</div>
 								<div class="row">
 									<a routerLink="/detail" (click)="RequestOrder(item._id)" class="ord-btn">Request Order</a>
@@ -320,11 +313,9 @@
 				</div>
 				<div class="row justify-content-center">
 					<ul class="pagination">
-					  	<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
-						<li class="page-item active"><a class="page-link" style="cursor: pointer;">1</a></li>
-						<li class="page-item"><a class="page-link" style="cursor: pointer;">2</a></li>
-						<li class="page-item"><a class="page-link" style="cursor: pointer;">3</a></li>
-						<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+					  	<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-left" aria-hidden="true" (click)="Pre()"></i></a></li>
+						<li class="page-item" *ngFor="let page of pageArray"><a class="page-link" style="cursor: pointer;" (click)="SetPage(page)">{{page}}</a></li>
+						<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-right" aria-hidden="true" (click)="Next()"></i></a></li>
 					</ul>
 				</div>
 				<div class="row justify-content-center">

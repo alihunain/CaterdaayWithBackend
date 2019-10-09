@@ -18,9 +18,10 @@
                   </select> -->
                   <input type="text"  (keydown.enter)="$event.preventDefault()"  class="ent-add" placeholder="Enter your delivery address" #search />
                   <i (click)="CLocation()" class="fa fa-map-marker icon"></i>
-                  <input type="submit" (click)="AddLocation()" class="btn" value="SEARCH" />
-                  <div  class="form-error alert-danger" *ngIf="addressField">Please enter an address or zip code to see caterers who can deliver to you.</div>
+                  <input type="submit" (click)="AddLocation()" class="btn" value="SEARCH" /><br>
+                  <div style="position: absolute;top: 45px;" class="form-error alert-danger" *ngIf="addressField">Please enter an address or zip code to see caterers who can deliver to you.</div>
               </div>
+          
             </div>
           </div>
         </div>
@@ -51,6 +52,12 @@
           </div>
           <div ngxSlickItem  class="logos">
             <figure>
+              <img src="assets/images/wedding-parties-updated.png">
+              <figcaption>Wedding<br>Parties</figcaption>
+            </figure>
+          </div>
+          <div ngxSlickItem  class="logos">
+            <figure>
               <img src="assets/images/famlily-dinner-updated.png">
               <figcaption>Family<br>Dinner</figcaption>
             </figure>
@@ -61,12 +68,7 @@
               <figcaption>Office<br>Food</figcaption>
             </figure>
           </div>
-          <div ngxSlickItem  class="logos">
-            <figure>
-              <img src="assets/images/wedding-parties-updated.png">
-              <figcaption>Wedding<br>Parties</figcaption>
-            </figure>
-          </div>
+         
 
       </ngx-slick-carousel>
       </div>
@@ -94,7 +96,7 @@
           <div class="col-lg-6 col-md-12">
              <h3 class="heading clr-white" appScrollEnterance anim="from-left">We value friendship.<br>Earn $10 for every friend</h3>
              <p class="clr-white" appScrollEnterance anim="from-left">when you introduce your friends to place their first order</p>
-             <a routerLink="/earn" class="btn ref-btn">Refer a Friend</a>
+             <a style="cursor: pointer;" class="btn ref-btn">Refer a Friend</a>
           </div>
         </div>
       </div>

@@ -113,12 +113,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/listing']);
   }
   onFoodType(value:string){
-
+  
     this.kitchenservice.filterKitchen.cousine = new Array<string>();
     // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.filterKitchen.cousine.push(value);
-    // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.setfilterKitchen();
+    // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
+    
 
   }
 
@@ -166,7 +167,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
   CLocation(){
     this.setCurrentLocation();
-
+    this.searchElementRef.nativeElement.value = "";
  this.searchElementRef.nativeElement.value = this.kitchenservice.address;
   }
   AddLocation(){

@@ -25,6 +25,7 @@ export class InnerCateringSearchComponent implements OnInit {
     "focusOnSelect": false,
     "speed": 1000
   };
+  textarea:boolean=false;
   max :any;
   selectedItem:any;
   min:any;
@@ -118,6 +119,7 @@ export class InnerCateringSearchComponent implements OnInit {
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
       let response =  {max: "80",min:"10",Combos: [{
         name:"Mealone",
+        halal:true,
         kitchenid:this.resturantService.Resturantid,
         description:"this is a test data",
         finalcomboprice:"380",
@@ -169,6 +171,9 @@ export class InnerCateringSearchComponent implements OnInit {
        console.log(error)
      })
          
+  }
+  textareaStatus(){
+    this.textarea = !this.textarea;
   }
   getResturantDetails (){
        this.resturantService.resturantsDetails(this.resturantService.Resturantid).subscribe((data:any)=>{

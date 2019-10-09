@@ -21,6 +21,9 @@ export class InnerSearchComponent implements OnInit {
   totalResturants:number;
   cuisines:any;
   preloader:boolean;
+  totalpages;
+  CurrentPage;
+  pageArray;
   constructor(private global:GlobalService,private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
 
   async ngOnInit() {
@@ -71,18 +74,54 @@ export class InnerSearchComponent implements OnInit {
   
       this.resturants = data.message;
       this.totalResturants= this.resturants.length;
+      console.log(data.message);
       if(data.message.length == 0){
     
         this.validation = true;
       }else{
         this.validation = false;
       }
-     
+      this.totalpages = this.totalResturants % 5;
+      if(this.totalResturants % 5 != 0){
+        this.totalpages++;
+      }
+      this.CurrentPage = 1;
+      for(let i=0; i< this.totalResturants;i++){
+console.log(this.getResturantRating(this.resturants[i]._id));
+       this.resturants[i].rating =  this.getResturantRating(this.resturants[i]._id);
+       this.resturants[i].review = this.getResturantReviews(this.resturants[i]._id);
+       this.resturants[i].page = (Math.floor((i+1)/5))+1;
+       console.log((Math.floor((i+1)/5))+1);
+      }
+      this.pageArray = new Array();
+      for(let i = 1; i < this.totalpages;i++){
+        this.pageArray.push(i);
+      }
       this.preloader = false;
+
+      
+      
     }, (error) => {
       console.log(error,"this error");
     })
   
+  }
+  Next(){
+    if((this.CurrentPage+1) > this.totalpages){
+      return;
+    }else{
+      this.CurrentPage +=1;
+    }
+  }
+  Pre(){
+    if((this.CurrentPage-1) < 1){
+      return;
+    }else{
+      this.CurrentPage -=1;
+    }
+  }
+  SetPage(num){
+    this.CurrentPage =num;
   }
   private async setCurrentLocation(): Promise<any> {
     let self = this;
@@ -139,4 +178,28 @@ export class InnerSearchComponent implements OnInit {
     this.resturantService.Resturantid = resturantid;
     this.resturantService.setResturantid();
   }
+  getResturantRating(id){
+    let avgrating = 0;
+    this.resturantService.resturantRating(id).subscribe((data:any)=>{
+      if(data.message.pack[0] != undefined){
+
+        avgrating= data.message.pack[0].average;
+      }
+    },(error)=>{
+      console.log(error)
+    })
+    return avgrating;
+}
+getResturantReviews(id){
+  let review;
+  this.resturantService.resturantReviews(id).subscribe((data:any)=>{
+    review = data.message;
+  
+    
+    
+  },(error)=>{
+    console.log(error)
+  })
+  return; review.review.length
+}
 }

@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import  { KitchenService} from '../../../Services/kitchen.service'
 import { GlobalService } from '../../../Services/global.service'
 import {CartService} from '../../../Services/cart.service'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -16,8 +17,9 @@ export class HeaderComponent implements OnInit {
   User:any=null;
   Countrys:any;
   Signin:boolean= true;
+  Show = false;
   Countryname:string ="Select Country";
-  constructor(private eleRef:ElementRef, public global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
+  constructor(private router:Router,private eleRef:ElementRef, public global: GlobalService,public userService:UserService,private toastr: ToastrService,private kitchenservice:KitchenService,private cart:CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
@@ -66,7 +68,10 @@ export class HeaderComponent implements OnInit {
       console.log(error)
     })
   }
- 
+  ShowCountry(){
+
+    this.Show = !this.Show;
+  }
   Change(selectedCountry: string){
  
     this.Countryname = selectedCountry;
