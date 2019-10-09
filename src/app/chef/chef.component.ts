@@ -146,7 +146,7 @@ export class ChefComponent implements OnInit {
        }
        this.currentchefs[i].cuisineNames = cuisineNames;
      }
-     console.log(this.currentchefs);
+    //  console.log(this.currentchefs);
   }
   GetMenuList(resturantid){
     return new Promise((resolve,reject)=>{
@@ -164,7 +164,7 @@ export class ChefComponent implements OnInit {
        })
       
     }
-    console.log(this.currentchefs,"i am in set menulist");
+    // console.log(this.currentchefs,"i am in set menulist");
   }
   push4Loadmore(){
     if(this.endpoint+1 >= this.currentchefs.length){

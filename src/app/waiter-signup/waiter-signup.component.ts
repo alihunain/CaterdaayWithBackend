@@ -50,6 +50,6 @@ export class WaiterSignupComponent implements OnInit {
     return this.Waiter.get('yourself');
   }
   waiterSignup(){
-    console.log("API Requeired");
+   
   }
 }

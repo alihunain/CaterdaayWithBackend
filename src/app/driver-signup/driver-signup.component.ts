@@ -67,7 +67,7 @@ export class DriverSignupComponent implements OnInit {
   driverSignup(){
     let driverDetails = this.Driver.value;
     this.driver.Signup(driverDetails).subscribe((data:any)=>{
-      console.log(data)
+
     },(error:any)=>{
 console.log(error);
     })

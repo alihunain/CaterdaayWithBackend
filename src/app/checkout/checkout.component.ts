@@ -83,7 +83,7 @@ export class CheckoutComponent implements OnInit {
     this.cart.getCurrentResturant();
     this.cart.getCartCount();
     this.user.getUser();
-    console.log(this.user.user,"User On Init");
+  
     if(this.user.user == null || this.user.user == undefined){
      this.router.navigate(['/detail']);
    }
@@ -91,7 +91,6 @@ export class CheckoutComponent implements OnInit {
     this.currentUserId =this.user.user._id;
     this.orders = this.cart.itemsOrder;
 
-    console.log(this.orders)
     if(this.orders == null || this.orders == undefined){
       this.router.navigate(['/listing']);
     }
@@ -107,10 +106,10 @@ export class CheckoutComponent implements OnInit {
       
       that.orders.delivery = that.delivery;
       that.orders.taxpercentage = that.taxpercentage;
-      console.log(that.taxpercentage,"tax percentage");
+    
       that.orders.taxAmount =((that.orders.total/100)*that.taxpercentage);
       that.orders.totalqty = that.cart.getCartCount(); 
-      console.log(that.orders,"order in checkout");
+
     });
   });
   this.mapsAPILoader.load().then(() => {
@@ -158,10 +157,10 @@ export class CheckoutComponent implements OnInit {
    getTaxResturant(id){
     return Promise((resolve, reject) => {
       this.resturant.resturantsDetails(id).subscribe((data:any)=>{
-        console.log(data);
+   
         this.taxpercentage = data.message.tax.value;
-        console.log(this.taxpercentage);
-        console.log(data.message.tax.value);
+   
+
         resolve(true);
       },(error)=>{
         console.log(error);
@@ -204,14 +203,14 @@ this.cart.RemoveCombo(item).then(()=>{
   getUser(){
     this.user.getCustomer(this.currentUserId).subscribe((data:any)=>{
       this.currentUserObj = data.message;
-      console.log(this.currentUserObj);
+  
     },(error)=>{
       console.log(error);
     })
   }
   PlaceOrder(){
 
-    console.log(this.orders.items)
+
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
     if(this.paycard == false){
@@ -254,7 +253,7 @@ this.cart.RemoveCombo(item).then(()=>{
         if(res){
     
         this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
-          console.log(data,"response of order email");
+    
           this.router.navigate(['/thankyou']);
           
         },(error)=>{
@@ -312,8 +311,8 @@ this.cart.RemoveCombo(item).then(()=>{
   Order(order){
     return Promise((resolve,reject)=>{
     this.kitchen.Order(order).subscribe((data:any)=>{
-      console.log(data,"response of order");
-      if(!data.error){
+
+            if(!data.error){
         this.toastr.success('Your Order has been placed');
         resolve(true);
       }else{
@@ -401,7 +400,7 @@ this.cart.RemoveCombo(item).then(()=>{
      // Address From  Google Map Function <-- End -->
      addAddress(){
       this.user.addCustomerAdress(this.currentUserId,this.Address.value).subscribe((data:any)=>{
-        console.log(data)
+   
         
         if(data.error == true){
 
@@ -409,13 +408,13 @@ this.cart.RemoveCombo(item).then(()=>{
         }else{
           
         this.customerAddress = data.message.customeraddresses[0];
-        console.log(this.customerAddress);
+
         this.getUser();
           this.eleRef.nativeElement.querySelector('#closeAdress').click();
           this.toastr.success("Added Sucessfully");
         }
       },(error)=>{
-        console.log(error,"Add Address Error")
+  
       })
     }
 
@@ -473,7 +472,7 @@ this.cart.RemoveCombo(item).then(()=>{
           if(data.message.txn.errorCode == undefined && data.message.txn.ssl_result_message != "INVALID CARD"){
           let card = this.Card.value;
           card.email = this.currentUserObj.email;
-          console.log(card,"before sending");
+     
           this.generateCardToken(card);
          }else{
            this.toastr.error(data.message.txn.errorMessage || data.message.txn.ssl_result_message);
@@ -498,7 +497,7 @@ this.cart.RemoveCombo(item).then(()=>{
         token:res.ssl_token,
       }],_id:this.currentUserObj._id
     }
-    console.log(this.CardStatus);
+
     if(this.CardStatus){
 
     this.addCard(card);
@@ -512,7 +511,7 @@ this.cart.RemoveCombo(item).then(()=>{
       })
     }
     addCard(cardinfo){
-      console.log(cardinfo,"before adding card");
+    
   
       this.user.UpdateProfile(this.currentUserObj._id,cardinfo).subscribe((data:any)=>{
         if(!data.error){
@@ -527,7 +526,7 @@ this.cart.RemoveCombo(item).then(()=>{
       })
     }
     WannaSave(status){
-      console.log("Wanna Save is hit :D");
+ 
       this.saveCard =status;
     }
     deleteCard(){

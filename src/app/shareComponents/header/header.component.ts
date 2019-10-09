@@ -23,13 +23,13 @@ export class HeaderComponent implements OnInit {
     this.getCountries();
     this.Signin= true;
     this.userService.checkCurrentUser.subscribe(res =>{
-      console.log(this.userService.user,"user in subscribe");
+    
       if(this.userService.user != undefined && this.userService.user != null){
         this.Signin = false;
       }else{
         this.Signin = true;
       }
-      console.log("hit")
+   
    });
    this.userService.getLoginElement.subscribe(res=>{
      if(res){
@@ -61,10 +61,7 @@ export class HeaderComponent implements OnInit {
    this.userService.GetCountryList().subscribe((data:any)=>
    {
      this.Countrys=data.message;
-     for(let i = 0 ; i < this.Countrys.length;i++){
-       console.log(this.Countrys[i].countryName);
-     }
-     console.log(this.Countrys)
+    
     },error=>{
       console.log(error)
     })

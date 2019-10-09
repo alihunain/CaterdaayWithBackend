@@ -50,7 +50,7 @@ export class SignupComponent implements OnInit {
     this.Loginuser.username =this.loginusername.value;
     this.Loginuser.password = this.loginpassword.value; 
     this.userService.Login(this.Loginuser).subscribe((data:any)=>{
-      console.log(data);
+
       if(!data.error){
         this.userService.user = data.data;
         this.userService.setUser();
@@ -114,10 +114,10 @@ export class SignupComponent implements OnInit {
     this.eleRef.nativeElement.querySelector('#closeLogin').click();
   }
   Compare(){
-    console.log(this.password.value);
+ 
    let pass = this.password.value;
    let confirm = this.confirmpassword.value;
-   console.log(confirm);
+  
    if(pass != confirm){
      this.current = false;
    }else{

@@ -85,7 +85,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             return;
           }
 
-          console.log(place.geometry);
+          // console.log(place.geometry);
           //set latitude, longitude and zoom
           this.kitchenservice.filterKitchen.lat = place.geometry.location.lat().toString();
           this.kitchenservice.filterKitchen.lng = place.geometry.location.lng().toString();
@@ -115,9 +115,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   onFoodType(value:string){
 
     this.kitchenservice.filterKitchen.cousine = new Array<string>();
-    console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
+    // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.filterKitchen.cousine.push(value);
-    console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
+    // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.setfilterKitchen();
 
   }
@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
   CLocation(){
     this.setCurrentLocation();
-    console.log(this.kitchenservice.address);
+
  this.searchElementRef.nativeElement.value = this.kitchenservice.address;
   }
   AddLocation(){
@@ -176,7 +176,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       alert("Kindly Select Address from dropdown");
       return;
     }else{
-      console.log(this.kitchenservice.filterKitchen);
+  
       this.kitchenservice.setfilterKitchen();
       this.kitchenservice.setaddress();
       this.router.navigate(['/listing']);
@@ -189,7 +189,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     for(let i = 0; i < data.message.length && i < 10;i++){
       this.cuisines.push(data.message[i]);
     }
-    console.log(this.cuisines);
   },(error)=>{
     console.log(error);
   })

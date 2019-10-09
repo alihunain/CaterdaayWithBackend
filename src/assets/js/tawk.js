@@ -1,5 +1,5 @@
 
-     console.log("test");
+
 <!--Start of Tawk.to Script-->
 
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();

@@ -28,10 +28,10 @@ export class InnerSearchComponent implements OnInit {
     this.global.header = 3;
     this.preloader = true;
     this.validation = false;
-    console.log(this.kitchenFilter.filterKitchen.cousine,"cousine");
+  
     if(this.kitchenFilter.filterKitchen.cousine === undefined){
       this.kitchenFilter.filterKitchen.cousine = new Array<string>();
-      console.log(this.kitchenFilter.filterKitchen.cousine)
+      
     }
     this.Cuisines();
     if (this.kitchenFilter.GetKitchen().country == undefined || this.kitchenFilter.GetKitchen().country == null) {
@@ -52,7 +52,7 @@ export class InnerSearchComponent implements OnInit {
   Cuisines(){
     this.kitchenFilter.Cuisines().subscribe((data:any)=>{
       this.cuisines = data.message;
-      console.log(this.cuisines)
+   
     },(error)=>{
       console.log(error);
     })
@@ -68,7 +68,7 @@ export class InnerSearchComponent implements OnInit {
    Search() {
      this.preloader = true;
     this.kitchenFilter.Kitchenfilter(this.kitchenFilter.filterKitchen).subscribe((data: any) => {
-      console.log(data,"kitchen data");
+  
       this.resturants = data.message;
       this.totalResturants= this.resturants.length;
       if(data.message.length == 0){
@@ -77,7 +77,7 @@ export class InnerSearchComponent implements OnInit {
       }else{
         this.validation = false;
       }
-      console.log(this.validation);
+     
       this.preloader = false;
     }, (error) => {
       console.log(error,"this error");
@@ -92,7 +92,7 @@ export class InnerSearchComponent implements OnInit {
         navigator.geolocation.getCurrentPosition(async (position) => {
           self.kitchenFilter.filterKitchen.lat = position.coords.latitude.toString();
           self.kitchenFilter.filterKitchen.lng = position.coords.longitude.toString();
-          console.log(self.kitchenFilter.filterKitchen, "I am In Current Location");
+        
           await self.setAddress(Number(self.kitchenFilter.filterKitchen.lat), Number(self.kitchenFilter.filterKitchen.lng));
           self.kitchenFilter.setfilterKitchen();
           resolve(true);
@@ -106,8 +106,8 @@ export class InnerSearchComponent implements OnInit {
     let self = this;
     return new Promise((resolve,reject) =>{
       self.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-        console.log(status)
-        console.log(self.kitchenFilter.filterKitchen, "I am in get Address");
+
+
         if (status === 'OK') {
           let isCity = false;
           for(let i = 0 ; i < results.length && isCity == false;i++){
@@ -122,10 +122,10 @@ export class InnerSearchComponent implements OnInit {
           }
         
           self.kitchenFilter.filterKitchen.country = results[results.length - 1].formatted_address.toLowerCase();
-          console.log(self.kitchenFilter.filterKitchen.country)
+      
           if (results[0]) {
             self.kitchenFilter.address = results[0].formatted_address;
-            console.log(self.kitchenFilter.address);
+        
           }
           this.kitchenFilter.setfilterKitchen();
           return resolve(true);

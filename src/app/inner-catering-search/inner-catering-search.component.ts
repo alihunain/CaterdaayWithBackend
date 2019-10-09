@@ -58,7 +58,6 @@ export class InnerCateringSearchComponent implements OnInit {
     })
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
-    console.log(this.resturantService.Resturantid,"I am in inner catering seach");
 
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
@@ -85,7 +84,7 @@ export class InnerCateringSearchComponent implements OnInit {
     this.showcart = !this.showcart;
   }
   ResturantPopups(items){
-    console.log(items,"items in popups")
+
     if(items.kitchenid != this.cart.currentResturant){
       this.dropdown = new Array<Number>();
       let min = items.min;
@@ -98,11 +97,9 @@ export class InnerCateringSearchComponent implements OnInit {
     }
    this.dropdown = new Array<Number>();
    let min = items.min;
-   console.log(min < (this.min-this.cart.getCartCount()));
    if(min < (this.min-this.cart.getCartCount())){
      min = this.min-this.cart.getCartCount();
    }
-   console.log(items.name);
    let itemincart = this.cart.isBufferExist(items.name);
    let itemmax;
    if(itemincart != -1){
@@ -115,8 +112,6 @@ export class InnerCateringSearchComponent implements OnInit {
    for(let i = min ; i <= (this.max-this.cart.getCartCount()) && i <= itemmax;i++){
      this.dropdown.push(i);
    }
-    console.log(this.dropdown);
-    console.log(items,"updated");
     this.popupItem = items;
   }
   getActiveCombos(){
@@ -168,7 +163,7 @@ export class InnerCateringSearchComponent implements OnInit {
       this.bufferToDisplay = response.Combos;
     this.min  = response.min;
       this.max = response.max;
-      console.log(this.bufferToDisplay);
+
 
      },(error)=>{
        console.log(error)
@@ -180,7 +175,7 @@ export class InnerCateringSearchComponent implements OnInit {
    
          if(!data.error){
          this.ResturantObj=data.message;
-        console.log(this.ResturantObj);
+
 
          this.latitude = this.ResturantObj.lat;
          this.longitude = this.ResturantObj.lng;
@@ -211,13 +206,11 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   CartCombo(popupItem){
     this.selectedItem = popupItem;
-    console.log(popupItem)
-    console.log(this.cart.getCurrentResturant(),"first resturant");
-    console.log(!(this.cart.getCurrentResturant() == popupItem.kitchenid),"condition")
+
     
-    console.log(!(this.cart.currentResturant == popupItem.kitchenid),"checking condition")
+
     if(this.cart.getCurrentResturant() == undefined||this.cart.getCurrentResturant() == null){
-      console.log(this.cart.getCurrentResturant(),"null resturant in cart")
+ 
       this.cart.currentResturant = popupItem.kitchenid;
       this.cart.setcurrentResturant();
     }
@@ -226,13 +219,13 @@ export class InnerCateringSearchComponent implements OnInit {
     return;
     }
     let qty = this.eleRef.nativeElement.querySelector('#total-serving').value;
-    console.log(qty,"quantittyyy");
+   
    this.eleRef.nativeElement.querySelector('#closePopup').click();
     this.cart.addBufferItem(popupItem,qty,this.ResturantObj.restaurantname);
-    console.log("Add buffer");
+  
   this.cart.cartCount = this.cart.getCartCount()+Number(qty);
    this.cart.setCartCount();
-   console.log(this.cart.getCartCount());
+   
    this.cart.setItemOrder();
   }
   getResturantRating(){
@@ -269,7 +262,7 @@ export class InnerCateringSearchComponent implements OnInit {
           let map=[];
           for(let i = 0; i<this.customerMap.length;i++){
             map[this.customerMap[i]._id] = this.customerMap[i].firstname + " " + this.customerMap[i].lastname;
-            console.log(map[this.customerMap[i]._id]);
+        
           }
           for(let i = 0;i < reviewList.length;i++){
       
@@ -294,7 +287,7 @@ export class InnerCateringSearchComponent implements OnInit {
       
        this.resturantService.activeItem(this.resturantService.Resturantid).subscribe((data:any)=>{
        let itemsInResturant = data.message;
-       console.log(data.message,"Active Item Object");
+  
    
        let menus = [];
        let items = [];
@@ -324,7 +317,7 @@ export class InnerCateringSearchComponent implements OnInit {
          menus[keys[i]].uiId = i+1;
          this.menuToDisplay.push(menus[keys[i]]);
        }
-       console.log(this.menuToDisplay,"Added");
+   
    
      })
      
