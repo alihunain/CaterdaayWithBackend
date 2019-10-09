@@ -17,7 +17,7 @@
               <a routerLink="/detail" (click)="menuPage(chefs._id)"><img src="https://mealdaay.com:4024/uploads/{{chefs.image[0]}}" class="chef-img"></a>
             </figure>
             <div class="chef-desc">
-              <h4><a routerLink="/detail" (click)="menuPage(chefs._id)">>{{chefs.restaurantname}}</a></h4>
+              <h4><a routerLink="/detail" (click)="menuPage(chefs._id)">{{chefs.restaurantname}}</a></h4>
               <h6>{{chefs.country}}</h6>
               <div class="cont-rev">
                 <div class="star-rating">
@@ -28,21 +28,21 @@
                   <i class="fa fa-star"></i>
                 </div>
                 <div class="rating">
-                  <span>({{chefs.rating}})</span><span><a routerLink="/detail" (click)="menuPage(chefs._id)">>({{chefs.reviews}} Reviews)</a></span>
+                  <span>({{chefs.rating}})</span><span><a routerLink="/detail" (click)="menuPage(chefs._id)">({{chefs.reviews}} Reviews)</a></span>
                 </div>
               </div>
               <div class="chef-tags"> 
               
-                <a *ngFor="let cuisine of chefs.cuisineNames" routerLink="/detail" (click)="menuPage(chefs._id)"> class="tag">{{cuisine}}</a>
+                <a *ngFor="let cuisine of chefs.cuisineNames" routerLink="/detail" (click)="menuPage(chefs._id)" class="tag">{{cuisine}}</a>
          
               </div>
               <div class="chef-dishes">
                 <div class="chef-d" *ngFor="let menu of chefs.menus">
                   <figure>
-                    <a routerLink="/detail" (click)="menuPage(chefs._id)">><img src="https://mealdaay.com:4024/uploads/{{menu.image}}" style="max-width: 100px;max-height: 80px" class=""></a>
+                    <a routerLink="/detail" (click)="menuPage(chefs._id)"><img src="https://mealdaay.com:4024/uploads/{{menu.image}}" style="max-width: 100px;max-height: 80px" class=""></a>
                   </figure>
                   <div class="dish-desc">
-                    <h4><a routerLink="/detail" (click)="menuPage(chefs._id)">>{{menu.name}}</a></h4>
+                    <h4><a routerLink="/detail" (click)="menuPage(chefs._id)">{{menu.name}}</a></h4>
                     <p>Burgers, Sandwich, Pizza,Shawarma and much more</p>
                   </div>
                 </div>
