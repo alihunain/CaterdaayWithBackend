@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ElementRef, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import {CartService} from '../../../Services/cart.service'
+import { UserService } from '../../../Services/user.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
@@ -9,7 +11,9 @@ import {CartService} from '../../../Services/cart.service'
 export class CartComponent implements OnInit {
   public kitchenName = 'Gregory Denton';
   public orders:any;
-  constructor(private cart:CartService,private toastr:ToastrService) { }
+  @ViewChild('#loginn')
+  public login: ElementRef;
+  constructor(private router:Router,private userservice:UserService,private cart:CartService,private toastr:ToastrService,private eleRef: ElementRef) { }
 
   ngOnInit() {
     this.orders = this.cart.getItemOrder();
@@ -17,6 +21,9 @@ export class CartComponent implements OnInit {
       this.orders = res;
       console.log(this.orders);
     });
+    // this.userservice.getLoginElement.subscribe(res =>{
+    //  console.log(res);
+    // });
   }
   RemoveCombo(items){
     this.cart.RemoveCombo(items).then(()=>{
@@ -28,7 +35,16 @@ export class CartComponent implements OnInit {
     e.preventDefault();
     e.stopPropagation();
   }
+  proceedToCheckout(){
+    let user = this.userservice.getUser();
+    if(user == null || user == undefined){
   
+      console.log(   this.eleRef.nativeElement.querySelector('#loginn'));
+
+    }else{
+      this.router.navigate(['/checkout']);
+    }
+  }
 
 
 

@@ -50,7 +50,7 @@
 	        				<input type="submit" [disabled]="!Signup.valid" name="reg-sub" id="reg-sub" class="btn  reg-btn" value="Submit">
 	        			</div>
 	        			<div class="form-group text-center">
-	        				<p>Already have an account ? <a href="#" (click)="switchLogin()"  data-toggle="modal" data-target="#login">LogIn</a></p>
+	        				<p>Already have an account ? <a style="cursor: pointer;" (click)="switchLogin()"  data-toggle="modal" data-target="#login">LogIn</a></p>
 	        			</div>
 	        		</form>
 	      		</div>
@@ -83,14 +83,14 @@
 						  </div>
 						  <div class="form-group f-flex">
 							  <label><input type="checkbox" name=""> Keep Me Logged In</label>
-							  <p><a href="#" (click)="switchFP()" data-toggle="modal"  data-target="#ForgetPassword">Forgot Password ?</a></p>
+							  <p><a style="cursor: pointer;" (click)="switchFP()" data-toggle="modal"  data-target="#ForgetPassword">Forgot Password ?</a></p>
 						  </div>
 						  <div class="form-group">
 							  <input type="submit" [disabled]="!Login.valid" class="btn  reg-btn" value="Submit">
 						  </div>
 						  <div class="form-group f-flex">
 							  <p>Don't have an account ? </p>
-							  <p><a href="#" (click)="switchRegister()" data-toggle="modal"  data-target="#register">Create An Account</a></p>
+							  <p><a style="cursor: pointer;" (click)="switchRegister()" data-toggle="modal"  data-target="#register">Create An Account</a></p>
 						  </div>
 					  </form>
 					</div>

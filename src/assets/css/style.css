@@ -108,6 +108,9 @@ body, p {
 h1, h2, h3, h4, h5, h6 {
 	font-family: RobotoMedium;
 }
+.pac-container {
+    z-index: 1500 !important;
+}
 /*#main {
     overflow-x: hidden;
     overflow-y: hidden;

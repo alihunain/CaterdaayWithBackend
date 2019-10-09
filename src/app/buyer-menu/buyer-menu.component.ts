@@ -64,7 +64,7 @@ address:string;
       this.ResturantObj=data.message;
       console.log(this.ResturantObj.lat);
       console.log(this.ResturantObj.address);
-      this.zoom=2;
+      this.zoom=1;
       this.latitude = this.ResturantObj.lat;
       this.longitude = this.ResturantObj.lng;
 

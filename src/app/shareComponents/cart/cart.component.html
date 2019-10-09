@@ -66,7 +66,7 @@
     </div>
 
 
-  <button routerLink="/checkout" [disabled]="orders.length == 0" style="padding: 2px" class="btn btn-danger btn-block">
+  <button (click)="proceedToCheckout()" [disabled]="orders.length == 0" style="padding: 2px" class="btn btn-danger btn-block">
       CHECK OUT
     </button>
   </div>

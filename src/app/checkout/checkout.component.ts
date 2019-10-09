@@ -64,6 +64,7 @@ export class CheckoutComponent implements OnInit {
   validCn:boolean=true;
   validM:boolean=true;
   validY:boolean=true;
+  
 
 
 
@@ -208,10 +209,11 @@ this.cart.RemoveCombo(item).then(()=>{
     })
   }
   PlaceOrder(){
+
     console.log(this.orders.items)
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
-    if(payment == "Cash"){
+    if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
         customerid:this.currentUserId,
@@ -260,7 +262,47 @@ this.cart.RemoveCombo(item).then(()=>{
       }
       })
     }else{
-      alert("Working On Card");
+      if(this.saveCard == undefined || this.saveCard == null){
+        this.toastr.error("Card Not Found Kindly Add Card Or Try Again");
+        return;
+      }else{
+        let order = {
+          currency:"CAD", //User selected country currency
+          customerid:this.currentUserId,
+          deliveryCharges:this.orders.delivery,
+          addOnitem:[],
+          addOnTotal:[],
+          combo:this.orders.items,
+          coupon:this.coupon,
+          delvierySlot:{},
+          delvierySlotsWeek:{},
+          discount:0,
+          fulladdress:this.currentUserObj.customeraddresses[0],
+          items:[],
+          mealpackageDeliveryType:false,
+          name:this.currentUserObj.name,
+          note:"",
+          ordertiming:{
+            type:"later",
+            datetime:this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value,
+          },
+          ordertype:"",
+          package:[],
+          paymenttype: "card",
+          cardinfo:this.saveCard, 
+          restaurantid:this.resturant.Resturantid,
+          subtax:this.orders.taxAmount,
+          subtotal:this.orders.total,
+          tax: this.orders.taxAmount,
+          timezone:"America/Los_Angeles", //User selected country flow
+          total:this.orders.total+this.orders.taxAmount+this.orders.delivery
+        }
+        let orderEmail = {
+          customeremail:this.currentUserObj.email,
+          order:order,
+          restaurantid:this.resturant.Resturantid
+        }
+      }
     }
     
  
@@ -375,6 +417,9 @@ this.cart.RemoveCombo(item).then(()=>{
         console.log(error,"Add Address Error")
       })
     }
+
+
+
     selectCard(card){
       this.saveCard = card;
     }

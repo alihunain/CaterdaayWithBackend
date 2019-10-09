@@ -164,6 +164,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
  
     });
   }
+  CLocation(){
+    this.setCurrentLocation();
+    console.log(this.kitchenservice.address);
+ this.searchElementRef.nativeElement.value = this.kitchenservice.address;
+  }
   AddLocation(){
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;

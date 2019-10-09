@@ -80,8 +80,10 @@ export class CartService {
     
      this.removeItemOrders();
       this.cartCount = 0;
- 
+
       this.currentResturant = null;
+      this.setcurrentResturant();
+  
     }
     this.setCartCount();
     console.log(typeof this.itemsOrder);

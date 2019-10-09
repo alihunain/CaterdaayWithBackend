@@ -159,7 +159,9 @@
     text-align: left !important;
     font-size: 18px;
 }
-
+.pac-container {
+    z-index: 1500 !important;
+}
 .add-address-btn{
     margin:20px 0;
 }

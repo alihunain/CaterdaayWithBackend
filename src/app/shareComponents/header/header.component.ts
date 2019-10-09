@@ -5,6 +5,7 @@ import  { KitchenService} from '../../../Services/kitchen.service'
 import { GlobalService } from '../../../Services/global.service'
 import {CartService} from '../../../Services/cart.service'
 
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -33,7 +34,9 @@ export class HeaderComponent implements OnInit {
    
    this.userService.getUser();
    this.userService.UserUpdate(true);
-   
+  //  let login = this.eleRef.nativeElement.querySelector("loginn");
+  //  console.log(login);
+  //  this.userService.UpdateLoginElement(login);
   }
   onSignout(){
     this.userService.removeUser();

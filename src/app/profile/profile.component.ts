@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   items=new Map();
   lng:any;
   lat:any;
-  zoom=10;
+  zoom=1;
   checkpassword:boolean=false;
   mapaddress:string;
   favouriteItems:any;
@@ -71,8 +71,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
  
-  @ViewChild('address')
-  public searchElementRef: ElementRef;
+
   @ViewChild('city')
   public city: ElementRef;
   @ViewChild('country')
@@ -103,29 +102,7 @@ export class ProfileComponent implements OnInit {
       this.setCurrentLocation();
  
       this.geoCoder = new google.maps.Geocoder;
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
-      autocomplete.addListener("place_changed", () => {
-     
-        this.ngZone.run(() => {
-    
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
- 
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
 
-
-          //set latitude, longitude and zoom
-          this.lat = place.geometry.location.lat().toString();
-          this.lng = place.geometry.location.lng().toString();
-        
-          this.getAddress(this.lat,this.lng);
-        });
-      });
     });
   }
   verifyCard(){
@@ -196,6 +173,8 @@ export class ProfileComponent implements OnInit {
     this.userservices.getCustomer(this.userdata._id).subscribe((data:any)=>{
       this.customerAddress = data.message.customeraddresses[0];
       this.userdata = data.message;
+      this.userservices.user = data.message;
+      this.userservices.setUser();
       console.log(this.customerAddress);
     },(error)=>{
       console.log(error);
@@ -271,6 +250,7 @@ export class ProfileComponent implements OnInit {
 
     this.userservices.UpdateProfile(this.userdata._id,postProfile).subscribe((data:any)=>{
     if(!data.error){
+      this.getCustomer();
       this.toastr.success("Profile Updated !");
     }else{
       this.toastr.error(data.message);
@@ -337,7 +317,31 @@ console.log(this.orderForPopup,"uploaded");
       console.log(error);
     })
   }
+  autoComplete(){
+    let autocomplete = new google.maps.places.Autocomplete(this.eleRef.nativeElement.querySelector("#address"), {
+      types: ["address"]
+    });
+    autocomplete.addListener("place_changed", () => {
+   
+      this.ngZone.run(() => {
+  
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+
+        //set latitude, longitude and zoom
+        this.lat = place.geometry.location.lat().toString();
+        this.lng = place.geometry.location.lng().toString();
+      
+        this.getAddress(this.lat,this.lng);
+      });
+    });
+  }
 
 
   getAllKitchen(){
@@ -371,6 +375,7 @@ console.log(this.orderForPopup,"uploaded");
         this.getCustomer();
           this.eleRef.nativeElement.querySelector('#closeAdress').click();
           this.toastr.success("Added Sucessfully");
+        
         }
       },(error)=>{
         console.log(error,"Add Address Error")

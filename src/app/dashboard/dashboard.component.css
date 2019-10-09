@@ -1,0 +1,27 @@
+/* Style the input container */
+.form-inline {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+    flex-flow: row;
+  }
+  
+  /* Style the form icons */
+  .icon {
+    padding: 10px;
+    font-size: 25px;
+    color: black;
+    min-width: 50px;
+    text-align: center;
+  }
+  
+  /* Style the input fields */
+  .ent-add {
+    width: 100%;
+    padding: 10px;
+    outline: none;
+  }
+  
+  .ent-add:focus {
+    border: 2px solid dodgerblue;
+  }

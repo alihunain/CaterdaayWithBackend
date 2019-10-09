@@ -67,9 +67,9 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <h4 class="modal-title text-center">Do you really want to empty yr cart?</h4>
-            <button (click)="emptyCart(true,selectedItem)">Yes</button>
-            <button (click)="emptyCart(false,selectedItem)">No</button>
+            <h4 class="modal-title text-center">Remove Cart?</h4>
+            <input type="submit" id="popup-cart" name="popup-cart" (click)="emptyCart(true,selectedItem)" value="Yes">
+            <input type="submit" id="popup-cart" name="popup-cart" (click)="emptyCart(false,selectedItem)" value="No" style="margin-left: 70px;">
           </div>
       </div>
     </div>
@@ -118,7 +118,7 @@
       <div ngxSlickItem class="slide-flyer">
         <h4>99% On time <span>Based on last 50 orders</span></h4>
       </div>
-      <img  src="https://mealdaay.com:4024/uploads/{{image}}">
+      <img  src="https://mealdaay.com:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1400px;">
     </div>
   </ngx-slick-carousel>
 

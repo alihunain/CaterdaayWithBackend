@@ -17,6 +17,7 @@
                     <option selected>Select Your Cusine</option>
                   </select> -->
                   <input type="text"  (keydown.enter)="$event.preventDefault()"  class="ent-add" placeholder="Enter your delivery address" #search />
+                  <i (click)="CLocation()" class="fa fa-map-marker icon"></i>
                   <input type="submit" (click)="AddLocation()" class="btn" value="SEARCH" />
                   <div  class="form-error alert-danger" *ngIf="addressField">Please enter an address or zip code to see caterers who can deliver to you.</div>
               </div>

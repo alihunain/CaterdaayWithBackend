@@ -86,7 +86,7 @@
             </div>
             <div class="rating">
               <span>({{AverageRating || 0}})</span>
-              <span><a *ngIf="resturantReviews.review != undefined" href="#">{{resturantReviews.review.length || 0}} Reviews</a></span>
+              <span><a *ngIf="resturantReviews.review != undefined" style="cursor: pointer;">{{resturantReviews.review.length || 0}} Reviews</a></span>
             </div>
           </div>
         </li>
@@ -190,11 +190,11 @@
     <h3>Catering Menu</h3>
   </div>
   <div class="col-md-8 text-right">
-    <a href="#" class="search-tags">Lunches</a>
-    <a href="#" class="search-tags">Entrees</a>
-    <a href="#" class="search-tags">Sides</a>
-    <a href="#" class="search-tags">Deserts</a>
-    <a href="#" class="search-tags">Beverages</a>
+    <a style="cursor: pointer;" class="search-tags">Lunches</a>
+    <a style="cursor: pointer;" class="search-tags">Entrees</a>
+    <a style="cursor: pointer;" class="search-tags">Sides</a>
+    <a style="cursor: pointer;" class="search-tags">Deserts</a>
+    <a style="cursor: pointer;" class="search-tags">Beverages</a>
   </div>
 </div>
 
@@ -213,19 +213,19 @@
               <div class="row">
                 <figure>
                   <img src="assets/images/halal-badge.png" class="halal-badge">
-                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
+                  <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
                   <div class="most-ord">Most Ordered</div>
                 </figure>
               </div>	
               <div class="menu-item-desc">
                 <div class="row flex-col">
-                  <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a>
+                  <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.itemName}}</h4></a>
                   <p>{{items.Description}}</p>
                   <h5 class="price">CAD {{items.itemPrice}}</h5>
                 </div>
                 <div class="row item-desc-footer align-items-center">
                   <p>person, minimum 10 people</p>
-                  <a href="#"><i class="fa fa-heart-o"></i></a>
+                  <a style="cursor: pointer;"><i class="fa fa-heart-o"></i></a>
                 </div>
               </div>
             </div>
@@ -245,19 +245,19 @@
           <div class="row">
             <figure>
               <img src="assets/images/halal-badge.png" class="halal-badge">
-              <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.image}}" alt=""></a>
+              <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.image}}" alt=""></a>
               <div class="most-ord">Most Ordered</div>
             </figure>
           </div>	
           <div class="menu-item-desc">
             <div class="row flex-col">
-              <a href="#" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
+              <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
               <p>{{items.description}}</p>
               <h5 class="price">CAD {{items.finalcomboprice}}</h5>
             </div>
             <div class="row item-desc-footer align-items-center">
               <p>person, minimum {{items.min}} people</p>
-              <a href="#"><i class="fa fa-heart-o"></i></a>
+              <a style="cursor: pointer;"><i class="fa fa-heart-o"></i></a>
             </div>
           </div>
         </div>
@@ -270,7 +270,7 @@
   <!-- SIDEBAR -->
   <div class="col-md-3 right-sidebar">
     <div class="search-cart">
-      <a href="#"><i class="fa fa-shopping-cart"></i> View Cart</a>
+      <a style="cursor: pointer;"><i class="fa fa-shopping-cart"></i> View Cart</a>
     </div>
     <div class="search-supp">
       <h4>Need Help?</h4>
@@ -331,7 +331,7 @@
         </div>
         <div class="row">
           <div class="col-12 text-center">
-            <a href="#" class="load-more"> LOAD MORE <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>(340 Reviews)</span></a>
+            <a style="cursor: pointer;" class="load-more"> LOAD MORE <i class="fa fa-angle-double-right" aria-hidden="true"></i> <span>(340 Reviews)</span></a>
           </div>
         </div>
       </div>

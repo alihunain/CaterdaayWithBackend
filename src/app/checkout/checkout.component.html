@@ -326,7 +326,7 @@
 			<div class="modal-body">
 			  <div class="row">
 				<div class="col-sm-12 mb-20">
-				  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
+				  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="1" style="width: 440px;height: 300px;">
 					<agm-marker [latitude]="lat"  [longitude]="lng" [markerDraggable]="true"
 					  (dragEnd)="markerDragEnd($event)"></agm-marker>
 				  </agm-map>

@@ -85,6 +85,17 @@ export class InnerCateringSearchComponent implements OnInit {
     this.showcart = !this.showcart;
   }
   ResturantPopups(items){
+    console.log(items,"items in popups")
+    if(items.kitchenid != this.cart.currentResturant){
+      this.dropdown = new Array<Number>();
+      let min = items.min;
+      let max = items.max;
+      for(let i = min ; i <= max;i++){
+        this.dropdown.push(i);
+      }
+      this.popupItem = items;
+      return;
+    }
    this.dropdown = new Array<Number>();
    let min = items.min;
    console.log(min < (this.min-this.cart.getCartCount()));
@@ -170,9 +181,10 @@ export class InnerCateringSearchComponent implements OnInit {
          if(!data.error){
          this.ResturantObj=data.message;
         console.log(this.ResturantObj);
-         this.zoom=2;
+
          this.latitude = this.ResturantObj.lat;
          this.longitude = this.ResturantObj.lng;
+         this.zoom=1;
    
    
        }else{
@@ -202,10 +214,12 @@ export class InnerCateringSearchComponent implements OnInit {
     console.log(popupItem)
     console.log(this.cart.getCurrentResturant(),"first resturant");
     console.log(!(this.cart.getCurrentResturant() == popupItem.kitchenid),"condition")
+    
+    console.log(!(this.cart.currentResturant == popupItem.kitchenid),"checking condition")
     if(this.cart.getCurrentResturant() == undefined||this.cart.getCurrentResturant() == null){
       console.log(this.cart.getCurrentResturant(),"null resturant in cart")
       this.cart.currentResturant = popupItem.kitchenid;
-      
+      this.cart.setcurrentResturant();
     }
     else if(!(this.cart.currentResturant == popupItem.kitchenid)){
      this.eleRef.nativeElement.querySelector('#openWarning').click();

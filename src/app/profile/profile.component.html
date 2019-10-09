@@ -135,7 +135,7 @@
             </div>
             <div class="tab-pane" id="saved-addresses" role="tabpanel">
               <div class="add-address-btn">
-                <button class="btn custom-btn" data-toggle="modal" data-target="#myModal1">Add Address</button>
+                <button class="btn custom-btn" (click)="autoComplete()" data-toggle="modal" data-target="#myModal1">Add Address</button>
               </div>
               <div  class="profile-box saved-addresses-box" *ngIf="customerAddress == undefined || customerAddress.address == undefined">
                 <p style="text-align: center">There are no saved addresses to display</p>
@@ -194,7 +194,9 @@
               </div>
             </div>
             <div class="tab-pane" id="my-orders" role="tabpanel"  *ngIf="allOrders != undefined">
-              <div class="profile-box" *ngIf="allOrders.length != 0">
+              <div class="profile-box" >
+                <div *ngIf="allOrders.length == 0">You didn't have any order</div>
+                <div *ngIf="allOrders.length != 0">
                 <div class="row" *ngFor="let orders of allOrders" style="margin-bottom: 10px">
                   <div class="col-sm-4">
                     <div class="myorder-img">
@@ -212,9 +214,12 @@
                   </div>
                 </div>
               </div>
+              </div>
             </div>
             <div class="tab-pane" id="past-orders" role="tabpanel" *ngIf="pastOrders != undefined">
-                <div class="profile-box"  *ngIf="pastOrders.length != 0">
+                <div class="profile-box" >
+                  <div *ngIf="pastOrders.length == 0">You didn't have any past order</div>
+                  <div  *ngIf="pastOrders.length != 0">
                   <div class="row" *ngFor="let orders of pastOrders" style="margin-bottom: 10px">
                     <div class="col-sm-4">
                       <div class="myorder-img">
@@ -231,6 +236,7 @@
                       </div>
                     </div>
                   </div>
+                </div>
                 </div>
               </div>
             <!-- <div class="tab-pane" id="past-orders" role="tabpanel">
@@ -346,7 +352,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-sm-12 mb-20">
-                <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
+                <agm-map [latitude]="lat" [usePanning]="true" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
                   <agm-marker [latitude]="lat"  [longitude]="lng" [markerDraggable]="true"
                     (dragEnd)="markerDragEnd($event)"></agm-marker>
                 </agm-map>
@@ -358,7 +364,8 @@
                   <input type="email" class="form-control" formControlName="phoneno" id="phone" placeholder="Phone No" name="phone">
                 </div>
                 <div class="col-sm-6">
-                  <input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  id="address" >
+                    <input type="text" class="form-control" id="country" formControlName="country" placeholder="Country" name="country"  #country>
+                
                 </div>
               </div>
               <div class="form-group row">
@@ -371,7 +378,7 @@
               </div>
               <div class="form-group row">
                 <div class="col-sm-12">          
-                  <input type="text" class="form-control" id="country" formControlName="country" placeholder="Country" name="country"  #country>
+                    <input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  id="address" >
                 </div>
               </div>
               <div class="form-group row">
