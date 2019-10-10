@@ -6,6 +6,7 @@ import { Kitchen } from '../Models/Kitchen';
 import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { GlobalService } from '../../Services/global.service'
+import { reject } from 'q';
 
 declare var functionality: any;
 declare var srcollEnterance: any;
@@ -129,16 +130,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   private setCurrentLocation() {
+    return new Promise((resolve,reject)=>{
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.kitchenservice.filterKitchen.lat = position.coords.latitude.toString();
         this.kitchenservice.filterKitchen.lng = position.coords.longitude.toString();
         this.kitchenservice.setfilterKitchen();
-        this.getAddress(Number( this.kitchenservice.filterKitchen.lat), Number(this.kitchenservice.filterKitchen.lng)   );
+        this.getAddress(Number( this.kitchenservice.filterKitchen.lat), Number(this.kitchenservice.filterKitchen.lng)  ).then((res)=>{
+          if(res){
+            resolve();
+          }
+        })
       });
     }
+    });
   }
    getAddress(latitude, longitude) {
+     return new Promise((resolve,reject)=>{
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
         let isCity = false;
@@ -157,19 +165,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
 
         if (results[0]) {
-
+          console.log(results[0].formatted_address);
           this.kitchenservice.address = results[0].formatted_address;
           this.update = this.searchElementRef.nativeElement.value
         }
         this.kitchenservice.setfilterKitchen();
+        resolve(true);
       }
  
     });
+  });
   }
-  CLocation(){
-    this.setCurrentLocation();
+   CLocation(){
     this.searchElementRef.nativeElement.value = "";
- this.searchElementRef.nativeElement.value = this.kitchenservice.address;
+    this.setCurrentLocation().then(()=>{
+      this.searchElementRef.nativeElement.value = this.kitchenservice.address;
+      console.log("i am hit")
+    })
   }
   AddLocation(){
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
