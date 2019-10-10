@@ -15,16 +15,16 @@
         <div class="col-sm-3">
           <ul class="nav nav-tabs custom-nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
+              <a class="nav-link active" [ngClass]="{'active': step=='account'}" data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
+              <a class="nav-link" [ngClass]="{'active': step=='fav'}" data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
+              <a class="nav-link"   data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
+              <a class="nav-link" [ngClass]="{'active': step=='order'}" data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" data-target="#past-orders" role="tab" aria-controls="past-orders">Past Orders</a>

@@ -195,7 +195,7 @@ export class ProfileComponent implements OnInit {
   getFavourite(){
     this.resturantservices.favouriteList(this.userdata._id).subscribe((data:any)=>{
 
-
+      if(data.message[0].customerfavrestro.length != 0){
       let item = data.message[0].customerfavrestro[0].items;
       let favourite = new Map();
      
@@ -218,6 +218,7 @@ export class ProfileComponent implements OnInit {
 
 
       })
+    }
     },(error)=>{
       console.log(error);
     })

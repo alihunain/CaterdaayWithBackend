@@ -166,7 +166,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
         if (results[0]) {
           this.kitchenservice.address = results[0].formatted_address;
-          this.update = this.searchElementRef.nativeElement.value
+          this.update = results[0].formatted_address
         }
         this.kitchenservice.setfilterKitchen();
         resolve(true);
@@ -184,6 +184,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     })
   }
   AddLocation(){
+    
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;
     }else if(this.update == null || this.update == undefined || this.update != this.searchElementRef.nativeElement.value){
