@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
   Signin: boolean = true;
   Show = false;
   Countryname: string = "Select Country";
-  constructor(private router: Router, private eleRef: ElementRef, public global: GlobalService, public userService: UserService, private toastr: ToastrService, private kitchenservice: KitchenService, private cart: CartService) { }
+  constructor(public router: Router, private eleRef: ElementRef, public global: GlobalService, public userService: UserService, private toastr: ToastrService, private kitchenservice: KitchenService, private cart: CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
@@ -43,9 +43,9 @@ export class HeaderComponent implements OnInit {
     this.userService.UserUpdate(true);
 
   }
-  Profile(data) {
-    this.router.navigate(['/profile'], { queryParams: { value: data } });
-  }
+  // Profile(data) {
+  //   this.router.navigate(['/profile'], { queryParams: { value: data } });
+  // }
   onSignout() {
     this.userService.removeUser();
     this.userService.UserUpdate(false);

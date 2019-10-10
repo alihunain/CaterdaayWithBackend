@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../Services/user.service'
 import {ResturantService} from '../../../Services/resturant.service'
 import { KitchenService } from '../../../Services/kitchen.service'
-import { reject } from 'q';
-import { resolve } from 'url';
+
 
 @Component({
   selector: 'app-resturant-count',

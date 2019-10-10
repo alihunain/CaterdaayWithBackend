@@ -39,7 +39,7 @@ import { AgmCoreModule } from '@agm/core';
 import { ProfileComponent } from './profile/profile.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
 import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
-import { ResturantCountComponent } from './sharecomponents/resturant-count/resturant-count.component';
+import { ResturantCountComponent } from './shareComponents/resturant-count/resturant-count.component';
 
 
 
