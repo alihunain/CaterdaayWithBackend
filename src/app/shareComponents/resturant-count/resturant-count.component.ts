@@ -19,8 +19,9 @@ export class ResturantCountComponent implements OnInit {
   constructor(public kitchenservice:KitchenService,public resturantservice:ResturantService,public userservice:UserService) { }
 
  async ngOnInit() {
+  await this.GetAllResturant();
      this.GetServedLocation();
-     this.GetAllResturant();
+
      this.GetAllCustomers();
      this.AllReviews();
 
@@ -30,7 +31,7 @@ export class ResturantCountComponent implements OnInit {
       this.userservice.GetCountryList().subscribe((data:any)=>{
     
        this.ServedLocation= data.message.length;
-       console.log(this.ServedLocation);
+
        resolve();
       },(error)=>{
         console.log(error);

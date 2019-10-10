@@ -204,6 +204,7 @@ this.cart.RemoveCombo(item).then(()=>{
   getUser(){
     this.user.getCustomer(this.currentUserId).subscribe((data:any)=>{
       this.currentUserObj = data.message;
+      console.log(this.currentUserObj);
   
     },(error)=>{
       console.log(error);
@@ -541,7 +542,8 @@ this.cart.RemoveCombo(item).then(()=>{
           this.toastr.success("Sucessfully Deleted");
         }
       })
-      }
+    }
+    
 
 
 

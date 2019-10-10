@@ -80,7 +80,6 @@ export class ProfileComponent implements OnInit {
     this.global.header = 3;
     this.checkLogin();
     this.userdata =this.userservices.user;
-    console.log(this.userservices.user,"this is user");
 
     this.setProfileValues();
     this.getCustomerRating();
@@ -117,7 +116,6 @@ export class ProfileComponent implements OnInit {
         if(data.message.txn.errorCode == undefined && data.message.txn.ssl_result_message != "INVALID CARD"){
         let card = this.Card.value;
         card.email = this.userdata.email;
-        console.log(card,"before sending");
         this.generateCardToken(card);
        }else{
          this.toastr.error(data.message.txn.errorMessage || data.message.txn.ssl_result_message);
@@ -145,7 +143,6 @@ export class ProfileComponent implements OnInit {
     })
   }
   addCard(cardinfo){
-    console.log(cardinfo,"before adding card");
 
     this.userservices.UpdateProfile(this.userdata._id,cardinfo).subscribe((data:any)=>{
       if(!data.error){
@@ -175,7 +172,6 @@ export class ProfileComponent implements OnInit {
       this.userdata = data.message;
       this.userservices.user = data.message;
       this.userservices.setUser();
-      console.log(this.customerAddress);
     },(error)=>{
       console.log(error);
     })  
@@ -187,8 +183,8 @@ export class ProfileComponent implements OnInit {
     this.userservices.addCustomerAdress(this.userdata._id,userid).subscribe((data:any)=>{
       if(!data.error){
         this.customerAddress = data.message.customeraddresses;
-        console.log(this.customerAddress);
-      console.log(data.message.customeraddresses,"After Delete")
+ 
+ 
         this.toastr.success("Address Has Been Removed")
       }
     },(error)=>{
@@ -261,7 +257,6 @@ export class ProfileComponent implements OnInit {
   }
   selectOrder(order){
 this.orderForPopup = order;
-console.log(this.orderForPopup,"uploaded");
   }
   SelectPorder(order){
     this.porderForPopup = order;
@@ -283,8 +278,6 @@ console.log(this.orderForPopup,"uploaded");
       }
       this.allOrders = neworders;
       this.pastOrders = porders;
-      console.log(this.pastOrders,"Past Orders")
-      console.log(this.allOrders);
     },(error)=>{
       console.log(error);
     })
@@ -371,7 +364,7 @@ console.log(this.orderForPopup,"uploaded");
         }else{
           
         this.customerAddress = data.message.customeraddresses[0];
-        console.log(this.customerAddress);
+
         this.getCustomer();
           this.eleRef.nativeElement.querySelector('#closeAdress').click();
           this.toastr.success("Added Sucessfully");

@@ -165,7 +165,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
 
         if (results[0]) {
-          console.log(results[0].formatted_address);
           this.kitchenservice.address = results[0].formatted_address;
           this.update = this.searchElementRef.nativeElement.value
         }
@@ -177,10 +176,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   });
   }
    CLocation(){
-    this.searchElementRef.nativeElement.value = "";
+
     this.setCurrentLocation().then(()=>{
+      this.searchElementRef.nativeElement.value = "";
       this.searchElementRef.nativeElement.value = this.kitchenservice.address;
-      console.log("i am hit")
+
     })
   }
   AddLocation(){

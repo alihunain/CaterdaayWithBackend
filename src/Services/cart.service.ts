@@ -138,15 +138,11 @@ export class CartService {
   }
   getItemOrder(){
     if(this.itemsOrder == undefined || this.itemsOrder == null){
-      console.log(typeof localStorage.getItem('itemsOrder'));
-      console.log(localStorage.getItem("itemsOrder") == undefined,"istrue?")
-      console.log(localStorage.getItem("itemsOrder"),"data")
+  
       if(localStorage.getItem("itemsOrder") == null || localStorage.getItem("itemsOrder") ==  undefined ){
         
-        console.log("not returning item orders from local storage")
         return null;
       }else{
-        console.log("returning item orders from local storage")
         this.itemsOrder = JSON.parse(localStorage.getItem("itemsOrder"));
         return JSON.parse(localStorage.getItem("itemsOrder"));
       }

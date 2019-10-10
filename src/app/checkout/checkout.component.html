@@ -53,7 +53,7 @@
 						</div>
 					</div>
 					<div>
-					<div class="row">
+					<div class="row" *ngIf="currentUserObj != undefined">
 						<form [formGroup]="deliveryAddress">
 							<div class="col-md-6">
 								<div class="form-group">
@@ -75,8 +75,8 @@
 								</div>
 							</div>
 							<div class="col-md-12">
-								<div class="del-add">
-									<ul>
+								<div class="del-add" >
+									<ul *ngIf="currentUserObj.customeraddresses[0] != undefined">
 										<li><strong>Address:</strong><input type="text" name="del-add-add" value="{{currentUserObj.customeraddresses[0].address}}"></li>
 
 										<li><strong>City:</strong><input type="text" name="del-add-city" value="{{currentUserObj.customeraddresses[0].city}}"></li>
@@ -84,6 +84,14 @@
 										<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" value="{{currentUserObj.customeraddresses[0].phoneno}}"></li>
 										<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" value="{{currentUserObj.customeraddresses[0].zip}}"></li>
 									</ul>
+									<ul *ngIf="currentUserObj.customeraddresses[0] == undefined">
+											<li><strong>Address:</strong><input type="text" name="del-add-add" ></li>
+	
+											<li><strong>City:</strong><input type="text" name="del-add-city" ></li>
+											<li><strong>Country:</strong><input type="text" name="del-add-count" ></li>
+											<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" ></li>
+											<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" ></li>
+										</ul>
 									<div class="del-add-new">
 										<a style="cursor: pointer;" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil"></i> Add new address</a>
 									</div>
@@ -92,7 +100,8 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label>Phone: <span>(optional)</span></label>
-									<input type="text" formControlName="phone" name="del-add-num" value="{{currentUserObj.customeraddresses[0].phoneno}}" class="form-control">
+									<input *ngIf="currentUserObj.customeraddresses[0] != undefined" type="text" formControlName="phone" name="del-add-num" value="{{currentUserObj.customeraddresses[0].phoneno}}" class="form-control">
+									<input *ngIf="currentUserObj.customeraddresses[0] == undefined" type="text" formControlName="phone" name="del-add-num"  class="form-control">
 									<div *ngIf="phone.invalid && (phone.dirty || phone.touched)">
 										<div *ngIf="phone.errors.required" class="form-error alert-danger">Phone Is Required</div>
 								    </div>
@@ -172,7 +181,7 @@
 							<div>
 									<button class="btn custom-btn" data-toggle="modal" data-target="#myModal2" *ngIf="paycard">Add Card</button>
 							</div>
-							<div *ngIf=" currentUserObj.cardinfo != undefined && paycard">
+							<div *ngIf="currentUserObj !=undefined && currentUserObj.cardinfo != undefined && paycard">
 									<div class="profile-box saved-card-box" *ngFor="let card of currentUserObj.cardinfo">
 										
 						
