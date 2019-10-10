@@ -128,47 +128,14 @@
             <div class="col-12">
               <ul class="food-types" >
         
-                    <li *ngFor="let cuisine of cuisines"><a routerLink="listing" (click)="onFoodType(cuisine._id)">{{cuisine.name}}</a></li>
+                    <li style="cursor: pointer;" *ngFor="let cuisine of cuisines"><a (click)="onFoodType(cuisine._id)">{{cuisine.name}}</a></li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-  <section class="pt-5 pb-5 counter-sec">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-3 col-sm-6">
-                <div class="counter">
-                    <img src="assets/images/satisfied.png" alt="">
-                    <p class="count-text ">Satisfied Customer</p>
-                    <h4 class="timer count-title count-number" data-to="500" data-speed="1500"></h4>
-                  </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="counter">
-                    <img src="assets/images/on-board-caters.png" alt="">
-                    <p class="count-text ">On Board Caters</p>
-                    <h4 class="timer count-title count-number" data-to="50" data-speed="1500"></h4>
-                  </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="counter">
-                    <img src="assets/images/served-location.png" alt="">
-                    <p class="count-text ">Served Locations</p>
-                    <h4 class="timer count-title count-number" data-to="100" data-speed="1500"></h4>
-                  </div>
-              </div>
-              <div class="col-md-3 col-sm-6">
-                <div class="counter">
-                    <img src="assets/images/reviews.png" alt="">
-                    <p class="count-text ">Reviews</p>
-                    <h4 class="timer count-title count-number" data-to="600" data-speed="1500"></h4>
-                  </div>
-              </div>
-            </div>
-          </div>
-  </section>
+<app-resturant-count></app-resturant-count>
   <app-testimonials>
   </app-testimonials>
   <!-- <section class="cta">

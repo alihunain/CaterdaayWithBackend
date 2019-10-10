@@ -118,6 +118,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     this.kitchenservice.filterKitchen.cousine.push(value);
     this.kitchenservice.setfilterKitchen();
+    this.router.navigate(['/listing']);
     // console.log(this.kitchenservice.filterKitchen.cousine,"On Food Type");
     
 

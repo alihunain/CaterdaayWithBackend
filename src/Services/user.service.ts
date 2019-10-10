@@ -58,6 +58,9 @@ export class UserService {
   addCustomerAdress(userid:any,address:any){
     return this.http.post(this.server.development.ms3 + "customer-address/" + userid,address).pipe(catchError(this.handleError));
   }
+  getAllCustomer(){
+    return this.http.get(this.server.development.ms3+ "customers" ).pipe(catchError(this.handleError));
+  }
   deleteCustomerAdress(userid:any,request){
     return this.http.put(this.server.development.ms3+"customer-address/" + userid,request ).pipe(catchError(this.handleError));
   }

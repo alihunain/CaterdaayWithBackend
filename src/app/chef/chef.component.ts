@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { KitchenService } from '../../Services/kitchen.service';
 import { GlobalService } from '../../Services/global.service'
 import { ResturantService } from '../../Services/resturant.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-chef',
   templateUrl: './chef.component.html',
@@ -15,7 +15,7 @@ export class ChefComponent implements OnInit {
   rating = 0;
   loadmore = true;
   allCuisines = new Map();
-  constructor(private global:GlobalService,private kitchen: KitchenService, private resturant: ResturantService) { }
+  constructor(private router:Router,private global:GlobalService,private kitchen: KitchenService, private resturant: ResturantService) { }
 
   ngOnInit() {
     this.kitchen.getfilterKitchen();
@@ -182,5 +182,6 @@ export class ChefComponent implements OnInit {
   menuPage(resturantid:string){
     this.resturant.Resturantid = resturantid;
     this.resturant.setResturantid();
+    this.router.navigate(['/detail'])
   }
 }

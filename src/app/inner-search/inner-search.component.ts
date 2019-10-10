@@ -74,27 +74,27 @@ export class InnerSearchComponent implements OnInit {
   
       this.resturants = data.message;
       this.totalResturants= this.resturants.length;
-      console.log(data.message);
+
       if(data.message.length == 0){
     
         this.validation = true;
       }else{
         this.validation = false;
       }
-      this.totalpages = this.totalResturants % 5;
+      this.totalpages = Math.floor(this.totalResturants / 5) ;
       if(this.totalResturants % 5 != 0){
         this.totalpages++;
       }
+      console.log(this.totalpages);
       this.CurrentPage = 1;
       for(let i=0; i< this.totalResturants;i++){
-console.log(this.getResturantRating(this.resturants[i]._id));
        this.resturants[i].rating =  this.getResturantRating(this.resturants[i]._id);
        this.resturants[i].review = this.getResturantReviews(this.resturants[i]._id);
        this.resturants[i].page = (Math.floor((i+1)/5))+1;
-       console.log((Math.floor((i+1)/5))+1);
+    
       }
       this.pageArray = new Array();
-      for(let i = 1; i < this.totalpages;i++){
+      for(let i = 1; i <= this.totalpages;i++){
         this.pageArray.push(i);
       }
       this.preloader = false;
@@ -177,6 +177,7 @@ console.log(this.getResturantRating(this.resturants[i]._id));
   RequestOrder(resturantid:string){
     this.resturantService.Resturantid = resturantid;
     this.resturantService.setResturantid();
+    this.router.navigate(['/detail'])
   }
   getResturantRating(id){
     let avgrating = 0;

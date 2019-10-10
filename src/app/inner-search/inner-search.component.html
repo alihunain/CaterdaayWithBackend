@@ -117,10 +117,10 @@
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
 							<figure *ngIf="item.page == CurrentPage">
-								<a routerLink="/detail" (click)="RequestOrder(item._id)"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
+								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
 							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
-								<a routerLink="/detail" (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
+								<a style="cursor: pointer"  (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
 								<div class="row">
 									<div class="cont-spec">
 										{{item.restaurantDescription.substring(1,300).trim()}}.... 
@@ -148,7 +148,7 @@
 									
 								</div>
 								<div class="row">
-									<a routerLink="/detail" (click)="RequestOrder(item._id)" class="ord-btn">Request Order</a>
+									<a style="cursor: pointer" routerLink="/detail" (click)="RequestOrder(item._id)" class="ord-btn">Request Order</a>
 								</div>
 							</div>
 							</div>
@@ -313,9 +313,9 @@
 				</div>
 				<div class="row justify-content-center">
 					<ul class="pagination">
-					  	<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-left" aria-hidden="true" (click)="Pre()"></i></a></li>
+					  	<li *ngIf="CurrentPage != 1" class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-left" aria-hidden="true" (click)="Pre()"></i></a></li>
 						<li class="page-item" *ngFor="let page of pageArray"><a class="page-link" style="cursor: pointer;" (click)="SetPage(page)">{{page}}</a></li>
-						<li class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-right" aria-hidden="true" (click)="Next()"></i></a></li>
+						<li *ngIf="CurrentPage != totalpages" class="page-item"><a class="page-link" style="cursor: pointer;"><i  class="fa fa-angle-double-right" aria-hidden="true" (click)="Next()"></i></a></li>
 					</ul>
 				</div>
 				<div class="row justify-content-center">

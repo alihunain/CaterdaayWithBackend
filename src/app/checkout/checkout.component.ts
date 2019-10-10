@@ -172,6 +172,7 @@ export class CheckoutComponent implements OnInit {
   }
   EditOrder(id){
     this.resturant.Resturantid = id;
+    this.router.navigate(['/detail'])
   }
   Reedem(){
   
