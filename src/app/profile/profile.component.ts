@@ -7,9 +7,7 @@ import { GlobalService } from '../../Services/global.service'
 import { Router } from '@angular/router';
 import { KitchenService } from '../../Services/kitchen.service'
 import { ResturantService} from '../../Services/resturant.service'
-import { map } from 'rxjs/operators';
-import { promise } from 'protractor';
-import { POINT_CONVERSION_COMPRESSED } from 'constants';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -76,7 +74,7 @@ export class ProfileComponent implements OnInit {
   public city: ElementRef;
   @ViewChild('country')
   public country:ElementRef
-  ngOnInit() {
+   ngOnInit() {
     this.global.header = 3;
     this.checkLogin();
     this.userdata =this.userservices.user;
@@ -194,8 +192,7 @@ export class ProfileComponent implements OnInit {
 
   getFavourite(){
     this.resturantservices.favouriteList(this.userdata._id).subscribe((data:any)=>{
-
-      if(data.message[0].customerfavrestro.length != 0){
+      console.log(data);
       let item = data.message[0].customerfavrestro[0].items;
       let favourite = new Map();
      
@@ -218,7 +215,6 @@ export class ProfileComponent implements OnInit {
 
 
       })
-    }
     },(error)=>{
       console.log(error);
     })
@@ -339,9 +335,11 @@ this.orderForPopup = order;
 
 
   getAllKitchen(){
+    console.log("I am hitting kitchen");
     return new Promise((resolve,reject)=>{
       this.kitchenService.allKitchen().subscribe((data:any)=>{
 
+        console.log("I am hitting kitchen");
         let kitchens = data.message;
         this.allKitchens = new Map();
         for(let i = 0; i < kitchens.length;i++){
@@ -350,6 +348,7 @@ this.orderForPopup = order;
         resolve(true);
       },(error)=>{
 
+        console.log("I am hitting kitchen");
         
         reject(false);
       })

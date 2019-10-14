@@ -9,7 +9,7 @@
         <div class="modal-body">
           <button id="closePopup" type="button" class="close" data-dismiss="modal">&times;</button>
           <figure>
-            <img src="https://mealdaay.com:4024/uploads/{{popupItem.image}}" alt="" class="img-fluid">
+            <img src="http://localhost:4024/uploads/{{popupItem.image}}" alt="" class="img-fluid">
           </figure>
           <div class="popup-body">
             <div class="row popup-header">
@@ -118,7 +118,7 @@
       <div ngxSlickItem class="slide-flyer">
        
       </div>
-      <img  src="https://mealdaay.com:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1400px;">
+      <img  src="http://localhost:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1400px;">
     </div>
   </ngx-slick-carousel>
 
@@ -233,7 +233,7 @@
               <div class="row">
                 <figure>
                   <img src="assets/images/halal-badge.png" class="halal-badge">
-                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
+                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.itemImage}}" alt=""></a>
                   <div class="most-ord">Most Ordered</div>
                 </figure>
               </div>	
@@ -265,7 +265,7 @@
           <div class="row">
             <figure>
               <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
-              <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="https://mealdaay.com:4024/uploads/{{items.image}}" alt=""></a>
+              <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.image}}" alt=""></a>
       
             </figure>
           </div>	

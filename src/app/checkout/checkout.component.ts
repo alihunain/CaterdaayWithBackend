@@ -9,7 +9,7 @@ import { Promise, reject } from 'q';
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-import { Stats } from 'fs';
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',

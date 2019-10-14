@@ -15,16 +15,16 @@
         <div class="col-sm-3">
           <ul class="nav nav-tabs custom-nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
-              <a class="nav-link active"  data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
+              <a class="nav-link" data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
+              <a class="nav-link" data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"   data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
+              <a class="nav-link" data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link"  data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
+              <a class="nav-link" data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" data-target="#past-orders" role="tab" aria-controls="past-orders">Past Orders</a>
@@ -120,7 +120,7 @@
                   <div class="col-sm-4 pr-0" *ngFor="let items of resturant.item">
                     <div class="media">
                       <div class="media-left">
-                        <img class="media-object imageitem-size" src="https://mealdaay.com:4024/uploads/{{items.image}}">
+                        <img class="media-object imageitem-size" src="http://localhost:4024/uploads/{{items.image}}">
                       </div>
                       <div class="media-body">
                         <h5 class="media-heading">
@@ -193,14 +193,14 @@
               
               </div>
             </div>
-            <div class="tab-pane" id="my-orders" role="tabpanel"  *ngIf="allOrders != undefined">
-              <div class="profile-box" >
+            <div class="tab-pane" id="my-orders" role="tabpanel"  >
+              <div class="profile-box" *ngIf="allOrders != undefined">
                 <div *ngIf="allOrders.length == 0">You didn't have any order</div>
                 <div *ngIf="allOrders.length != 0">
                 <div class="row" *ngFor="let orders of allOrders" style="margin-bottom: 10px">
                   <div class="col-sm-4">
                     <div class="myorder-img">
-                      <img src="https://mealdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                      <img src="http://localhost:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
                     </div>
                   </div>
                   <div class="col-sm-8">
@@ -223,7 +223,7 @@
                   <div class="row" *ngFor="let orders of pastOrders" style="margin-bottom: 10px">
                     <div class="col-sm-4">
                       <div class="myorder-img">
-                        <img src="https://mealdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                        <img src="http://localhost:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
                       </div>
                     </div>
                     <div class="col-sm-8">
@@ -244,7 +244,7 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="myorder-img">
-                      <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                      <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
                     </div>
                   </div>
                   <div class="col-sm-8">
@@ -616,7 +616,7 @@
               <div class="profile-box">
                 <div class="row">
                   <div class="col-sm-1 p-0">
-                    <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                    <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box2-content" *ngIf="orderForPopup != undefined">
@@ -635,7 +635,7 @@
                 <h5>Daily Menu Item</h5>
                 <div class="row" *ngFor="let items of orderForPopup.combo">
                   <div class="col-sm-1 p-0">
-                    <img src="https://mealdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
+                    <img src="http://localhost:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box3-content">
@@ -740,7 +740,7 @@
               <div class="profile-box">
                 <div class="row">
                   <div class="col-sm-1 p-0">
-                    <img src="https://mealdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                    <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box2-content" *ngIf="porderForPopup != undefined">
@@ -759,7 +759,7 @@
                 <h5>Daily Menu Item</h5>
                 <div class="row" *ngFor="let items of porderForPopup.combo">
                   <div class="col-sm-1 p-0">
-                    <img src="https://mealdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
+                    <img src="http://localhost:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box3-content">

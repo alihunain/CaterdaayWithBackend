@@ -66,6 +66,7 @@ export class InnerCateringSearchComponent implements OnInit {
       this.getResturantDetails();
       this.getResturantRating();
       this.getResturantReviews();
+      this.getActiveItem();
       // this.getActiveItem();
      this.getActiveCombos();
       // this.resturantService.offerList(this.resturantService.Resturantid).subscribe((data:any)=>{console.log(data,"offerlist")},(error)=>{console.log(error)})
@@ -88,8 +89,8 @@ export class InnerCateringSearchComponent implements OnInit {
 
     if(items.kitchenid != this.cart.currentResturant){
       this.dropdown = new Array<Number>();
-      let min = items.min;
-      let max = items.max;
+      let min = Number(items.restaurantMin);
+      let max = Number(items.restaurantMax);
       for(let i = min ; i <= max;i++){
         this.dropdown.push(i);
       }
@@ -117,8 +118,9 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   getActiveCombos(){
     this.resturantService.activeCombos(this.resturantService.Resturantid).subscribe((data:any)=>{
-      let response =  {max: "80",min:"10",Combos: [{
-        name:"Mealone",
+      console.log(data,"active combos");
+      let response =  {max: "80",min:"10",
+      Combos: [{name:"Mealone",
         halal:true,
         kitchenid:this.resturantService.Resturantid,
         description:"this is a test data",
@@ -162,9 +164,11 @@ export class InnerCateringSearchComponent implements OnInit {
           name:"Broast"
           }]
       }]};
-      this.bufferToDisplay = response.Combos;
-    this.min  = response.min;
-      this.max = response.max;
+      console.log(this.max,"Resturant Max");
+      console.log(this.min,"Resturant Min");
+    console.log(data.message);
+      this.bufferToDisplay = data.message;
+      console.log(this.bufferToDisplay);
 
 
      },(error)=>{
@@ -177,13 +181,14 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   getResturantDetails (){
        this.resturantService.resturantsDetails(this.resturantService.Resturantid).subscribe((data:any)=>{
-   
+         console.log(data.message,"rsg");
          if(!data.error){
          this.ResturantObj=data.message;
-
-
+         this.min =Number( this.ResturantObj.restaurantMin);
+         this.max = Number(this.ResturantObj.restaurantMax);
          this.latitude = this.ResturantObj.lat;
          this.longitude = this.ResturantObj.lng;
+    
          this.zoom=1;
    
    
@@ -212,14 +217,14 @@ export class InnerCateringSearchComponent implements OnInit {
   CartCombo(popupItem){
     this.selectedItem = popupItem;
 
-    
-
-    if(this.cart.getCurrentResturant() == undefined||this.cart.getCurrentResturant() == null){
+    console.log(popupItem,"popupitem")
+    console.log(this.cart.getCurrentResturant());
+    if(this.cart.getCurrentResturant() == undefined||this.cart.getCurrentResturant() == null || this.cart.getCurrentResturant() == 'undefined'){
  
-      this.cart.currentResturant = popupItem.kitchenid;
+      this.cart.currentResturant = popupItem.kitchenId;
       this.cart.setcurrentResturant();
     }
-    else if(!(this.cart.currentResturant == popupItem.kitchenid)){
+    else if(!(this.cart.currentResturant == popupItem.kitchenId)){
      this.eleRef.nativeElement.querySelector('#openWarning').click();
     return;
     }
@@ -235,8 +240,10 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   getResturantRating(){
          this.resturantService.resturantRating(this.resturantService.Resturantid).subscribe((data:any)=>{
-    
-           this.AverageRating = data.message.pack[0].average;
+           if(data.message.pack[0] != undefined){
+
+            this.AverageRating = data.message.pack[0].average;
+           }
          },(error)=>{
            console.log(error)
          })
@@ -291,6 +298,7 @@ export class InnerCateringSearchComponent implements OnInit {
   getActiveItem(){
       
        this.resturantService.activeItem(this.resturantService.Resturantid).subscribe((data:any)=>{
+         console.log(data.message,"items in resturant");
        let itemsInResturant = data.message;
   
    

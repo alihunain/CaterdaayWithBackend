@@ -117,7 +117,7 @@
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
 							<figure *ngIf="item.page == CurrentPage">
-								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="https://mealdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
+								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="http://localhost:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
 							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
 								<a style="cursor: pointer"  (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
