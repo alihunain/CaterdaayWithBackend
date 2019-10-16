@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class CartService {
-  public cartCount: number = 0;
+  public cartCount: any;
   public itemsOrder: any;
   private cartupdate = new Subject<any>();
   public currentResturant = null;
@@ -19,6 +19,8 @@ export class CartService {
     this.cartupdate.next(update);
     console.log("Cart Updated");
   }
+
+ 
   addBufferItem(item, quantity, kitchenName) {
     console.log('i am hit')
     if (this.itemsOrder === undefined) {

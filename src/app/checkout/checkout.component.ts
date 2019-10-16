@@ -65,6 +65,7 @@ export class CheckoutComponent implements OnInit {
   validCn:boolean=true;
   validM:boolean=true;
   validY:boolean=true;
+
   
 
 
@@ -109,6 +110,7 @@ export class CheckoutComponent implements OnInit {
     
       that.orders.taxAmount =((that.orders.total/100)*that.taxpercentage);
       that.orders.totalqty = that.cart.getCartCount(); 
+      console.log(that.cart.getCartCount());
 
     });
   });
@@ -146,7 +148,7 @@ export class CheckoutComponent implements OnInit {
     return Promise((resolve, reject) => {
     this.kitchen.getDeliveryCharges().subscribe((data:any)=>{
       console.log(data);
-      this.delivery = data.message[0].mealpackagecharge;
+      this.delivery = data.message[0].itemcharge;
       resolve(true);
     },(error)=>{
       console.log(error);
@@ -215,6 +217,7 @@ this.cart.RemoveCombo(item).then(()=>{
 
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
+    console.log(this.orders.items);
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -222,7 +225,7 @@ this.cart.RemoveCombo(item).then(()=>{
         deliveryCharges:this.orders.delivery,
         addOnitem:[],
         addOnTotal:[],
-        combo:this.orders.items,
+        combo: this.orders.items,
         coupon:this.coupon,
         delvierySlot:{},
         delvierySlotsWeek:{},
@@ -251,23 +254,36 @@ this.cart.RemoveCombo(item).then(()=>{
         order:order,
         restaurantid:this.resturant.Resturantid
       }
-      this.Order(order).then((res)=>{
-        if(res){
-    
-        this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
-    
-          this.router.navigate(['/thankyou']);
-          
-        },(error)=>{
-          console.log(error,"error in order email");
-        })
-      }
+      this.Order(order).then((res:any)=>{
+       console.log(res,"res promise");
+          orderEmail.order = res.message;
+          this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
+            this.cart.removeItemOrders();
+            this.cart.currentResturant = null;
+            this.cart.setcurrentResturant();
+            this.cart.cartCount = 0;
+            this.cart.setCartCount();
+            this.router.navigate(['/thankyou']);
+            
+          },(error)=>{
+            console.log(error,"error in order email");
+          })
+       
+  
       })
     }else{
+      let amount = Math.round( this.orders.total+this.orders.taxAmount+this.orders.delivery);
+      console.log(amount);
+  
       if(this.saveCard == undefined || this.saveCard == null){
         this.toastr.error("Card Not Found Kindly Add Card Or Try Again");
         return;
       }else{
+        let payment ={
+          amount:amount,
+          custid:this.currentUserObj._id,
+          token:this.saveCard.token
+        }
         let order = {
           currency:"CAD", //User selected country currency
           customerid:this.currentUserId,
@@ -291,7 +307,7 @@ this.cart.RemoveCombo(item).then(()=>{
           ordertype:"",
           package:[],
           paymenttype: "card",
-          cardinfo:this.saveCard, 
+          cardPaidStatus:{}, 
           restaurantid:this.resturant.Resturantid,
           subtax:this.orders.taxAmount,
           subtotal:this.orders.total,
@@ -304,11 +320,53 @@ this.cart.RemoveCombo(item).then(()=>{
           order:order,
           restaurantid:this.resturant.Resturantid
         }
+        this.CollectPaymentByCard(payment).then((response)=>{
+          console.log(response,"After Promise Return");
+          if(response == false){
+            return;
+          }else{
+            order.cardPaidStatus = response; 
+          }
+          this.Order(order).then((res:any)=>{
+            console.log(res,"res promise");
+               orderEmail.order = res.message;
+               this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
+                 this.cart.removeItemOrders();
+                 this.cart.currentResturant = null;
+                 this.cart.setcurrentResturant();
+                 this.cart.cartCount = 0;
+                 this.cart.setCartCount();
+              this.router.navigate(['/thankyou']);
+                 
+               },(error)=>{
+                 console.log(error,"error in order email");
+               })
+            
+       
+           })
+        })
       }
     }
-    
- 
-    
+  }
+
+
+
+  CollectPaymentByCard(token){
+    return  Promise((resolve,reject)=>{
+    this.user.collectPaymentbyToken(token).subscribe((data:any)=>{
+      console.log(data,"Before Promise Return");
+      console.log(data.message.txn.ssl_token_response != "SUCCESS","Condition CollectPaymentByCard");
+      if(data.message.txn.ssl_token_response != "SUCCESS"){
+        console.log("reject");
+        this.toastr.show("Something Went Wrong , Cannot Charge Your Card");
+        reject(false);
+      }else{
+        console.log(data.message.txn);
+        resolve(data.message.txn);
+      }
+    })
+  })
+
   }
   Order(order){
     return Promise((resolve,reject)=>{
@@ -316,7 +374,7 @@ this.cart.RemoveCombo(item).then(()=>{
 
             if(!data.error){
         this.toastr.success('Your Order has been placed');
-        resolve(true);
+        resolve(data);
       }else{
         this.toastr.error(data.message);
         reject(false);
@@ -424,13 +482,18 @@ this.cart.RemoveCombo(item).then(()=>{
 
     selectCard(card){
       this.saveCard = card;
+      console.log(this.saveCard);
     }
     UnselectCard(){
       this.saveCard = null;
+      console.log(this.saveCard);
     }
     paystatus(status){
       console.log(status);
       this.paycard = status;
+      if(!status){
+        this.saveCard = null;
+      }
     }
 
 
@@ -491,7 +554,7 @@ this.cart.RemoveCombo(item).then(()=>{
           return;
         }
         let res = data.message.txn;
-      let card = {
+        let card = {
         cardinfo: [{
         cardnumber:res.ssl_card_number,
         cardtype:res.ssl_card_short_description,
@@ -499,12 +562,13 @@ this.cart.RemoveCombo(item).then(()=>{
         token:res.ssl_token,
       }],_id:this.currentUserObj._id
     }
-
+    console.log(card.cardinfo[0],"this is logging");
     if(this.CardStatus){
-
-    this.addCard(card);
+      this.addCard(card);
+      this.saveCard = card.cardinfo[0];
+      this.toastr.success("Card Saved Sucessfully");
   }else{
-    this.saveCard = card;
+    this.saveCard = card.cardinfo[0];
     this.toastr.success("Sucessfully Added For This Order");
     this.eleRef.nativeElement.querySelector("#closeCardForm").click();
   }
@@ -513,23 +577,20 @@ this.cart.RemoveCombo(item).then(()=>{
       })
     }
     addCard(cardinfo){
-    
-  
       this.user.UpdateProfile(this.currentUserObj._id,cardinfo).subscribe((data:any)=>{
         if(!data.error){
 
           this.getUser();
 
           this.eleRef.nativeElement.querySelector("#closeCardForm").click();
-          this.saveCard = cardinfo;
         }else{
           this.toastr.error(data.message);
         }
       })
     }
     WannaSave(status){
- 
-      this.saveCard =status;
+      console.log(status,"wanna save");
+      this.CardStatus =status;
     }
     deleteCard(){
   
@@ -538,6 +599,7 @@ this.cart.RemoveCombo(item).then(()=>{
       }
       this.user.UpdateProfile(this.currentUserObj._id,update).subscribe((data:any)=>{
         if(!data.error){
+          this.saveCard = null;
           this.getUser();
           this.toastr.success("Sucessfully Deleted");
         }
@@ -556,7 +618,9 @@ this.cart.RemoveCombo(item).then(()=>{
 
 
 
-
+    test(){
+      console.log(this.saveCard);
+    }
 
 
 

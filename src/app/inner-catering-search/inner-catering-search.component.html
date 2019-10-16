@@ -115,10 +115,8 @@
   </div>
   <ngx-slick-carousel [config]="slideeConfig" class="carousel col-12 search-slider"  #slickModal="slick-carousel"> 
     <div  class="search-slide" *ngFor="let image of ResturantObj.image">
-      <div ngxSlickItem class="slide-flyer">
-       
-      </div>
-      <img  src="http://localhost:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1400px;">
+ 
+      <img  src="http://localhost:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1110px;">
     </div>
   </ngx-slick-carousel>
 
@@ -209,12 +207,11 @@
   <div class="col-md-4">
     <h3>Catering Menu</h3>
   </div>
-  <div class="col-md-8 text-right">
-    <a style="cursor: pointer;"  class="search-tags">Lunches</a>
-    <a style="cursor: pointer;" class="search-tags">Entrees</a>
-    <a style="cursor: pointer;" class="search-tags">Sides</a>
-    <a style="cursor: pointer;" class="search-tags">Deserts</a>
-    <a style="cursor: pointer;" class="search-tags">Beverages</a>
+  <div class="col-md-8 text-right" *ngIf="bufferToDisplay != undefined && HighteaBuffet != undefined && DinnerBuffet != undefined && LunchBuffet != undefined">
+    <a (click)="scroll('breakfast')" style="cursor: pointer;" *ngIf="bufferToDisplay.length != 0" class="search-tags">Breakfast</a>
+    <a  (click)="scroll('hightea')" style="cursor: pointer;" *ngIf="HighteaBuffet.length != 0" class="search-tags">High tea</a>
+    <a (click)="scroll('lunch')" style="cursor: pointer;" *ngIf="LunchBuffet.length != 0" class="search-tags">Lunch</a>
+    <a (click)="scroll('dinner')" style="cursor: pointer;"  *ngIf="DinnerBuffet.length != 0" class="search-tags">Dinner</a>
   </div>
 </div>
 
@@ -254,10 +251,11 @@
       </div>
     </div> -->
 <!-- DELIVERY BUFFET ROW -->
-<div class="row search-menu" *ngIf="bufferToDisplay !== undefined">
-  <div class="col-12" >
+<div class="row search-menu">
+  <div id="breakfast" *ngIf="bufferToDisplay !== undefined"  >
+  <div class="col-12" *ngIf="bufferToDisplay.length !== 0">
     <div class="row">
-      <h3>Buffet List</h3>
+      <h3>Breakfast  </h3>
     </div>
     <div class="row">
       <div class="col-md-6 menu-item" *ngFor="let items of bufferToDisplay">
@@ -284,6 +282,103 @@
       </div>
     </div>
   </div>
+</div>
+
+<div id="lunch" *ngIf="LunchBuffet !== undefined" >
+    <div class="col-12" *ngIf="LunchBuffet.length !== 0">
+      <div class="row">
+        <h3>Lunch  </h3>
+      </div>
+      <div class="row">
+        <div class="col-md-6 menu-item" *ngFor="let items of LunchBuffet">
+          <div class="menu-item-inner">
+            <div class="row">
+              <figure>
+                <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.image}}" alt=""></a>
+        
+              </figure>
+            </div>	
+            <div class="menu-item-desc">
+              <div class="row flex-col">
+                <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
+                <p>{{items.description}}</p>
+                <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+              </div>
+              <div class="row item-desc-footer align-items-center">
+                <p>person, minimum {{items.min}} people</p>
+                <a style="cursor: pointer;"><i class="fa fa-heart-o"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="hightea" *ngIf="HighteaBuffet !== undefined"  >
+      <div class="col-12" *ngIf="HighteaBuffet.length !== 0">
+        <div class="row">
+          <h3>Hightea  </h3>
+        </div>
+        <div class="row">
+          <div class="col-md-6 menu-item" *ngFor="let items of HighteaBuffet">
+            <div class="menu-item-inner">
+              <div class="row">
+                <figure>
+                  <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                  <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.image}}" alt=""></a>
+          
+                </figure>
+              </div>	
+              <div class="menu-item-desc">
+                <div class="row flex-col">
+                  <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
+                  <p>{{items.description}}</p>
+                  <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                </div>
+                <div class="row item-desc-footer align-items-center">
+                  <p>person, minimum {{items.min}} people</p>
+                  <a style="cursor: pointer;"><i class="fa fa-heart-o"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="dinner" *ngIf="DinnerBuffet !== undefined" >
+        <div class="col-12" *ngIf="DinnerBuffet.length !== 0">
+          <div class="row">
+            <h3>Dinner  </h3>
+          </div>
+          <div class="row">
+            <div class="col-md-6 menu-item" *ngFor="let items of DinnerBuffet">
+              <div class="menu-item-inner">
+                <div class="row">
+                  <figure>
+                    <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                    <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.image}}" alt=""></a>
+            
+                  </figure>
+                </div>	
+                <div class="menu-item-desc">
+                  <div class="row flex-col">
+                    <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal" ><h4>{{items.name}}</h4></a>
+                    <p>{{items.description}}</p>
+                    <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                  </div>
+                  <div class="row item-desc-footer align-items-center">
+                    <p>person, minimum {{items.min}} people</p>
+                    <a style="cursor: pointer;"><i class="fa fa-heart-o"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
   </div>
 

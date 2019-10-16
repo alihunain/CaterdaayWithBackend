@@ -8,7 +8,7 @@ import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { CartService } from '../../Services/cart.service'
 import { GlobalService } from '../../Services/global.service'
 import { ToastrService } from 'ngx-toastr'
-
+import { NgAnimateScrollService } from 'ng-animate-scroll';
 
 @Component({
   selector: 'app-inner-catering-search',
@@ -25,6 +25,7 @@ export class InnerCateringSearchComponent implements OnInit {
     "focusOnSelect": false,
     "speed": 1000
   };
+  filterType:any;
   textarea:boolean=false;
   max :any;
   selectedItem:any;
@@ -44,7 +45,11 @@ export class InnerCateringSearchComponent implements OnInit {
   menuToDisplay:any[];
   bufferToDisplay:any[];
   location:boolean= true;
-  constructor(private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
+
+  HighteaBuffet:any;
+  LunchBuffet:any;
+  DinnerBuffet:any;
+  constructor(private animateScrollService: NgAnimateScrollService,private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
 
   }
 
@@ -86,14 +91,17 @@ export class InnerCateringSearchComponent implements OnInit {
     this.showcart = !this.showcart;
   }
   ResturantPopups(items){
-
-    if(items.kitchenid != this.cart.currentResturant){
+    console.log("working");
+    console.log(items,"item");
+    if(items.kitchenId != this.cart.currentResturant){
+      console.log("in")
       this.dropdown = new Array<Number>();
-      let min = Number(items.restaurantMin);
-      let max = Number(items.restaurantMax);
+      let min = Number(items.min);
+      let max = Number(items.max);
       for(let i = min ; i <= max;i++){
         this.dropdown.push(i);
       }
+      console.log(this.dropdown);
       this.popupItem = items;
       return;
     }
@@ -110,7 +118,9 @@ export class InnerCateringSearchComponent implements OnInit {
   }else{
     itemmax = items.max;
   }
-
+  console.log(itemmax,"yeh item max araha h");
+  
+  console.log(this.max-this.cart.getCartCount(),"yeh item max araha h");
    for(let i = min ; i <= (this.max-this.cart.getCartCount()) && i <= itemmax;i++){
      this.dropdown.push(i);
    }
@@ -164,10 +174,30 @@ export class InnerCateringSearchComponent implements OnInit {
           name:"Broast"
           }]
       }]};
-      console.log(this.max,"Resturant Max");
-      console.log(this.min,"Resturant Min");
-    console.log(data.message);
-      this.bufferToDisplay = data.message;
+     let Buffets = data.message;
+     this.bufferToDisplay = new Array();
+     this.LunchBuffet = new Array();
+     this.HighteaBuffet = new Array();
+     this.DinnerBuffet = new Array();
+     console.log(Buffets,"buffets")
+     for(let i =0;i < Buffets.length;i++){
+    
+       if(Buffets[i].type == 'Breakfast'){
+         this.bufferToDisplay.push(Buffets[i]);
+       }else if(Buffets[i].type == 'Hightea'){
+         this.HighteaBuffet.push(Buffets[i]);
+       }else if(Buffets[i].type == 'Lunch'){
+        this.LunchBuffet.push(Buffets[i]);
+       }else{
+        this.DinnerBuffet.push(Buffets[i]);
+       }
+     }
+     console.log(this.bufferToDisplay,"bufferToDisplay");
+     console.log(this.DinnerBuffet,"Dinner");
+     console.log(this.LunchBuffet,"lunch");
+     console.log(this.HighteaBuffet,"hightea");
+
+      // this.bufferToDisplay = data.message;
       console.log(this.bufferToDisplay);
 
 
@@ -334,6 +364,11 @@ export class InnerCateringSearchComponent implements OnInit {
    
      })
      
+  }
+  scroll(id){
+    console.log(id);
+    this.animateScrollService.scrollToElement(id,1000);
+   
   }
  
 }

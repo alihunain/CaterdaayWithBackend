@@ -4,9 +4,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService, ToastRef } from 'ngx-toastr';
 import { MapsAPILoader } from '@agm/core';
 import { GlobalService } from '../../Services/global.service'
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { KitchenService } from '../../Services/kitchen.service'
 import { ResturantService} from '../../Services/resturant.service'
+import { PARAMETERS } from '@angular/core/src/util/decorators';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
   pastOrders:any;
   orderForPopup:any;
   porderForPopup:any;
+  currentclass="account";
   Profile = this.fb.group({
     email:['',[Validators.required]],
     lastname:['',[Validators.required]],
@@ -67,7 +69,7 @@ export class ProfileComponent implements OnInit {
 
 
 
-  constructor(private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  constructor(private route: ActivatedRoute,private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
  
 
   @ViewChild('city')
@@ -78,7 +80,15 @@ export class ProfileComponent implements OnInit {
     this.global.header = 3;
     this.checkLogin();
     this.userdata =this.userservices.user;
-
+    this.route.queryParams.subscribe(params=>{
+      this.currentclass = params["point"];
+      if(this.currentclass != "account" && this.currentclass != "favourite" && this.currentclass != "orders"){
+        this.currentclass = "account"
+      }
+      console.log(this.currentclass);
+    })
+    
+    console.log(this.currentclass);
     this.setProfileValues();
     this.getCustomerRating();
     this.getCustomer();

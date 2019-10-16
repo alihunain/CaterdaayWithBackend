@@ -31,6 +31,9 @@ export class UserService {
     return this.http.post(   this.server.development.ms3 + "customers/forget-password",email).pipe(
       catchError(this.handleError))
   }
+  collectPaymentbyToken(token){
+    return this.http.post(this.server.development.ms4 + "collectpaymentbytoken",token).pipe(catchError(this.handleError));
+  }
   Login(user:any){
     return this.http.post(   this.server.development.ms3 + "customers/login",user).pipe(
     catchError(this.handleError))
