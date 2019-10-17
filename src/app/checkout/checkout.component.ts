@@ -30,7 +30,8 @@ export class CheckoutComponent implements OnInit {
   customerAddress:any;
   lat:any;
   lng:any;
-
+  resturantMin: Number;
+  resturantMax:Number;
   paycard:boolean=false;
   currentUserObj:any;
   dateValidation:boolean= false;
@@ -84,7 +85,8 @@ export class CheckoutComponent implements OnInit {
     this.cart.getCurrentResturant();
     this.cart.getCartCount();
     this.user.getUser();
-  
+    this.getResturantMinimum();
+    if(this.cart.cartCount < this.resturant)
     if(this.user.user == null || this.user.user == undefined){
      this.router.navigate(['/detail']);
    }
@@ -176,6 +178,19 @@ export class CheckoutComponent implements OnInit {
     this.resturant.Resturantid = id;
     this.router.navigate(['/detail'])
   }
+  getResturantMinimum(){
+    this.resturant.resturantsDetails(this.resturant.getResturantid()).subscribe((data:any) =>{
+      this.resturantMax = Number(data.message.restaurantMax);
+      this.resturantMin = Number(data.message.restaurantMin);
+      this.Check();
+    })
+  }
+  Check(){
+    if(this.cart.getCartCount() < this.resturantMin){
+      this.toastr.warning("Resturant Minimum Serving Limit is " + this.resturantMin);
+      this.router.navigate(['/detail']);
+    }
+  }
   Reedem(){
   
    let coup = this.eleRef.nativeElement.querySelector('#coupon').value;
@@ -201,6 +216,7 @@ this.cart.RemoveCombo(item).then(()=>{
     this.toastr.warning("Your Cart is empty select item you want to order")
     this.router.navigate(['/detail']);
   }
+  this.Check();
 })
   }
   getUser(){
@@ -618,9 +634,6 @@ this.cart.RemoveCombo(item).then(()=>{
 
 
 
-    test(){
-      console.log(this.saveCard);
-    }
 
 
 

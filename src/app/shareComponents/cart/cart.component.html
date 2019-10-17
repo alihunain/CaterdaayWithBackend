@@ -41,7 +41,7 @@
                 <b>
                   CAD
                 </b>
-                {{items.totalprice}}
+                {{items.totalprice.toFixed(2)}}
               </small>
             </td>
             <td>
@@ -57,7 +57,7 @@
             Sub Total : &nbsp; &nbsp;
             <span class="pull-right">
               <b> CAD</b>
-              <span> {{orders.total}}</span>
+              <span> {{(orders.total).toFixed(2)}}</span>
             </span>
           </b>
         </div>

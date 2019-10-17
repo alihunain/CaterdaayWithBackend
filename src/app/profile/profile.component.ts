@@ -203,6 +203,10 @@ export class ProfileComponent implements OnInit {
   getFavourite(){
     this.resturantservices.favouriteList(this.userdata._id).subscribe((data:any)=>{
       console.log(data);
+      if(data.message[0].customerfavrestro.length == 0){
+        this.favouriteItems = new Array();
+        return;
+      }
       let item = data.message[0].customerfavrestro[0].items;
       let favourite = new Map();
      

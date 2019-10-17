@@ -1,5 +1,5 @@
 
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
 import {ResturantService } from '../../Services/resturant.service'
 import { Router } from '@angular/router';
 import {menu} from '../Models/menu';
@@ -49,7 +49,7 @@ export class InnerCateringSearchComponent implements OnInit {
   HighteaBuffet:any;
   LunchBuffet:any;
   DinnerBuffet:any;
-  constructor(private animateScrollService: NgAnimateScrollService,private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
+  constructor(private cd: ChangeDetectorRef,private animateScrollService: NgAnimateScrollService,private toastr:ToastrService,private eleRef: ElementRef,private global:GlobalService,private resturantService:ResturantService,private router:Router,private mapsAPILoader: MapsAPILoader,private cart:CartService) { 
 
   }
 
@@ -98,6 +98,12 @@ export class InnerCateringSearchComponent implements OnInit {
       this.dropdown = new Array<Number>();
       let min = Number(items.min);
       let max = Number(items.max);
+      if(this.ResturantObj.restaurantMin > min){
+        min = this.ResturantObj.restaurantMin;
+      }
+      if(this.ResturantObj.restaurantMax < max){
+        max = this.ResturantObj.restaurantMax;
+      }
       for(let i = min ; i <= max;i++){
         this.dropdown.push(i);
       }
@@ -106,7 +112,7 @@ export class InnerCateringSearchComponent implements OnInit {
       return;
     }
    this.dropdown = new Array<Number>();
-   let min = items.min;
+   let min = Number(items.min);
    if(min < (this.min-this.cart.getCartCount())){
      min = this.min-this.cart.getCartCount();
    }
@@ -366,8 +372,8 @@ export class InnerCateringSearchComponent implements OnInit {
      
   }
   scroll(id){
-    console.log(id);
-    this.animateScrollService.scrollToElement(id,1000);
+  this.cd.detectChanges();
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'start' });
    
   }
  

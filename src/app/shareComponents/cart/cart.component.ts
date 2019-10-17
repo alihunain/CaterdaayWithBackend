@@ -19,6 +19,7 @@ export class CartComponent implements OnInit {
     this.orders = this.cart.getItemOrder();
     this.cart.checkCart.subscribe(res =>{
       this.orders = res;
+      // this.orders.total = Math.
     
     });
    

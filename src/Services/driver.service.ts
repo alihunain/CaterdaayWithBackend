@@ -16,6 +16,9 @@ export class DriverService {
     return this.http.post(this.server.development.ms1 + "driver",driver).pipe(
     catchError(this.handleError))
   }
+  WaiterSignup(data:any){
+    return this.http.post(this.server.development.ms1 + "waiter",data  ).pipe(catchError(this.handleError));
+  }
   private handleError(error: HttpErrorResponse){
     if(error.error instanceof ErrorEvent){
       console.log(`An error occured: ${error.error.message}`);

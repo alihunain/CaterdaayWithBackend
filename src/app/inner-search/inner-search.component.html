@@ -315,7 +315,7 @@
 					<ul class="pagination">
 					  	<li *ngIf="CurrentPage != 1" class="page-item"><a class="page-link" style="cursor: pointer;"><i class="fa fa-angle-double-left" aria-hidden="true" (click)="Pre()"></i></a></li>
 						<li class="page-item" *ngFor="let page of pageArray"><a class="page-link" style="cursor: pointer;" (click)="SetPage(page)">{{page}}</a></li>
-						<li *ngIf="CurrentPage != totalpages" class="page-item"><a class="page-link" style="cursor: pointer;"><i  class="fa fa-angle-double-right" aria-hidden="true" (click)="Next()"></i></a></li>
+						<li *ngIf="CurrentPage != totalpages && totalpages !=0"  class="page-item"><a class="page-link" style="cursor: pointer;"><i  class="fa fa-angle-double-right" aria-hidden="true" (click)="Next()"></i></a></li>
 					</ul>
 				</div>
 				<div class="row justify-content-center">

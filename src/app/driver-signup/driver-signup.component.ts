@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import {DriverService} from '../../Services/driver.service';
 import { GlobalService } from '../../Services/global.service'
-
-
+import { ToastrService } from 'ngx-toastr'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-driver-signup',
   templateUrl: './driver-signup.component.html',
@@ -22,9 +22,10 @@ export class DriverSignupComponent implements OnInit {
     address:['',[Validators.required]],
     city:['',[Validators.required]],
     state:['',[Validators.required]],
-    yourself:['',[Validators.required,Validators.minLength(100)]]
+    yourself:['',[Validators.required,Validators.minLength(100)]],
+    password:['',[Validators.required]]
   })
-  constructor(private global:GlobalService,private fb:FormBuilder,private driver:DriverService) { }
+  constructor(private router:Router,private toastr:ToastrService,private global:GlobalService,private fb:FormBuilder,private driver:DriverService) { }
 
   ngOnInit() {
     this.global.header = 2;
@@ -62,12 +63,18 @@ export class DriverSignupComponent implements OnInit {
   get license(){
     return this.Driver.get('license');
   }
+  get password(){
+    return this.Driver.get('password');
+  }
   
 
   driverSignup(){
     let driverDetails = this.Driver.value;
     this.driver.Signup(driverDetails).subscribe((data:any)=>{
-
+      if(!data.error){
+        this.toastr.success('your form has been submit');
+        this.router.navigate(['/']);
+      }
     },(error:any)=>{
 console.log(error);
     })

@@ -57,15 +57,16 @@
 									</div>
 								</div>
 							</div>
-					
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" formControlName="identity" class="form-control" placeholder="National Identity">
-									<div *ngIf="identity.invalid && (identity.dirty || identity.touched)">
-											<div *ngIf="identity.errors.required" class="form-error alert-danger">Identity is Required</div>
+									<input type="password" formControlName="password"class="form-control" placeholder="Password">
+									<div *ngIf="password.invalid && (password.dirty || password.touched)">
+											<div *ngIf="password.errors.required" class="form-error alert-danger">Password Is Required</div>
 									</div>
 								</div>
 							</div>
+					
+					
 					
 							<div class="col-md-12">
 								<div class="form-group">
@@ -88,6 +89,14 @@
 									<input type="text" formControlName="state"  class="form-control" placeholder="State">
 									<div *ngIf="state.invalid && (state.dirty || state.touched)">
 											<div *ngIf="state.errors.required" class="form-error alert-danger">State Is Required</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" formControlName="identity" class="form-control" placeholder="National Identity">
+									<div *ngIf="identity.invalid && (identity.dirty || identity.touched)">
+											<div *ngIf="identity.errors.required" class="form-error alert-danger">Identity is Required</div>
 									</div>
 								</div>
 							</div>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder } from '@angular/forms';
 import { GlobalService } from '../../Services/global.service'
+import {DriverService} from '../../Services/driver.service'
+import { ToastrService } from 'ngx-toastr'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-waiter-signup',
   templateUrl: './waiter-signup.component.html',
@@ -16,9 +19,10 @@ export class WaiterSignupComponent implements OnInit {
     address:['',[Validators.required]],
     city:['',[Validators.required]],
     state:['',[Validators.required]],
-    yourself:['',[Validators.required,Validators.minLength(100)]]
+    yourself:['',[Validators.required,Validators.minLength(100)]],
+    password:['',[Validators.required]]
   })
-  constructor(private global:GlobalService,private fb:FormBuilder) { }
+  constructor(private toastr:ToastrService,private router:Router, private global:GlobalService,private fb:FormBuilder,private driverService:DriverService) { }
 
   ngOnInit() {
     this.global.header = 2;
@@ -49,7 +53,15 @@ export class WaiterSignupComponent implements OnInit {
   get yourself(){
     return this.Waiter.get('yourself');
   }
+  get password(){
+    return this.Waiter.get('password');
+  }
   waiterSignup(){
-   
+   this.driverService.WaiterSignup(this.Waiter.value).subscribe((data:any)=>{
+     if(!data.error){
+       this.toastr.success('your form has been submit');
+       this.router.navigate(['/'])
+     }
+   })
   }
 }
