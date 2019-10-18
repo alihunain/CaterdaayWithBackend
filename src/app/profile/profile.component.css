@@ -237,6 +237,7 @@
 .stepwizard-step-order {
     display: table-cell;
     position: relative;
+    width: 190px !important;
 }
 
 .stpewiz-green:before {

@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   items=new Map();
   lng:any;
   lat:any;
+  orderStatus:any;
   zoom=1;
   checkpassword:boolean=false;
   mapaddress:string;
@@ -35,7 +36,6 @@ export class ProfileComponent implements OnInit {
     lastname:['',[Validators.required]],
     firstname:['',[Validators.required]],
     homephone:['',[Validators.required]],
-    dob:['',[Validators.required]],
     cellphone:['',[Validators.required]]
   })
   Card = this.fb.group({
@@ -267,9 +267,14 @@ export class ProfileComponent implements OnInit {
     });
   }
   selectOrder(order){
+    this.checkOrderStatus(order);
 this.orderForPopup = order;
   }
+  checkOrderStatus(order){
+this.orderStatus =0;
+  }
   SelectPorder(order){
+    this.checkOrderStatus(order);
     this.porderForPopup = order;
   }
   getOrderDetails(){
@@ -473,9 +478,7 @@ this.orderForPopup = order;
    get cellphone(){
     return this.Profile.get('cellphone');
   }
-  get dob(){
-    return this.Profile.get('dob');
-  }
+ 
   get homephone(){
     return this.Profile.get('homephone');
   }

@@ -38,9 +38,18 @@ export class SignupComponent implements OnInit {
     this.signupUser.firstname = this.firstname.value;
     this.signupUser.lastname = this.lastname.value;
     this.signupUser.password = this.password.value;
-    this.userService.Signup(this.signupUser).subscribe(data=>{
-      this.toastr.success('Verify Your Email Before Login');
-      this.eleRef.nativeElement.querySelector('#closeReg').click();
+    let body = {
+      email:this.signupUser.email
+    }
+    this.userService.Signup(this.signupUser).subscribe((data:any)=>{
+      if(!data.error){
+        this.toastr.success('Verify Your Email Before Login');
+     
+        this.userService.AddSubscriber(body).subscribe((data:any)=>{
+            console.log(data.message);
+        })
+        this.eleRef.nativeElement.querySelector('#closeReg').click();
+      }
     },(error)=>{
       this.toastr.error('Something Went Wrong');
     })

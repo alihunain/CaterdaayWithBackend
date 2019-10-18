@@ -166,13 +166,13 @@
 					<div class="row">
 						<div class="col-12">
 							<div>
-								<label for="cod" (click)="paystatus(false)">
+								<label for="cod" [ngClass]="{'checked': paycard==false}" (click)="paystatus(false)">
 									<input type="radio" value="Cash" name="pay-meth" id="cod" checked>
 									<img src="assets/images/cod.png" class="img-fluid" alt="">
 									<h6>Cash on delivery</h6>
 							
 								</label>
-								<label for="cc" (click)="paystatus(true)">
+								<label for="cc"  [ngClass]="{'checked': paycard==true}" (click)="paystatus(true)">
 									<input type="radio" value="card" name="pay-meth" id="cc">
 									<img src="assets/images/cc.png" class="img-fluid" alt="">
 									<h6>Credit card / Debit card</h6>
