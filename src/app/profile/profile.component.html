@@ -14,31 +14,31 @@
       <div class="row">
         <div class="col-sm-3">
           <ul class="nav nav-tabs custom-nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item ">
-              <a class="nav-link " [ngClass]="{'active': currentclass=='account'}"  data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
+            <li class="nav-item" (click) ="AddClass('account')" >
+              <a class="nav-link "  id="account"  [ngClass]="{'active': currentclass=='account'}"  data-toggle="tab" data-target="#account-info" role="tab" aria-controls="account-info">Account Info</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active': currentclass=='favourite'}"  data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
+            <li class="nav-item" (click) ="AddClass('favourite')">
+              <a class="nav-link"  id="favourite"  [ngClass]="{'active': currentclass=='favourite'}"  data-toggle="tab" data-target="#my-favourite" role="tab" aria-controls="my-favourite">My Favourite</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
+            <li class="nav-item" (click) ="AddClass('address')">
+              <a class="nav-link" id="address"   [ngClass]="{'active': currentclass=='address'}"  data-toggle="tab" data-target="#saved-addresses" role="tab" aria-controls="saved-addresses">Saved Addresses</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" [ngClass]="{'active': currentclass=='orders'}" data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
+            <li class="nav-item" (click) ="AddClass('orders')" >
+              <a class="nav-link"  id="orders"  [ngClass]="{'active': currentclass=='orders'}"  data-toggle="tab" data-target="#my-orders" role="tab" aria-controls="my-orders">My Orders</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#past-orders" role="tab" aria-controls="past-orders">Past Orders</a>
+            <li class="nav-item" (click) ="AddClass('pastorder')">
+              <a class="nav-link" id="pastorder"   [ngClass]="{'active': currentclass=='pastorder'}" data-toggle="tab" data-target="#past-orders" role="tab" aria-controls="past-orders">Past Orders</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" data-target="#saved-card" role="tab" aria-controls="saved-card">Saved Card</a>
+            <li class="nav-item"(click) ="AddClass('savecard')" >
+              <a class="nav-link" id="savecard"  [ngClass]="{'active': currentclass=='savecard'}" data-toggle="tab" data-target="#saved-card" role="tab" aria-controls="saved-card">Saved Card</a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item" routerLink="/profile" [queryParams]="{point: 'account'}">
               <a class="nav-link" style="background-color: #c5c1c1">Review</a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item" routerLink="/profile" [queryParams]="{point: 'account'}">
               <a class="nav-link" style="background-color: #c5c1c1">Refer</a>
             </li>
-            <li class="nav-item" >
+            <li class="nav-item" routerLink="/profile" [queryParams]="{point: 'account'}">
               <a class="nav-link"  style="background-color: #c5c1c1">Rewards</a>
             </li>
           </ul>
@@ -565,16 +565,17 @@
                 <div class="p-15">
                   <div class="stepwizard-order">
                     <div class="stepwizard-row-order">
-                      <div class="stepwizard-step-order" [ngClass]="{'stpewiz-green': orderStatus >= 1}">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">1</button>
+                      <div class="stepwizard-step-order stpewiz-grey"  >
+                        <button class="btn btn-default btn-circle-order " [ngClass]="{'btn-danger': orderStatus >= 1}" type="button">1</button>
                         <p>Order Placed</p>
                       </div>
                       <!-- <div class="stepwizard-step-order stpewiz-green">
                         <button class="btn btn-default btn-circle-order btn-danger" type="button">2</button>
                         <p>Payment <br>Received</p>
                       </div> -->
-                      <div class="stepwizard-step-order " [ngClass]="{'stpewiz-green': orderStatus >= 2}">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">2</button>
+                      <!-- <div class="stepwizard-step-order " [ngClass]="{'stpewiz-green': orderStatus >= 2}"> -->
+                         <div class="stepwizard-step-order stpewiz-grey">
+                        <button class="btn btn-default btn-circle-order btn-danger" [ngClass]="{'btn-danger': orderStatus >= 2}" type="button">2</button>
                         <p>Order Accepted <br>
                        
                         </p>
@@ -595,8 +596,8 @@
                         <button class="btn btn-default btn-circle-order" type="button">6</button>
                         <p> On the Way </p>
                       </div> -->
-                      <div class="stepwizard-step-order " [ngClass]="{'stpewiz-green': orderStatus >= 3}">
-                        <button class="btn btn-default btn-circle-order" type="button">3</button>
+                      <div class="stepwizard-step-order stpewiz-grey" >
+                        <button class="btn btn-default btn-circle-order" [ngClass]="{'btn-danger': orderStatus >= 3}" type="button">3</button>
                         <p> Order <br>
                           Delivered
                         </p>

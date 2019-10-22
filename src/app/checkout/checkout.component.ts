@@ -30,6 +30,7 @@ export class CheckoutComponent implements OnInit {
   customerAddress:any;
   lat:any;
   lng:any;
+  confirm:boolean=false;
   resturantMin: Number;
   resturantMax:Number;
   paycard:boolean=false;
@@ -228,11 +229,24 @@ this.cart.RemoveCombo(item).then(()=>{
       console.log(error);
     })
   }
+  ConfirmOrder(res){
+    if(res == false){
+      this.eleRef.nativeElement.querySelector("#closeWarning").click();
+    }else{
+      this.confirm = true;
+      this.eleRef.nativeElement.querySelector("#closeWarning").click();
+      this.PlaceOrder();
+    }
+  }
   PlaceOrder(){
 
 
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
+    if(this.confirm == false){
+      this.eleRef.nativeElement.querySelector("#confirm").click();
+      return;
+    }
     console.log(this.orders.items);
     if(this.paycard == false){
       let order = {

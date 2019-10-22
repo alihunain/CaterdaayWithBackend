@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
   pastOrders:any;
   orderForPopup:any;
   porderForPopup:any;
+  param:any;
   currentclass="account";
   Profile = this.fb.group({
     email:['',[Validators.required]],
@@ -81,11 +82,32 @@ export class ProfileComponent implements OnInit {
     this.checkLogin();
     this.userdata =this.userservices.user;
     this.route.queryParams.subscribe(params=>{
-      this.currentclass = params["point"];
-      if(this.currentclass != "account" && this.currentclass != "favourite" && this.currentclass != "orders"){
-        this.currentclass = "account"
-      }
-      console.log(this.currentclass);
+
+       this.param =  params["point"];
+       this.currentclass = params["point"];
+       console.log(this.currentclass);
+       this.eleRef.nativeElement.querySelector("#" + this.param).click();
+     
+      // this.eleRef.nativeElement.querySelector("#pastorder").classList.remove('active');
+      // this.eleRef.nativeElement.querySelector("#savecard").classList.remove('active');
+      // if(this.param == "account"){
+      //   this.eleRef.nativeElement.querySelector("#favourite").classList.remove('active');
+        
+      //   this.eleRef.nativeElement.querySelector("#orders").classList.remove('active');
+      // }else if(this.param == "orders"){
+      //   this.eleRef.nativeElement.querySelector("#favourite").classList.remove('active');
+      //   this.eleRef.nativeElement.querySelector("#account").classList.remove('active');
+      // }else{
+      //   this.eleRef.nativeElement.querySelector("#orders").classList.remove('active');
+      //   this.eleRef.nativeElement.querySelector("#account").classList.remove('active');
+      // }
+      
+      // if(this.currentclass != "account" && this.currentclass != "favourite" && this.currentclass != "orders"){
+      //   this.currentclass = "account"
+      //   //
+      //   //
+      // }
+      console.log(this.currentclass,"subscribe");
     })
     
     console.log(this.currentclass);
@@ -111,6 +133,11 @@ export class ProfileComponent implements OnInit {
       this.geoCoder = new google.maps.Geocoder;
 
     });
+  }
+  AddClass(name){
+
+  this.eleRef.nativeElement.querySelector('#' +  name).click();
+  this.currentclass = name;
   }
   verifyCard(){
     
@@ -271,7 +298,16 @@ export class ProfileComponent implements OnInit {
 this.orderForPopup = order;
   }
   checkOrderStatus(order){
-this.orderStatus =0;
+    if(order.status =="accepted"){
+      this.orderStatus =2;
+      }else if(order.status == "rejected"){
+        this.orderStatus =1;
+      }else if(order.status == "received"){
+        this.orderStatus = 1;
+      }else{
+        this.orderStatus=0;
+      }
+      console.log(this.orderStatus);
   }
   SelectPorder(order){
     this.checkOrderStatus(order);
