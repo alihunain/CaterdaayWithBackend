@@ -46,7 +46,7 @@ export class SignupComponent implements OnInit {
         this.toastr.success('Verify Your Email Before Login');
      
         this.userService.AddSubscriber(body).subscribe((data:any)=>{
-            console.log(data.message);
+        
         })
         this.eleRef.nativeElement.querySelector('#closeReg').click();
       }
@@ -71,7 +71,6 @@ export class SignupComponent implements OnInit {
       }
      
     },(error)=>{
-      console.log(error);
       this.toastr.error('Unauthorized');
     })
   }

@@ -1182,7 +1182,7 @@ li.breadcrumb-item {
     padding: 5px 30px;
     border: none;
     background: #e1dbdb;
-    color: #ed212f;
+    color: #5ba946;
     font-weight: 600;
     cursor: pointer;
     transition: 0.5s ease;
@@ -1190,7 +1190,7 @@ li.breadcrumb-item {
     display: inline-block;
 }
 #special-ins:hover {
-    background: #ed212f;
+    background: #5ba946 !important;
     color: #fff;
 }
 textarea#special-txt {
@@ -1199,7 +1199,7 @@ textarea#special-txt {
     resize: none;
 }
 input#popup-cart {
-    background: #ed212f;
+    background: #5ba946 !important;
     border: none;
     color: #fff;
     padding: 10px 50px;
@@ -1213,7 +1213,8 @@ input#popup-cart:hover {
 .hotel-popup button.close {
     position: absolute;
     right: -15px;
-    background: #ed212f;
+    /* background: #ed212f; */
+    background: #5ba946 !important;
     width: 30px;
     height: 30px;
     border-radius: 50%;
@@ -2236,7 +2237,7 @@ input.btn-coup:hover {
 .edit-ord a {
     color: #5ba946;
     font-style: italic;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
 }
 

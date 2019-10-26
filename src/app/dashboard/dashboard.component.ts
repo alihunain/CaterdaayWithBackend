@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
 import { GlobalService } from '../../Services/global.service'
 import { reject } from 'q';
+import { ResturantCountComponent } from '../shareComponents/resturant-count/resturant-count.component';
 
 declare var functionality: any;
 declare var srcollEnterance: any;
@@ -163,8 +164,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
-
+      console.log(results[0]);
         if (results[0]) {
+          this.searchElementRef.nativeElement.value = results[0].formatted_address;
           this.kitchenservice.address = results[0].formatted_address;
           this.update = results[0].formatted_address
         }
@@ -184,7 +186,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     })
   }
   AddLocation(){
-    
+    console.log(this.update);
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;
     }else if(this.update == null || this.update == undefined || this.update != this.searchElementRef.nativeElement.value){

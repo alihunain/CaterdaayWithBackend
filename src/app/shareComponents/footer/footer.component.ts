@@ -25,7 +25,7 @@ export class FooterComponent implements OnInit {
       email:this.email.value
     }
     this.user.AddSubscriber(body).subscribe((data:any)=>{
-      console.log(data);
+  
       if(data.error){
         this.toastr.error("You already have been subscribe to newsletter");
       }else{

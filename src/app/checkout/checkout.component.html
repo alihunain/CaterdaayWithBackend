@@ -33,7 +33,7 @@
 							<div>
 								<label for="home-delivery">
 									<input type="radio" value="Home Delivery" name="delivery-method" id="home-delivery" checked>
-									Home Delivery
+									 Delivery
 								</label>
 								<label for="takeaway">
 									<input type="radio" value="Take Away" name="delivery-method" id="takeaway">
@@ -166,12 +166,12 @@
 					<div class="row">
 						<div class="col-12">
 							<div>
-								<label for="cod" [ngClass]="{'checked': paycard==false}" (click)="paystatus(false)">
+								<!-- <label for="cod" [ngClass]="{'checked': paycard==false}" (click)="paystatus(false)">
 									<input type="radio" value="Cash" name="pay-meth" id="cod" checked>
 									<img src="assets/images/cod.png" class="img-fluid" alt="">
 									<h6>Cash on delivery</h6>
 							
-								</label>
+								</label> -->
 								<label for="cc"  [ngClass]="{'checked': paycard==true}" (click)="paystatus(true)">
 									<input type="radio" value="card" name="pay-meth" id="cc">
 									<img src="assets/images/cc.png" class="img-fluid" alt="">
@@ -199,13 +199,13 @@
 										<div class="add-address-del-btn" 	>
 										
 										<div *ngIf="saveCard != null && saveCard != undefined">
-												<button (click)="deleteCard()" class="btn custom-btn">Delete</button>
+												<button (click)="deleteCard()" class="btn custom-btn" style="margin:20px">Delete</button>
 										  <button (click)="selectCard(card)" class="btn custom-btn" *ngIf="saveCard.token != card.token">Select</button>
 											<button (click)="UnselectCard(card)" class="btn custom-btn" *ngIf="saveCard.token == card.token">Un-Select</button>
 										</div>
 								
 										<div *ngIf="saveCard == null || saveCard == undefined">
-												<button (click)="deleteCard()" class="btn custom-btn">Delete</button>
+												<button (click)="deleteCard()" class="btn custom-btn" style="margin:20px">Delete</button>
 											<button (click)="selectCard(card)" class="btn custom-btn" >Select</button>
 										</div>
 										</div>
@@ -220,7 +220,7 @@
 				</div>
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
-					<button class="btn custom-btn ng-star-inserted" [disabled]="!deliveryAddress.valid && !deliveryTime.valid && !dateValidation"  style="cursor: pointer;" (click)="PlaceOrder()">Checkout</button>
+					<button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.deliveryTime.valid) || (!this.dateValidation) || (this.saveCard == null || this.saveCard == undefined)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button>
 				</div>
 			</div>
 
@@ -244,7 +244,7 @@
 										</div>
 										<div class="order-price">
 											<span class="ord-curr">CAD</span>
-											<span class="ord-price">{{item.totalprice}}</span>
+											<span class="ord-price">{{item.totalprice.toFixed(2)}}</span>
 										</div>
 										<div class="ord-cancel">
 											<a style="cursor: pointer;" (click)="RemoveItem(item)"><i class="fa fa-trash"></i></a>
@@ -262,7 +262,7 @@
 									</div>
 									<div class="total-money">
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.total}}</span>
+										<span class="subtotal">{{orders.total.toFixed(2)}}</span>
 									</div>
 								</div>
 								<div class="price-row">
@@ -271,7 +271,7 @@
 									</div>
 									<div class="total-money">
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.delivery}}</span>
+										<span class="subtotal">{{orders.delivery.toFixed(2)}}</span>
 									</div>
 								</div>
 								<div class="price-row">
@@ -280,7 +280,7 @@
 									</div>
 									<div class="total-money">
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.taxAmount}}</span>
+										<span class="subtotal">{{orders.taxAmount.toFixed(2)}}</span>
 									</div>
 								</div>
 							</div>
@@ -293,7 +293,7 @@
 										Total
 									</div>
 									<div class="all-money">
-										CAD <span class="all-price">{{orders.total+orders.taxAmount+orders.delivery}}</span>
+										CAD <span class="all-price">{{(orders.total+orders.taxAmount+orders.delivery).toFixed(2)}}</span>
 									</div>
 								</div>
 								<div class="all-total">

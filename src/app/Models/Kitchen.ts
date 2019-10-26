@@ -8,7 +8,6 @@ export class Kitchen {
     public range: number;
     public sortby: string;
     public getState() {
-        console.log(this.country);
         return {
             country: this.country,
             lng: this.lng,

@@ -15,7 +15,7 @@
           <div class="row popup-header">
             <div class="col-12">
               <h4>{{popupItem.name}}</h4>
-              <p>{{popupItem.finalcomboprice}} &nbsp; CAD / person, minimum {{popupItem.min}} person</p>
+              <p>{{(popupItem.finalcomboprice)  | number}} &nbsp; CAD / person, minimum {{popupItem.min}} person</p>
             </div>
             <div class="col-12">
               <p class="small">{{popupItem.description}}</p>
@@ -281,12 +281,12 @@
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
-                        <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                        <h5 class="price">CAD {{items.finalcomboprice | number }}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
                         <p>person, minimum {{items.min}} people</p>
                         <a style="cursor: pointer;">
-                          <i class="fa fa-heart-o"></i>
+                          <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
                     </div>
@@ -320,12 +320,12 @@
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
-                        <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                        <h5 class="price">CAD {{(items.finalcomboprice)   | number}}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
                         <p>person, minimum {{items.min}} people</p>
                         <a style="cursor: pointer;">
-                          <i class="fa fa-heart-o"></i>
+                   
                         </a>
                       </div>
                     </div>
@@ -358,12 +358,12 @@
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
-                        <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                        <h5 class="price">CAD {{(items.finalcomboprice)  | number}}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
                         <p>person, minimum {{items.min}} people</p>
                         <a style="cursor: pointer;">
-                          <i class="fa fa-heart-o"></i>
+                          <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
                     </div>
@@ -396,12 +396,12 @@
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
-                        <h5 class="price">CAD {{items.finalcomboprice}}</h5>
+                        <h5 class="price">CAD {{(items.finalcomboprice) | number }}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
                         <p>person, minimum {{items.min}} people</p>
                         <a style="cursor: pointer;">
-                          <i class="fa fa-heart-o"></i>
+                          <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
                     </div>

@@ -8,7 +8,7 @@
         <div class="container">
           <div class="row">
             <div class="col-lg-10 mx-auto text-center">
-              <h4  appScrollEnterance  anim="fade">Professional Caterers at your finger Tip</h4>
+              <h4  appScrollEnterance  anim="fade">Professional Caterers at your fingertips</h4>
               <div class="form-inline"  appScrollEnterance  anim="from-bottom"  >
                   <!-- <select class="custom-select">
                     <option selected>Select Your City</option>
@@ -35,13 +35,13 @@
           <div ngxSlickItem  class="logos">
             <figure>
               <img src="assets/images/wedding-parties-updated.png">
-              <figcaption>Wedding<br>Parties</figcaption>
+              <figcaption>Wedding<br>Celebrations</figcaption>
             </figure>
           </div>
           <div ngxSlickItem  class="logos">
             <figure>
               <img src="assets/images/corporate-functions-updated.png">
-              <figcaption>Corporate<br>Functions</figcaption>
+              <figcaption>Corporate <br>Functions</figcaption>
             </figure>
           </div>
           <div ngxSlickItem  class="logos">
@@ -59,13 +59,13 @@
           <div ngxSlickItem  class="logos">
             <figure>
               <img src="assets/images/famlily-dinner-updated.png">
-              <figcaption>Family<br>Dinner</figcaption>
+              <figcaption>Family<br>Dinners</figcaption>
             </figure>
           </div>
           <div ngxSlickItem  class="logos">
             <figure>
               <img src="assets/images/office-food-updated.png">
-              <figcaption>Office<br>Food</figcaption>
+              <figcaption>Social <br>Events</figcaption>
             </figure>
           </div>
          
@@ -80,9 +80,9 @@
       <div class="row">
         <div class="col-lg-5 col-md-12">
           <h4 appScrollEnterance  anim="from-left">Catering for All</h4>
-          <p appScrollEnterance  anim="from-left">Whether you are looking for a caterer for a client meeting, wedding or birthday party, CaterDaay makes it effortless to order online from a vast catalogue of caterers accompanied by A-grade customer service.</p>
+          <p appScrollEnterance  anim="from-left" style="font-size: 18px;">Whether you are looking for a caterer for a client meeting, wedding or birthday party, CaterDaay makes it effortless to order online from a vast catalogue of caterers accompanied by A-grade customer service.</p>
           <h4 appScrollEnterance  anim="from-left">Save Time and Make It Simple</h4>
-          <p appScrollEnterance  anim="from-left">CaterDaay ensures that you will never again need to hassle contacting restaurants and asking if they can deliver to your location. Instead, you can save valuable time and immediately identify caterers who not only serve to your address, but meet your food type, budget, dietary requirements and more. Best part of it all is that you can create, cancel or modify your orders anytime at all. </p>
+          <p appScrollEnterance  anim="from-left" style="font-size: 18px;">CaterDaay ensures that you will never again need to hassle contacting restaurants and asking if they can deliver to your location. Instead, you can save valuable time and immediately identify caterers who not only serve to your address, but meet your food type, budget, dietary requirements and more. Best part of it all is that you can create, cancel or modify your orders anytime at all. </p>
         
         </div>
       </div>
@@ -94,8 +94,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 col-md-12">
-             <h3 class="heading clr-white" appScrollEnterance anim="from-left">We value friendship.<br>Earn $10 for every friend</h3>
-             <p class="clr-white" appScrollEnterance anim="from-left">when you introduce your friends to place their first order</p>
+             <h3 class="heading clr-white" appScrollEnterance anim="from-left">Refer your friends! <br>Get $10!</h3>
+             <p class="clr-white" appScrollEnterance anim="from-left">When they place their first order</p>
              <a style="cursor: pointer;" class="btn ref-btn">Refer a Friend</a>
           </div>
         </div>
@@ -127,8 +127,8 @@
           <div class="row">
             <div class="col-12">
               <ul class="food-types" >
-        
-                    <li style="cursor: pointer;" *ngFor="let cuisine of cuisines"><a (click)="onFoodType(cuisine._id)">{{cuisine.name}}</a></li>
+                <!-- (click)="onFoodType(cuisine._id)" -->
+                    <li style="cursor: pointer;" *ngFor="let cuisine of cuisines"><a >{{cuisine.name}}</a></li>
               </ul>
             </div>
           </div>

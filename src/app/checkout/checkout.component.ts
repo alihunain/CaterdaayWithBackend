@@ -33,7 +33,7 @@ export class CheckoutComponent implements OnInit {
   confirm:boolean=false;
   resturantMin: Number;
   resturantMax:Number;
-  paycard:boolean=false;
+  paycard:boolean=true;
   currentUserObj:any;
   dateValidation:boolean= false;
   deliveryAddress = this.fb.group({
@@ -113,7 +113,7 @@ export class CheckoutComponent implements OnInit {
     
       that.orders.taxAmount =((that.orders.total/100)*that.taxpercentage);
       that.orders.totalqty = that.cart.getCartCount(); 
-      console.log(that.cart.getCartCount());
+  
 
     });
   });
@@ -150,7 +150,7 @@ export class CheckoutComponent implements OnInit {
   getDeliveryCharges(){
     return Promise((resolve, reject) => {
     this.kitchen.getDeliveryCharges().subscribe((data:any)=>{
-      console.log(data);
+    
       this.delivery = data.message[0].itemcharge;
       resolve(true);
     },(error)=>{
@@ -223,7 +223,7 @@ this.cart.RemoveCombo(item).then(()=>{
   getUser(){
     this.user.getCustomer(this.currentUserId).subscribe((data:any)=>{
       this.currentUserObj = data.message;
-      console.log(this.currentUserObj);
+     
   
     },(error)=>{
       console.log(error);
@@ -247,7 +247,7 @@ this.cart.RemoveCombo(item).then(()=>{
       this.eleRef.nativeElement.querySelector("#confirm").click();
       return;
     }
-    console.log(this.orders.items);
+  
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -285,7 +285,7 @@ this.cart.RemoveCombo(item).then(()=>{
         restaurantid:this.resturant.Resturantid
       }
       this.Order(order).then((res:any)=>{
-       console.log(res,"res promise");
+    
           orderEmail.order = res.message;
           this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
             this.cart.removeItemOrders();
@@ -296,14 +296,14 @@ this.cart.RemoveCombo(item).then(()=>{
             this.router.navigate(['/thankyou']);
             
           },(error)=>{
-            console.log(error,"error in order email");
+            console.log(error);
           })
        
   
       })
     }else{
       let amount = Math.round( this.orders.total+this.orders.taxAmount+this.orders.delivery);
-      console.log(amount);
+     
   
       if(this.saveCard == undefined || this.saveCard == null){
         this.toastr.error("Card Not Found Kindly Add Card Or Try Again");
@@ -351,14 +351,14 @@ this.cart.RemoveCombo(item).then(()=>{
           restaurantid:this.resturant.Resturantid
         }
         this.CollectPaymentByCard(payment).then((response)=>{
-          console.log(response,"After Promise Return");
+          
           if(response == false){
             return;
           }else{
             order.cardPaidStatus = response; 
           }
           this.Order(order).then((res:any)=>{
-            console.log(res,"res promise");
+        
                orderEmail.order = res.message;
                this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
                  this.cart.removeItemOrders();
@@ -369,7 +369,7 @@ this.cart.RemoveCombo(item).then(()=>{
               this.router.navigate(['/thankyou']);
                  
                },(error)=>{
-                 console.log(error,"error in order email");
+                 console.log(error);
                })
             
        
@@ -384,14 +384,13 @@ this.cart.RemoveCombo(item).then(()=>{
   CollectPaymentByCard(token){
     return  Promise((resolve,reject)=>{
     this.user.collectPaymentbyToken(token).subscribe((data:any)=>{
-      console.log(data,"Before Promise Return");
-      console.log(data.message.txn.ssl_token_response != "SUCCESS","Condition CollectPaymentByCard");
+  
       if(data.message.txn.ssl_token_response != "SUCCESS"){
-        console.log("reject");
+     
         this.toastr.show("Something Went Wrong , Cannot Charge Your Card");
         reject(false);
       }else{
-        console.log(data.message.txn);
+       
         resolve(data.message.txn);
       }
     })
@@ -512,20 +511,20 @@ this.cart.RemoveCombo(item).then(()=>{
 
     selectCard(card){
       this.saveCard = card;
-      console.log(this.saveCard);
+ 
     }
     UnselectCard(){
+      
       this.saveCard = null;
-      console.log(this.saveCard);
+
     }
     paystatus(status){
-      console.log(status);
+    
       this.paycard = status;
       if(!status){
         this.saveCard = null;
       }
     }
-
 
 
     
@@ -592,7 +591,7 @@ this.cart.RemoveCombo(item).then(()=>{
         token:res.ssl_token,
       }],_id:this.currentUserObj._id
     }
-    console.log(card.cardinfo[0],"this is logging");
+    
     if(this.CardStatus){
       this.addCard(card);
       this.saveCard = card.cardinfo[0];
@@ -619,7 +618,7 @@ this.cart.RemoveCombo(item).then(()=>{
       })
     }
     WannaSave(status){
-      console.log(status,"wanna save");
+
       this.CardStatus =status;
     }
     deleteCard(){

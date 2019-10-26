@@ -85,7 +85,6 @@ export class InnerSearchComponent implements OnInit {
       if(this.totalResturants % 5 != 0){
         this.totalpages++;
       }
-      console.log(this.totalpages);
       this.CurrentPage = 1;
       for(let i=0; i< this.totalResturants;i++){
        this.resturants[i].rating =  this.getResturantRating(this.resturants[i]._id);
@@ -102,7 +101,7 @@ export class InnerSearchComponent implements OnInit {
       
       
     }, (error) => {
-      console.log(error,"this error");
+      console.log(error);
     })
   
   }

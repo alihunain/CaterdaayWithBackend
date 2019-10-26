@@ -32,7 +32,6 @@ address:string;
     })
     this.ResturantObj = new Object();
     this.resturantReviews =  new Object();
-    console.log(this.resturantService.Resturantid,"I am in buyer menu");
     this.resturantService.Resturantid = "5d45df39969ec012515bbc85";
     if(this.resturantService.Resturantid == undefined || this.resturantService.Resturantid == null || this.resturantService.Resturantid == ""){
       this.router.navigate(['/listing']);
