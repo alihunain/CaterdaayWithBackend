@@ -73,6 +73,7 @@ export class InnerSearchComponent implements OnInit {
     this.kitchenFilter.Kitchenfilter(this.kitchenFilter.filterKitchen).subscribe((data: any) => {
   
       this.resturants = data.message;
+      console.log(data.message);
       this.totalResturants= this.resturants.length;
 
       if(data.message.length == 0){

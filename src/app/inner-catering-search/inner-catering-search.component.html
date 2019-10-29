@@ -268,7 +268,7 @@
                   <div class="menu-item-inner">
                     <div class="row">
                       <figure>
-                        <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                          <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
                         <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
                           <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
                         </a>
@@ -289,6 +289,14 @@
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
+                      <div class="tag-content" style="height: auto;">
+                          <ul class="tags">
+                            <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
+                              <a class="tag"
+                               href="#">{{offer}}</a>
+                            </li>
+                          </ul>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -307,7 +315,7 @@
                   <div class="menu-item-inner">
                     <div class="row">
                       <figure>
-                        <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                          <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
                         <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
                           <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
                         </a>
@@ -328,6 +336,14 @@
                    
                         </a>
                       </div>
+                      <div class="tag-content" style="height: auto;">
+                          <ul class="tags">
+                            <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
+                              <a class="tag"
+                               href="#">{{offer}}</a>
+                            </li>
+                          </ul>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -345,7 +361,7 @@
                   <div class="menu-item-inner">
                     <div class="row">
                       <figure>
-                        <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                          <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
                         <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
                           <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
                         </a>
@@ -366,6 +382,14 @@
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
+                      <div class="tag-content" style="height: auto;">
+                          <ul class="tags">
+                            <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
+                              <a class="tag"
+                               href="#">{{offer}}</a>
+                            </li>
+                          </ul>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -383,7 +407,7 @@
                   <div class="menu-item-inner">
                     <div class="row">
                       <figure>
-                        <img src="assets/images/halal-badge.png" *ngIf="items.halal != undefined" class="halal-badge">
+                          <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
                         <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
                           <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
                         </a>
@@ -404,6 +428,14 @@
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
                       </div>
+                      <div class="tag-content" style="height: auto;">
+                          <ul class="tags">
+                            <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
+                              <a class="tag"
+                               href="#">{{offer}}</a>
+                            </li>
+                          </ul>
+                        </div>
                     </div>
                   </div>
                 </div>
@@ -424,10 +456,8 @@
         </div>
         <div class="search-supp">
           <h4>Need Help?</h4>
-          <a routerLink="/contactus" class="supp">
-            <i class="fa fa-headphones"></i>Chat with support team</a>
-          <a href="tel:{{ResturantObj.phoneno1}}" class="supp">
-            <i class="fa fa-phone"></i>{{ResturantObj.phoneno1}}</a>
+          <a routerLink="/contactus" class="supp"><i class="fa fa-headphones"></i>Contact Us</a>
+          
         </div>
       </div>
     </div>

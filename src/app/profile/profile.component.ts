@@ -304,6 +304,8 @@ this.orderForPopup = order;
         this.orderStatus =1;
       }else if(order.status == "received"){
         this.orderStatus = 1;
+      }else if(order.status == "delivered"){
+this.orderStatus = 3; 
       }else{
         this.orderStatus=0;
       }

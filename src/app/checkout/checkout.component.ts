@@ -247,7 +247,8 @@ this.cart.RemoveCombo(item).then(()=>{
       this.eleRef.nativeElement.querySelector("#confirm").click();
       return;
     }
-  
+
+   
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -333,6 +334,7 @@ this.cart.RemoveCombo(item).then(()=>{
           ordertiming:{
             type:"later",
             datetime:this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value,
+            create: Date.now().toString()
           },
           ordertype:"",
           package:[],

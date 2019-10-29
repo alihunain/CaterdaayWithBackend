@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { InnerSearchComponent } from './inner-search/inner-search.component';
@@ -18,6 +18,7 @@ import {TermsConditionsComponent} from './terms-conditions/terms-conditions.comp
 import { ProfileComponent } from './profile/profile.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
 import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
+import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.component';
 const routes: Routes = [
   {
     path: 'detail',
@@ -33,8 +34,10 @@ const routes: Routes = [
   {
     path: 'card',
     component: CartComponent
-  },
-  {
+  },{
+  path:'privacy-n-policy',
+  component:PrivacyNPolicyComponent
+}, {
     path: '',
     pathMatch: 'full',
     component: DashboardComponent

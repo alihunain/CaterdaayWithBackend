@@ -40,6 +40,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ThankyouComponent } from './thankyou/thankyou.component';
 import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
 import { ResturantCountComponent } from './shareComponents/resturant-count/resturant-count.component';
+import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.component';
 
 
 
@@ -76,7 +77,8 @@ import { ResturantCountComponent } from './shareComponents/resturant-count/restu
     ProfileComponent,
     ThankyouComponent,
     WaiterSignupComponent,
-    ResturantCountComponent
+    ResturantCountComponent,
+    PrivacyNPolicyComponent
     
   ],
   imports: [

@@ -117,6 +117,7 @@
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
 							<figure *ngIf="item.page == CurrentPage">
+								<img *ngIf="item.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
 								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="http://localhost:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
 							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
@@ -138,6 +139,14 @@
 										</div>
 									</div>
 								</div>
+								<div class="tag-content" style="height: auto;">
+								<ul class="tags">
+									<li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of item.offerings">
+										<a class="tag"
+										 href="#">{{offer}}</a>
+									</li>
+								</ul>
+							</div>
 								<div class="row ord-spec-row">
 									<div class="ord-spec">
 										<strong>{{item.minimumorder}} </strong> Minimum Person

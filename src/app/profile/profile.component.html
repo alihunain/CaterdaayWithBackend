@@ -561,7 +561,7 @@
           <!-- Modal body -->
           <div class="modal-body">
               <div class="profile-box">
-                <h5>Daily Menu Items</h5> 
+                <h5> Menu Items</h5> 
                 <div class="p-15">
                   <div class="stepwizard-order">
                     <div class="stepwizard-row-order">
@@ -687,49 +687,52 @@
           
           <!-- Modal body -->
           <div class="modal-body">
-              <div class="profile-box">
-                <h5>Daily Menu Items</h5> 
-                <div class="p-15">
-                  <div class="stepwizard-order">
-                    <div class="stepwizard-row-order">
-                      <div class="stepwizard-step-order stpewiz-green">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">1</button>
-                        <p>Order Placed</p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-green">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">2</button>
-                        <p>Payment <br>Received</p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-green">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">3</button>
-                        <p>Preparing <br>
-                          your Order
-                        </p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-green">
-                        <button class="btn btn-default btn-circle-order btn-danger" type="button">4</button>
-                        <p>
-                          Send Order Request  for Driver!
-                        </p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-grey">
-                        <button class="btn btn-default btn-circle-order" type="button">5</button>
-                        <p> Driver Accepted Order Request</p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-grey">
-                        <button class="btn btn-default btn-circle-order" type="button">6</button>
-                        <p> On the Way </p>
-                      </div>
-                      <div class="stepwizard-step-order stpewiz-grey">
-                        <button class="btn btn-default btn-circle-order" type="button">7</button>
-                        <p> Order <br>
-                          Delivered
-                        </p>
-                      </div>
+            <div class="profile-box">
+              <h5> Menu Items</h5> 
+              <div class="p-15">
+                <div class="stepwizard-order">
+                  <div class="stepwizard-row-order">
+                    <div class="stepwizard-step-order stpewiz-grey"  >
+                      <button class="btn btn-default btn-circle-order " [ngClass]="{'btn-danger': orderStatus >= 1}" type="button">1</button>
+                      <p>Order Placed</p>
+                    </div>
+                    <!-- <div class="stepwizard-step-order stpewiz-green">
+                      <button class="btn btn-default btn-circle-order btn-danger" type="button">2</button>
+                      <p>Payment <br>Received</p>
+                    </div> -->
+                    <!-- <div class="stepwizard-step-order " [ngClass]="{'stpewiz-green': orderStatus >= 2}"> -->
+                       <div class="stepwizard-step-order stpewiz-grey">
+                      <button class="btn btn-default btn-circle-order btn-danger" [ngClass]="{'btn-danger': orderStatus >= 2}" type="button">2</button>
+                      <p>Order Accepted <br>
+                     
+                      </p>
+                    </div>
+
+                    
+                    <!-- <div class="stepwizard-step-order stpewiz-green">
+                      <button class="btn btn-default btn-circle-order btn-danger" type="button">4</button>
+                      <p>
+                        Send Order Request  for Driver!
+                      </p>
+                    </div>
+                    <div class="stepwizard-step-order stpewiz-grey">
+                      <button class="btn btn-default btn-circle-order" type="button">5</button>
+                      <p> Driver Accepted Order Request</p>
+                    </div>
+                    <div class="stepwizard-step-order stpewiz-grey">
+                      <button class="btn btn-default btn-circle-order" type="button">6</button>
+                      <p> On the Way </p>
+                    </div> -->
+                    <div class="stepwizard-step-order stpewiz-grey" >
+                      <button class="btn btn-default btn-circle-order" [ngClass]="{'btn-danger': orderStatus >= 3}" type="button">3</button>
+                      <p> Order <br>
+                        Delivered
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
               <div class="profile-box">
                 <div class="row">

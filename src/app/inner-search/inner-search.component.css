@@ -1,0 +1,33 @@
+.tag{
+    font-size: 13px;
+    background: #5ba946;
+    border-radius: 3px 0 0 3px;
+    color: #fff;
+    display: inline-block;
+    height: 20px;
+    line-height: 18px;
+  min-width: 30px;
+    position: relative;
+    margin: 0 5px 5px 0;
+    text-decoration: none;
+    padding: 2px 8px;
+}
+.tag-content {
+    height: 27px;
+    overflow: auto;
+}
+.tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.tag::after {
+    background: #fff;
+    border-bottom: 13px solid transparent;
+    border-left: 5px solid  #5ba946;
+    border-top: 8px solid transparent;
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+}
