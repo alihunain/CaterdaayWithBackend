@@ -325,13 +325,22 @@ this.orderStatus = 3;
           continue;
         }
         orders[i].kitchenDetail = this.allKitchens[orders[i].restaurantid];
+        if(orders[i].status != "delivered"){
         neworders.push(orders[i]);
+        }
         if(orders[i].status == "delivered"){
           porders.push(orders[i]);
         }
       }
-      this.allOrders = neworders;
-      this.pastOrders = porders;
+      this.allOrders = new Array();
+      this.pastOrders = new Array();
+      for(let i =neworders.length-1; i >=0 ;i--){
+        this.allOrders.push(neworders[i]);
+      }
+      for(let i =porders.length-1; i >=0 ;i--){
+        this.pastOrders.push(porders[i]);
+      }
+      console.log(porders);
     },(error)=>{
       console.log(error);
     })

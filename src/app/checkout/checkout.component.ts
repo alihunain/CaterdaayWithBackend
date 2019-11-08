@@ -9,7 +9,8 @@ import { Promise, reject } from 'q';
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
 import { MapsAPILoader } from '@agm/core';
-
+import * as moment from 'moment';
+import { asTextData } from '@angular/core/src/view';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -36,6 +37,7 @@ export class CheckoutComponent implements OnInit {
   paycard:boolean=true;
   currentUserObj:any;
   dateValidation:boolean= false;
+  resturantDetail:any;
   deliveryAddress = this.fb.group({
     name:['',[Validators.required]],
     email:['',[Validators.required,Validators.email]],
@@ -81,9 +83,11 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     this.resturant.getResturantid();
+
     this.user.getUser();
     this.cart.getItemOrder();
-    this.cart.getCurrentResturant();
+   this.cart.getCurrentResturant();
+
     this.cart.getCartCount();
     this.user.getUser();
     this.getResturantMinimum();
@@ -147,6 +151,7 @@ export class CheckoutComponent implements OnInit {
     });
   });
   }
+ 
   getDeliveryCharges(){
     return Promise((resolve, reject) => {
     this.kitchen.getDeliveryCharges().subscribe((data:any)=>{
@@ -181,6 +186,7 @@ export class CheckoutComponent implements OnInit {
   }
   getResturantMinimum(){
     this.resturant.resturantsDetails(this.resturant.getResturantid()).subscribe((data:any) =>{
+      this.resturantDetail = data.message;
       this.resturantMax = Number(data.message.restaurantMax);
       this.resturantMin = Number(data.message.restaurantMin);
       this.Check();
@@ -242,13 +248,22 @@ this.cart.RemoveCombo(item).then(()=>{
 
 
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
-    let payment = this.eleRef.nativeElement.querySelector('input[name="pay-meth"]:checked').value;
+    let payment = "Card";
     if(this.confirm == false){
       this.eleRef.nativeElement.querySelector("#confirm").click();
       return;
     }
+    console.log(Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery))
+    let amount = Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery);
+    //CurrentDate
+    let delivery = this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value;
+    let devdate = moment(delivery).format('LLLL');
+    let nowDate = moment().format('LLLL');
 
-   
+   if(amount == 0){
+     amount  = 1;
+   }
+    this.paycard =false;
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -268,8 +283,10 @@ this.cart.RemoveCombo(item).then(()=>{
         note:"",
         ordertiming:{
           type:"later",
-          datetime:this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value,
+          datetime:devdate,
+          create: nowDate ,
         },
+        kitchenDetail:this.resturantDetail,
         ordertype:"",
         package:[],
         paymenttype: payment, 
@@ -278,7 +295,7 @@ this.cart.RemoveCombo(item).then(()=>{
         subtotal:this.orders.total,
         tax: this.orders.taxAmount,
         timezone:"America/Los_Angeles", //User selected country flow
-        total:this.orders.total+this.orders.taxAmount+this.orders.delivery
+        total:amount
       }
       let orderEmail = {
         customeremail:this.currentUserObj.email,
@@ -303,8 +320,12 @@ this.cart.RemoveCombo(item).then(()=>{
   
       })
     }else{
-      let amount = Math.round( this.orders.total+this.orders.taxAmount+this.orders.delivery);
-     
+      console.log(Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery))
+      let amount = Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery);
+     if(amount == 0){
+       amount  = 1;
+     }
+    
   
       if(this.saveCard == undefined || this.saveCard == null){
         this.toastr.error("Card Not Found Kindly Add Card Or Try Again");
@@ -333,9 +354,10 @@ this.cart.RemoveCombo(item).then(()=>{
           note:"",
           ordertiming:{
             type:"later",
-            datetime:this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value,
-            create: Date.now().toString()
+            datetime:devdate,
+            create: nowDate ,
           },
+          kitchenDetail:this.resturantDetail,
           ordertype:"",
           package:[],
           paymenttype: "card",
@@ -345,7 +367,7 @@ this.cart.RemoveCombo(item).then(()=>{
           subtotal:this.orders.total,
           tax: this.orders.taxAmount,
           timezone:"America/Los_Angeles", //User selected country flow
-          total:this.orders.total+this.orders.taxAmount+this.orders.delivery
+          total:amount
         }
         let orderEmail = {
           customeremail:this.currentUserObj.email,
@@ -427,19 +449,29 @@ this.cart.RemoveCombo(item).then(()=>{
   }
   get date(){
     this.dateValid();
+
     return this.deliveryTime.get('date');
   }
   get time(){
     return this.deliveryTime.get('time');
   }
   dateValid(){
-    let date = new Date(this.deliveryTime.get('date').value);
-    let today = new Date();
-    if(date > today){
-      this.dateValidation = true;
-    }else{
-      this.dateValidation = false;
-    }
+
+
+
+    let mindate = new Date(Date.now());
+    let maxdate = new Date(Date.now());
+    let date = new Date(Date.parse(this.deliveryTime.get('date').value));
+    let min =Number(this.resturantDetail.preorderforlaterafterdays);
+    let max = Number(this.resturantDetail.preorderforlatertodays);
+    mindate.setDate(mindate.getDate()+min);
+    maxdate.setDate(maxdate.getDate()+max);
+    console.log(this.resturantDetail);
+     if(date >= mindate && date <= maxdate){
+       this.dateValidation = true; 
+     }else{
+     this.dateValidation = false;
+     }
   }
     // Address From  Google Map Function <-- Start -->
     getAddress(latitude, longitude) {

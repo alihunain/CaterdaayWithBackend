@@ -199,8 +199,9 @@
                       <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
                       <p><span>Order ID:</span> {{orders._id}}</p>
                       <p><span>Order Amount:</span> CAD {{orders.total}}</p>
-                      <p><span>Today:</span> {{orders.ordertiming.datetime}}</p>
-                      <p><a data-toggle="modal" (click)="selectOrder(orders)"  data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
+                      <p><span>Placed at:</span> {{orders.ordertiming.create}}</p>
+                      <p><span>Delivery at:</span> {{orders.ordertiming.datetime}}</p>
+                      <p><a data-toggle="modal" style="cursor: pointer;" (click)="selectOrder(orders)"  data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
                     </div>
                   </div>
                 </div>
@@ -222,8 +223,10 @@
                         <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
                         <p><span>Order ID:</span> {{orders._id}}</p>
                         <p><span>Order Amount:</span> CAD {{orders.total}}</p>
-                        <p><span>Today:</span> {{orders.ordertiming.datetime}}</p>
-                        <p><a data-toggle="modal" (click)="SelectPorder(orders)"  data-target="#myModal5">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
+                        <p><b>Placed Time: </b>{{orders.ordertiming.create}}</p>
+                        <p><b>Delivery Time: </b>{{orders.ordertiming.datetime}}</p>
+                     
+                        <p><a data-toggle="modal" style="cursor: pointer;" (click)="SelectPorder(orders)"  data-target="#myModal5">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
                       </div>
                     </div>
                   </div>
@@ -616,7 +619,8 @@
                     <div class="profile-box2-content" *ngIf="orderForPopup != undefined">
                       <p>{{orderForPopup.kitchenDetail.restaurantname}}</p>
                       <p>Order {{orderForPopup.status}}</p>
-                      <p><b>Today: </b>{{orderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Delivery Time: </b>{{orderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Placed Time: </b>{{orderForPopup.ordertiming.create}}</p>
                       <p><b>Address: </b> {{orderForPopup.kitchenDetail.address}}</p>
                       <p><b>Order ID: </b> {{orderForPopup._id}}</p>
                       <p><b>Payment Type: </b>{{orderForPopup.paymenttype}}</p>
@@ -743,7 +747,8 @@
                     <div class="profile-box2-content" *ngIf="porderForPopup != undefined">
                       <p>{{porderForPopup.kitchenDetail.restaurantname}}</p>
                       <p>Order {{porderForPopup.status}}</p>
-                      <p><b>Today: </b>{{porderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Delivery Time: </b>{{porderForPopup.ordertiming.datetime}}</p>
+                      <p><b>Placed Time: </b>{{porderForPopup.ordertiming.create}}</p>
                       <p><b>Address: </b> {{porderForPopup.kitchenDetail.address}}</p>
                       <p><b>Order ID: </b> {{porderForPopup._id}}</p>
                       <p><b>Payment Type: </b>{{porderForPopup.paymenttype}}</p>
