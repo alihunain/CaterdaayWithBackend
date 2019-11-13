@@ -109,9 +109,9 @@ export class CheckoutComponent implements OnInit {
     let that = this;
     this.getUser();
     this.getDeliveryCharges().then(()=>{
-   
+      console.log("Delivery Cahrges");
     this.getTaxResturant(this.resturant.Resturantid).then((res)=>{
-      
+      console.log("I am hit");
       that.orders.delivery = that.delivery;
       that.orders.taxpercentage = that.taxpercentage;
     
@@ -167,15 +167,17 @@ export class CheckoutComponent implements OnInit {
    getTaxResturant(id){
     return Promise((resolve, reject) => {
       this.resturant.resturantsDetails(id).subscribe((data:any)=>{
-   
+
         this.taxpercentage = data.message.tax.value;
-   
+        console.log( data.message);
+        console.log(this.taxpercentage,"tax is");
 
         resolve(true);
       },(error)=>{
         console.log(error);
         reject(false);
       })
+     
     });
    
 
@@ -254,7 +256,7 @@ this.cart.RemoveCombo(item).then(()=>{
       return;
     }
     console.log(Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery))
-    let amount = Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery);
+    let amount =(this.orders.total+this.orders.taxAmount+this.orders.delivery).toFixed(2);
     //CurrentDate
     let delivery = this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value;
     let devdate = moment(delivery).format('LLLL');
@@ -294,6 +296,7 @@ this.cart.RemoveCombo(item).then(()=>{
         subtax:this.orders.taxAmount,
         subtotal:this.orders.total,
         tax: this.orders.taxAmount,
+        taxpercentage:this.taxpercentage,
         timezone:"America/Los_Angeles", //User selected country flow
         total:amount
       }
@@ -385,6 +388,7 @@ this.cart.RemoveCombo(item).then(()=>{
         
                orderEmail.order = res.message;
                this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
+                
                  this.cart.removeItemOrders();
                  this.cart.currentResturant = null;
                  this.cart.setcurrentResturant();
@@ -466,7 +470,7 @@ this.cart.RemoveCombo(item).then(()=>{
     let max = Number(this.resturantDetail.preorderforlatertodays);
     mindate.setDate(mindate.getDate()+min);
     maxdate.setDate(maxdate.getDate()+max);
-    console.log(this.resturantDetail);
+  
      if(date >= mindate && date <= maxdate){
        this.dateValidation = true; 
      }else{

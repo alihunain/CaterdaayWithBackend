@@ -646,7 +646,7 @@
               <div class="profile-box4 profile-box">
                 <h5>Delivery Timings</h5>
                 <div class="profile-box4-content" *ngIf="orderForPopup != undefined">
-                  <p><b>For Daily Menu</b> {{orderForPopup.ordertiming.datetime}}</p>
+                  <p> {{orderForPopup.ordertiming.datetime}}</p>
                 </div>
               </div>
 
@@ -656,16 +656,17 @@
                     <div class="profile-box5-left">
                       <p>Subtotal</p>
                       <p>Delivery Charges</p>
-                      <p>Included Tax(0%)</p>
+                      <p >Included tax</p>
+              
                       <p>Total Amount</p>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="profile-box5-right" *ngIf="orderForPopup != undefined">
-                      <p><small>PKR</small> {{orderForPopup.subtotal}}</p>
-                      <p><small>PKR</small> {{orderForPopup.deliveryCharges}}</p>
-                      <p><small>PKR</small> {{orderForPopup.tax}}</p>
-                      <p><small>PKR</small> {{orderForPopup.total}}</p>
+                      <p><small>PKR</small> {{orderForPopup.subtotal.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{orderForPopup.deliveryCharges.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{orderForPopup.tax.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{orderForPopup.total.toFixed(2)}}</p>
                     </div>
                   </div>
                 </div>
@@ -774,7 +775,7 @@
               <div class="profile-box4 profile-box">
                 <h5>Delivery Timings</h5>
                 <div class="profile-box4-content" *ngIf="porderForPopup != undefined">
-                  <p><b>For Daily Menu</b> {{porderForPopup.ordertiming.datetime}}</p>
+                  <p> {{porderForPopup.ordertiming.datetime}}</p>
                 </div>
               </div>
 
@@ -784,16 +785,17 @@
                     <div class="profile-box5-left">
                       <p>Subtotal</p>
                       <p>Delivery Charges</p>
-                      <p>Included Tax(0%)</p>
+                      <p >Included Tax</p>
+                  
                       <p>Total Amount</p>
                     </div>
                   </div>
                   <div class="col-sm-6">
                     <div class="profile-box5-right" *ngIf="porderForPopup != undefined">
-                      <p><small>PKR</small> {{porderForPopup.subtotal}}</p>
-                      <p><small>PKR</small> {{porderForPopup.deliveryCharges}}</p>
-                      <p><small>PKR</small> {{porderForPopup.tax}}</p>
-                      <p><small>PKR</small> {{porderForPopup.total}}</p>
+                      <p><small>PKR</small> {{porderForPopup.subtotal.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{porderForPopup.deliveryCharges.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{porderForPopup.tax.toFixed(2)}}</p>
+                      <p><small>PKR</small> {{porderForPopup.total.toFixed}}</p>
                     </div>
                   </div>
                 </div>

@@ -29,6 +29,10 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
     return this.http.get(this.server.development.ms2+"offer-list/"+resturantid).pipe(catchError(this.handleError)
     )
   }
+  TaxResturant(){
+    return this.http.get(this.server.development.ms1 + "kitchentax").pipe(catchError(this.handleError));
+  }
+ 
   //This Api's Hit only when a user login 
   favouriteItemList(userid){
     return this.http.get(this.server.development.ms3 + "favouriteitem-list/"+userid).pipe(catchError(this.handleError)

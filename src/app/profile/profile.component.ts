@@ -345,6 +345,7 @@ this.orderStatus = 3;
       console.log(error);
     })
   }
+ 
   ResetPass(){
     if(this.ResetPassword.get('newpassword').value == this.ResetPassword.get('confirmpassword').value){
       this.checkpassword = false;
