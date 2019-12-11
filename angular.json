@@ -30,8 +30,8 @@
               "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
               "node_modules/slick-carousel/slick/slick.css",
               "node_modules/slick-carousel/slick/slick-theme.css","node_modules/ngx-toastr/toastr.css",
-              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
-              "node_modules/moment/moment.js",
+              "node_modules/nprogress/nprogress.css"
+         
               
               
             ],
@@ -40,7 +40,9 @@
               "src/assets/js/popper.min.js",
               "src/assets/js/slick.js",
               "src/assets/js/script.js",
-              "src/assets/js/tawk.js"
+              "src/assets/js/tawk.js",
+              "node_modules/moment/moment.js",
+              "node_modules/nprogress/nprogress.js"
             ],
             "es5BrowserSupport": true
           },

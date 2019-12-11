@@ -41,8 +41,7 @@ import { ThankyouComponent } from './thankyou/thankyou.component';
 import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
 import { ResturantCountComponent } from './shareComponents/resturant-count/resturant-count.component';
 import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.component';
-
-
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
 
 @NgModule({
   declarations: [
@@ -78,21 +77,26 @@ import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.com
     ThankyouComponent,
     WaiterSignupComponent,
     ResturantCountComponent,
-    PrivacyNPolicyComponent
+    PrivacyNPolicyComponent,
+
+  
     
   ],
   imports: [
-    BrowserModule,  
+
+    BrowserModule,
+ 
     BrowserAnimationsModule,
     AppRoutingModule,
     CarouselModule,
     SlickCarouselModule,
     ReactiveFormsModule,
     HttpClientModule,
+    AngularDateTimePickerModule,
     ToastrModule.forRoot({
       easing:'ease-in',
-      easeTime:1000,
-      timeOut:2000,
+      easeTime:3000,
+      timeOut:5000,
       closeButton:false,
       resetTimeoutOnDuplicate:false,
       preventDuplicates: true,
@@ -102,7 +106,8 @@ import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.com
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyARx-cMveE9u02YQexvqbxWcemL0nE4UjA',
       libraries: ['places']
-    })
+    }),
+
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -15,11 +15,11 @@ public  development = {
   // ms6 : 'http://localhost:4004/'
 
 
-  ms1 : 'http://www.caterdaay.com:4014/',
-  ms2 : 'http://www.caterdaay.com:4024/',
-  ms3 : 'http://www.caterdaay.com:4034/',
-  ms4 : 'http://www.caterdaay.com:4044/',
-  ms6 : 'http://www.caterdaay.com:4004/'
+   ms1 : 'https://www.caterdaay.com:4014/',
+   ms2 : 'https://www.caterdaay.com:4024/',
+  ms3 : 'https://www.caterdaay.com:4034/',
+  ms4 : 'https://www.caterdaay.com:4044/',
+   ms6 : 'https://www.caterdaay.com:4004/'
 }
 }
 

@@ -29,6 +29,8 @@
 						</div>
 					</div>
 					<div class="row">
+
+
 						<div class="col-12">
 							<div>
 								<label for="home-delivery">
@@ -123,33 +125,46 @@
 					<div class="row mt-5">
 						<div class="col-12">
 							<div class="head-check">
-								<h3><i class="fa fa-clock-o"></i>Delivery Time</h3>
+								<h3><i class="fa fa-clock-o"></i>Delivery Day and Time</h3>
 							</div>
 						</div>
 					</div>
 					<div>
 					<div class="row">
-					<form [formGroup]="deliveryTime">
+							<div class="col-6">
+									<angular2-date-picker (onDateSelect)="dateValid()" 
+									[(ngModel)]="Dateee" 
+									[settings]="settings" >
+				</angular2-date-picker>
+				<div *ngIf="datetouch && !dateValidation" class="form-error alert-danger">Range Should after {{this.resturantDetail.preorderforlaterafterdays}} and before {{this.resturantDetail.preorderforlatertodays}} Days</div>
+			</div>
+						<!-- <form [formGroup]="deliveryTime">
 						<div class="col-12">
 							<div class="form-group">
-								<label>Event Date *</label>
-								<input  formControlName="date" type="date" name="del-date" id="del-date">
-								<div *ngIf="date.invalid && (date.dirty || date.touched)">
-										<div *ngIf="date.errors.required" class="form-error alert-danger">Date Is Required</div>
+								<label>Delivery Date *</label>
+						
+								<input  formControlName="ddate" type="date" name="del-date" id="del-date">
+								<div *ngIf="ddate.invalid && (ddate.dirty || ddate.touched)">
+										<div *ngIf="ddate.errors.required" class="form-error alert-danger">Date Is Required</div>
 								</div>
-								<div *ngIf="!date.invalid && !dateValidation" class="form-error alert-danger">Range Should after {{this.resturantDetail.preorderforlaterafterdays}} and before {{this.resturantDetail.preorderforlatertodays}} Days</div>
+								<div *ngIf="!ddate.invalid && !dateValidation" class="form-error alert-danger">Range Should after {{this.resturantDetail.preorderforlaterafterdays}} and before {{this.resturantDetail.preorderforlatertodays}} Days</div>
 							</div>
 						</div>
+
 						<div class="col-12">
+						
 							<div class="form-group">
-								<label>Time *</label>
+								<label>Delivery Time *</label>
+						
+						
 								<input  formControlName="time" type="time" name="del-time" id="del-time">
 								<div *ngIf="time.invalid && (time.dirty || time.touched)">
 									<div *ngIf="time.errors.required" class="form-error alert-danger">Time Is Required</div>
 								</div>
 							</div>
 						</div>
-					</form>
+					</form> -->
+			
 					</div>
 					</div>
 				</div>
@@ -220,9 +235,9 @@
 				</div>
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
-						<button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.deliveryTime.valid) || (!this.dateValidation)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button>
+						<!-- <button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.dateValidation)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button> -->
 
-					<!-- <button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.deliveryTime.valid) || (!this.dateValidation) || (this.saveCard == null || this.saveCard == undefined)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button> -->
+					<button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.dateValidation) || (this.saveCard == null || this.saveCard == undefined)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button>
 				</div>
 			</div>
 
@@ -244,9 +259,9 @@
 											Serve {{item.qty}} - <br>
 											Size: Regular
 										</div>
-										<div class="order-price">
+										<div class="order-price" >
 											<span class="ord-curr">CAD</span>
-											<span class="ord-price">{{item.totalprice.toFixed(2)}}</span>
+											<span class="ord-price">{{item.totalprice }}</span>
 										</div>
 										<div class="ord-cancel">
 											<a style="cursor: pointer;" (click)="RemoveItem(item)"><i class="fa fa-trash"></i></a>
@@ -257,23 +272,23 @@
 							</div>
 
 							<!-- price total table -->
-							<div class="price-total">
+							<div class="price-total" >
 								<div class="price-row">
 									<div class="total-head">
 										Food & Beverage
 									</div>
-									<div class="total-money">
+									<div class="total-money"  >
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.total.toFixed(2)}}</span>
+										<span class="subtotal">{{(orders.total) || 0 }}</span>
 									</div>
 								</div>
 								<div class="price-row">
 									<div class="total-head">
 										Delivery Fee
 									</div>
-									<div class="total-money">
+									<div class="total-money"  >
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.delivery.toFixed(2)}}</span>
+										<span class="subtotal">{{orders.delivery }}</span>
 									</div>
 								</div>
 								<div class="price-row">
@@ -282,28 +297,28 @@
 									</div>
 									<div class="total-money">
 										<span>CAD &nbsp;</span>
-										<span class="subtotal">{{orders.taxAmount.toFixed(2)}}</span>
+										<span class="subtotal">{{orders.taxAmount || 0 }}</span>
 									</div>
 								</div>
 							</div>
 
 
 
-							<div class="all-total-row">
+							<div class="all-total-row" >
 								<div class="all-total">
 									<div class="all-head">
 										Total
 									</div>
-									<div class="all-money">
-										CAD <span class="all-price">{{(orders.total+orders.taxAmount+orders.delivery).toFixed(2)}}</span>
+									<div class="all-money" >
+										CAD <span class="all-price">{{(orders.totalAmount)|| 0 }}</span>
 									</div>
 								</div>
 								<div class="all-total">
 									<div class="all-head per-head">
 										Price Per Head
 									</div>
-									<div class="all-money per-head">
-										CAD <span class="all-price">{{((orders.total+orders.taxAmount+orders.delivery)/orders.totalqty).toFixed(2)}}</span>/Per Head
+									<div class="all-money per-head" >
+										CAD <span class="all-price">{{orders.perhead|| 0 }}</span>/Per Head
 									</div>
 								</div>
 							</div>
@@ -346,7 +361,7 @@
 			<div class="modal-body">
 			  <div class="row">
 				<div class="col-sm-12 mb-20">
-				  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="1" style="width: 440px;height: 300px;">
+				  <agm-map #map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
 					<agm-marker [latitude]="lat"  [longitude]="lng" [markerDraggable]="true"
 					  (dragEnd)="markerDragEnd($event)"></agm-marker>
 				  </agm-map>
@@ -358,7 +373,7 @@
 					<input type="email" class="form-control" formControlName="phoneno" id="phone" placeholder="Phone No" name="phone">
 				  </div>
 				  <div class="col-sm-6">
-					<input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  id="address" >
+					<input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  #address >
 				  </div>
 				</div>
 				<div class="form-group row">
@@ -462,11 +477,11 @@
 					</div>
 				  </div>
 				<div class="form-group row">
-				  <label class="col-sm-4 col-form-label" for="holder">Zip</label>
+				  <label class="col-sm-4 col-form-label" for="holder">Zip Code</label>
 				  <div class="col-sm-8">          
-					<input type="text" formControlName="zip" class="form-control" placeholder="Enter Zip" name="holder">
+					<input type="text" formControlName="zip" class="form-control" placeholder="Enter Zip Code" name="holder">
 					<div *ngIf="zip.invalid && (zip.dirty || zip.touched)">
-						<div *ngIf="zip.errors.required" class="form-error alert-danger">zip Is Required</div>
+						<div *ngIf="zip.errors.required" class="form-error alert-danger">Zip Code Is Required</div>
 					</div>
 				  </div>
 				</div>
@@ -481,8 +496,8 @@
 				</div>
 				<div class="form-group row">        
 				  <div class="offset-sm-4 col-sm-8">
-					<button type="submit" (click)="WannaSave(true)" class="btn custom-btn pull-right">Save & Proceed </button>
-					<button type="submit" (click)="WannaSave(false)" class="btn custom-btn pull-right">Don't</button>
+					<button type="submit" [disabled]="Card.invalid"  style="margin-left: 20px;" (click)="WannaSave(true)" class="btn custom-btn pull-right">Save & Proceed </button>
+					<button type="submit" [disabled]="Card.invalid" (click)="WannaSave(false)" class="btn custom-btn pull-right">Proceed Once</button>
 				  </div>
 				</div>
 			  </form>

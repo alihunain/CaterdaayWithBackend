@@ -1076,7 +1076,7 @@ ul.search-cont li figure img {
     display: flex;
 }
 .star-rating {
-    color: #5ba946;
+    /* color: #5ba946; */
     margin-right: 15px;
 }
 .rating {
@@ -1212,7 +1212,7 @@ input#popup-cart:hover {
 }
 .hotel-popup button.close {
     position: absolute;
-    right: -15px;
+    right: 0px;
     /* background: #ed212f; */
     background: #5ba946 !important;
     width: 30px;
@@ -1220,7 +1220,7 @@ input#popup-cart:hover {
     border-radius: 50%;
     color: #fff;
     opacity: 1;
-    top: -15px;
+    top: 0px;
 }
 .popup-body-area select {
     background: #eee;
@@ -1356,6 +1356,16 @@ section.inner-cater-search {
     background:#ccc;
     color: #fff;
 }
+.modal-open {
+    overflow: auto !important;
+    padding-right: 0px !important;
+}
+.mod{
+    padding-right: 0px !important;  
+}
+.body{
+    padding-right: 0px !important;
+}
 .search-supp h4 {
     text-transform: uppercase;
     font-size: 18px;
@@ -1390,10 +1400,10 @@ section.inner-cater-search {
 }
 .halal-badge {
     width: 40px !important;
-    position: absolute;
+    /* position: absolute; */
     z-index: 1;
-    top: 10px;
-    left: 10px;
+    /* top: 10px;
+    left: 10px; */
 }
 .menu-item figure img {
     width: 100%;
@@ -1457,6 +1467,7 @@ section.inner-cater-search {
     margin-bottom: 120px;
 }
 .rev-head {
+    cursor: pointer;
     display: inline-block;
     text-transform: uppercase;
     font-size: 18px;

@@ -9,20 +9,21 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class CartService {
-  public cartCount: any;
+  public cartCount =0;
   public itemsOrder: any;
   private cartupdate = new Subject<any>();
-  public currentResturant = null;
   checkCart = this.cartupdate.asObservable();
+  public currentResturant = null;
+ 
   constructor(private kitchen : KitchenService,private user: UserService,private toastr:ToastrService) { }
   CartUpdate(update: any) {
     this.cartupdate.next(update);
-    console.log("Cart Updated");
+    
   }
 
  
   addBufferItem(item, quantity, kitchenName) {
-    console.log('i am hit')
+ 
     if (this.itemsOrder === undefined) {
       this.itemsOrder = new Object();
       this.itemsOrder.items = new Array<Order>();
@@ -31,21 +32,25 @@ export class CartService {
     }
     let index = this.isBufferExist(item.name);
     if (index != -1) {
-      console.log(this.itemsOrder.items[index], "Current test module");
       this.itemsOrder.items[index].qty = Number(this.itemsOrder.items[index].qty) + Number(quantity);
-      this.itemsOrder.items[index].totalprice += (quantity * item.finalcomboprice);
-      this.itemsOrder.total += (quantity * item.finalcomboprice);
+      this.itemsOrder.items[index].totalprice = Number(this.itemsOrder.items[index].totalprice)+Number(quantity * item.finalcomboprice);
+      this.itemsOrder.total =  Number(this.itemsOrder.total)+Number(quantity * item.finalcomboprice);
+      this.itemsOrder.items[index].totalprice = this.itemsOrder.items[index].totalprice.toFixed(2);
+      this.itemsOrder.total = this.itemsOrder.total.toFixed(2); 
     } else {
       item.qty = quantity;
       item.totalprice = quantity * item.finalcomboprice;
       item.totaldiscount = item.discount * quantity;
       if (this.itemsOrder.total === undefined) {
-        this.itemsOrder.total = (quantity * item.finalcomboprice);
+        this.itemsOrder.total = Number(quantity * item.finalcomboprice);
       } else {
-        this.itemsOrder.total += (quantity * item.finalcomboprice);
+        this.itemsOrder.total =  Number(this.itemsOrder.total)+Number(quantity * item.finalcomboprice);
       }
+      item.totalprice = item.totalprice.toFixed(2);
+      this.itemsOrder.total = this.itemsOrder.total.toFixed(2); 
       this.itemsOrder.items.push(item);
     }
+    
     this.setCartCount();
     this.setItemOrder();
     this.CartUpdate(this.getItemOrder());
@@ -65,16 +70,17 @@ export class CartService {
     return -1;
   }
   RemoveCombo(item) {
-    console.log(item);
+
     return new Promise((resolve,reject)=>{
     let items = this.itemsOrder.items;
     for (let i = 0; i < items.length; i++) {
       if (items[i].name == item.name) {
         this.itemsOrder.total -= this.itemsOrder.items[i].totalprice;
-        this.cartCount -= this.itemsOrder.items[i].qty;
+        this.itemsOrder.total = this.itemsOrder.total.toFixed(2);
+        this.cartCount =  this.cartCount-Number( this.itemsOrder.items[i].qty);
         this.itemsOrder.items.splice(i, 1);
-        console.log("spliced");
-        console.log(this.itemsOrder.items.length);
+ 
+
       }
     }
     
@@ -88,7 +94,7 @@ export class CartService {
   
     }
     this.setCartCount();
-    console.log(typeof this.itemsOrder);
+    
     this.setItemOrder();
     this.CartUpdate(this.getItemOrder());
     resolve();
@@ -101,15 +107,22 @@ export class CartService {
   }
   //Return CartCount Service With LocalStorage
   getCartCount(){
-    if(this.cartCount == undefined || this.cartCount == null){
+ 
+    if(this.cartCount == undefined || this.cartCount == null || this.cartCount == 0){
       if(localStorage.getItem("cartCount") == null || localStorage.getItem("cartCount") == undefined){
         return null;
       }else{
         this.cartCount = JSON.parse(localStorage.getItem("cartCount"));
         return JSON.parse(localStorage.getItem("cartCount"));
       }
-    }else{
-      return this.cartCount;
+    }else {
+    
+      if(JSON.parse(localStorage.getItem("cartCount")) == undefined){
+        localStorage.setItem("cartCount",JSON.stringify(0));
+      }
+      this.cartCount = JSON.parse(localStorage.getItem("cartCount"));
+    
+      return JSON.parse(localStorage.getItem("cartCount"));
     }
   }
   //Set CartCount Service With LocalStorage

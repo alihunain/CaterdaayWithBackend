@@ -81,9 +81,9 @@ export class KitchenService {
   setaddress(){
     localStorage.setItem("address",JSON.stringify(this.address));
   }
-  setCartCount(){
-    localStorage.setItem("address",JSON.stringify(this.address));
-  }
+  // setCartCount(){
+  //   localStorage.setItem("address",JSON.stringify(this.address));
+  // }
   setresturants(){
     localStorage.setItem("resturants",JSON.stringify(this.resturants));
   }
@@ -101,17 +101,41 @@ export class KitchenService {
     }
   }
   getfilterKitchen(){
+    return new Promise((resolve,reject)=>{
+      let k = new Kitchen();
+      k = JSON.parse(localStorage.getItem("filterKitchen"));
+  
+      
+      
+      if(localStorage.getItem("filterKitchen") == undefined){
+        return resolve(this.filterKitchen);
+      }
+      else{
+        k.cousine = new Array<string>();
+        this.filterKitchen = JSON.parse(localStorage.getItem("filterKitchen"));
+        this.filterKitchen.cousine = new Array<string>();
+        this.setfilterKitchen();
+      }
+     
     
-    if(this.filterKitchen == undefined || this.filterKitchen == null){
+      
+      return resolve(this.filterKitchen);
+    
+   
+    if(this.filterKitchen == new Kitchen() || this.filterKitchen == null){
+    
       if(localStorage.getItem("filterKitchen") == null || localStorage.getItem("filterKitchen") == undefined){
-        return null;
+   
+        return resolve(null);
       }else{
         this.filterKitchen = JSON.parse(localStorage.getItem("filterKitchen"));
-        return JSON.parse(localStorage.getItem("filterKitchen"));
+   
+        return resolve(JSON.parse(localStorage.getItem("filterKitchen")));
       }
     }else{
-      return this.filterKitchen;
+      return resolve(this.filterKitchen);
     }
+  });
   }
   setfilterKitchen(){
     localStorage.setItem("filterKitchen",JSON.stringify(this.filterKitchen));

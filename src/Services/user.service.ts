@@ -24,6 +24,7 @@ export class UserService {
 
      this.LoginElement.next(ele);
    }
+
   UserUpdate(mission: boolean) {
     this.login.next(mission);
   }
@@ -58,8 +59,14 @@ export class UserService {
   AddSubscriber(email:any){
     return this.http.post(this.server.development.ms1 +  "subscriber",email).pipe(catchError(this.handleError))
   }
+  MailActivaion(data:any){
+    return this.http.put(this.server.development.ms3 + "customers/" + data._id,data).pipe(catchError(this.handleError));
+  }
   addCustomerAdress(userid:any,address:any){
     return this.http.post(this.server.development.ms3 + "customer-address/" + userid,address).pipe(catchError(this.handleError));
+  }
+  resetPassword(body:any,id:any){
+    return this.http.put(this.server.development.ms3+ "customers/changepassword/"+ id,body).pipe(catchError(this.handleError));
   }
   getAllCustomer(){
     return this.http.get(this.server.development.ms3+ "customers" ).pipe(catchError(this.handleError));

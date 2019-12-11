@@ -1,18 +1,57 @@
 
+  <a  data-toggle="modal" data-target="#resetpassword"  id="change" ></a>
+  <div class="login-reg-popup modal fade" id="resetpassword" >
+	<div class="modal-dialog modal-dialog-centered">
+	  <div class="modal-content">
 
+		  <!-- Modal Header -->
+		  <div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" (click)="RemoveDate('reset')" id="closeRP">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+			  <h4 class="modal-title text-center">ResetPassword</h4>
+			  <form [formGroup]="reset" (ngSubmit)="Onreset()">
+				  <div class="form-group">
+					  <input type="password" formControlName="passwordd" class="form-control reg-name" placeholder="Password">
+						<div *ngIf="(passwordd.invalid || !resetpass) && (passwordd.dirty || passwordd.touched)">
+							<div *ngIf="!resetpass" class="form-error alert-danger">Password should have 6 characters</div>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<input type="password" formControlName="confirm" class="form-control reg-name" placeholder="Confirm Password">
+					<div *ngIf="(confirm.invalid || !confirmreset) && (confirm.dirty || confirm.touched)">
+						<div *ngIf="!confirmreset" class="form-error alert-danger">Password didn't match</div>
+				</div>
+				</div>
+				  <div class="form-group">
+						<input *ngIf="!wait" type="submit" [disabled]="!reset.valid || !confirmreset || !resetpass" class="btn  reg-btn" value="Submit">
+						<button *ngIf="wait" class="btn reg-btn" ><i class="fa fa-spinner fa-spin"></i> </button>
+				  </div>
+				  <!-- <div class="form-group">
+					<input (click)="switchLogin()" data-toggle="modal"  data-target="#login"  class="btn reg-btn" value="Login">
+				</div> -->
+				 
+			  </form>
+			</div>
+	  </div>
+	</div>
+</div>
 <body data-spy="scroll" data-target=".menu-row" data-offset="0">
 	<!-- Register Popup -->
-	<div class="login-reg-popup modal fade" id="register">
+
+	<div  class="login-reg-popup modal fade" id="register">
 	  	<div class="modal-dialog modal-dialog-centered">
 	    	<div class="modal-content">
-
+				
 		    	<!-- Modal Header -->
-		    	<div class="modal-header">
-		        	<button type="button" class="close" data-dismiss="modal" id="closeReg">&times;</button>
+		    	<div class="modal-header" >
+		        	<button type="button" class="close" data-dismiss="modal" (click)="RemoveDate('signup')" id="closeReg">&times;</button>
 		      	</div>
 
 	      		<!-- Modal body -->
-	      		<div class="modal-body">
+	      		<div class="modal-body" >
 	        		<h4 class="modal-title text-center">Register</h4>
 	        		<form [formGroup]="Signup" (ngSubmit)="onSignup()" >
 	        			<div class="form-group">
@@ -28,15 +67,17 @@
 							</div>
 	        			</div>
 	        			<div class="form-group">
+									<div *ngIf="username != undefined">
 	        				<input type="email" formControlName="username" name="reg-email" id="reg-email" class="form-control reg-email" placeholder="Email">
-							<div *ngIf="username.invalid && (username.dirty || username.touched)">
-									<div *ngIf="username.errors.email" class="form-error alert-danger">Email Is Required</div>
-							</div>						
+							<div *ngIf="(username.invalid || !signupemailvalid) && (username.dirty || username.touched)">
+									<div  class="form-error alert-danger">Email Is Invalid</div>
+							</div>	
+						</div>					
 						</div>
 	        			<div class="form-group">
 	        				<input type="password" formControlName="password" name="reg-pw" id="reg-pw" class="form-control reg-pw" placeholder="Password">
-							<div *ngIf="password.invalid && (password.dirty || password.touched)">
-									<div *ngIf="password.errors.required" class="form-error alert-danger">Password Is Required</div>
+							<div *ngIf="(password.invalid || !signuppass) && (password.dirty || password.touched)">
+									<div *ngIf="!signuppass" class="form-error alert-danger">Password should be 6 character</div>
 							</div>
 						</div>
 	        			<div class="form-group">
@@ -47,10 +88,11 @@
 							<div *ngIf="!current" class="form-error alert-danger">Password Didnot Match</div>
 						</div>
 	        			<div class="form-group">
-	        				<input type="submit" [disabled]="!Signup.valid" name="reg-sub" id="reg-sub" class="btn  reg-btn" value="Submit">
+										<button *ngIf="wait" class="btn reg-btn" ><i class="fa fa-spinner fa-spin"></i> </button>
+	        				<input *ngIf="!wait" type="submit" [disabled]="!Signup.valid || !signuppass || !signupemailvalid" name="reg-sub" id="reg-sub" class="btn  reg-btn" value="Submit">
 	        			</div>
 	        			<div class="form-group text-center">
-	        				<p>Already have an account ? <a style="cursor: pointer;" (click)="switchLogin()"  data-toggle="modal" data-target="#login">LogIn</a></p>
+	        				<p>Already have an account ? <a style="cursor: pointer;" (click)="switchLogin()"  data-toggle="modal" data-target="#login">Login</a></p>
 	        			</div>
 	        		</form>
 	      		</div>
@@ -62,31 +104,37 @@
 	<div class="login-reg-popup modal fade" id="login" >
 			<div class="modal-dialog modal-dialog-centered">
 			  <div class="modal-content">
-  
+				
 				  <!-- Modal Header -->
 				  <div class="modal-header">
-					  <button type="button" class="close" data-dismiss="modal" id="closeLogin">&times;</button>
+					  <button type="button" class="close" data-dismiss="modal" (click)="RemoveDate('login')" id="closeLogin">&times;</button>
 					</div>
   
 					<!-- Modal body -->
-					<div class="modal-body">
+					<div class="modal-body" >
 					  <h4 class="modal-title text-center">Login</h4>
 					  <form [formGroup]="Login" (ngSubmit)="onLogin()">
 						  <div class="form-group">
+									<div *ngIf="loginusername != undefined">
 							  <input type="loginusername" formControlName="loginusername" class="form-control reg-name" placeholder="Email ID">
-							  <div *ngIf="loginusername.invalid && (loginusername.dirty || loginusername.touched)">
-									  <div *ngIf="loginusername.errors.email" class="form-error alert-danger">Invalid Email Address</div>
-							  </div>
+							  <div *ngIf="(loginusername.invalid || !loginemailvalid) && (loginusername.dirty || loginusername.touched)">
+									  <div class="form-error alert-danger">Invalid Email Address</div>
+								</div>
+								</div>
 						  </div>
 						  <div class="form-group">
-							  <input type="password" formControlName="loginpassword" class="form-control reg-pw" placeholder="Password">
+								<input type="password" formControlName="loginpassword" class="form-control reg-pw" placeholder="Password">
+								<div *ngIf="(!loginpassword.valid || !loginpass) && (loginpassword.dirty || loginpassword.touched)" >
+									<div  class="form-error alert-danger">Password Should be Atleast 6 Character</div>
+							</div>
 						  </div>
 						  <div class="form-group f-flex">
 							 
 							  <p><a style="cursor: pointer;" (click)="switchFP()" data-toggle="modal"  data-target="#ForgetPassword">Forgot Password ?</a></p>
 						  </div>
 						  <div class="form-group">
-							  <input type="submit" [disabled]="!Login.valid" class="btn  reg-btn" value="Submit">
+									<button *ngIf="wait" class="btn reg-btn" ><i class="fa fa-spinner fa-spin"></i> </button>
+							  <input *ngIf="!wait" type="submit" [disabled]="!Login.valid || !loginpass || !loginemailvalid" class="btn reg-btn" value="Submit">
 						  </div>
 						  <div class="form-group f-flex">
 							  <p>Don't have an account ? </p>
@@ -104,7 +152,7 @@
 
 			  <!-- Modal Header -->
 			  <div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal" id="closeFP">&times;</button>
+				  <button type="button" class="close" data-dismiss="modal" (click)="RemoveDate('forgetpassword')" id="closeFP">&times;</button>
 				</div>
 
 				<!-- Modal body -->
@@ -112,13 +160,16 @@
 				  <h4 class="modal-title text-center">Forget Password</h4>
 				  <form [formGroup]="forgetPassword" (ngSubmit)="OnFP()">
 					  <div class="form-group">
-						  <input type="email" formControlName="email" class="form-control reg-name" placeholder="Email ID">
-						  <div *ngIf="email.invalid && (email.dirty || email.touched)">
-								  <div *ngIf="email.errors.email" class="form-error alert-danger">Invalid Email Address</div>
-						  </div>
+							<input type="email" formControlName="email" class="form-control reg-name" placeholder="Email ID">
+							<div *ngIf="email != undefined">
+						  <div *ngIf="(email.invalid || !resetemailvalid) && (email.dirty || email.touched)">
+								  <div  class="form-error alert-danger">Invalid Email Address</div>
+							</div>
+						</div>
 					  </div>
 					  <div class="form-group">
-						  <input type="submit" [disabled]="!forgetPassword.valid" class="btn  reg-btn" value="Submit">
+								<button *ngIf="wait" class="btn reg-btn" ><i class="fa fa-spinner fa-spin"></i> </button>
+						  <input  *ngIf="!wait" type="submit" [disabled]="!forgetPassword.valid || !resetemailvalid" class="btn  reg-btn" value="Submit">
 					  </div>
 					  <div class="form-group">
 						<input (click)="switchLogin()" data-toggle="modal"  data-target="#login"  class="btn reg-btn" value="Login">

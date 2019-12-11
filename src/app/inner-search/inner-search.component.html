@@ -117,14 +117,15 @@
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
 							<figure *ngIf="item.page == CurrentPage">
+								<!-- {{item.offerings.includes('Halal')}} -->
 								<img *ngIf="item.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="http://localhost:4024/uploads/{{item.image[0]}}" alt=""></a>
+								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="https://www.caterdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
 							</figure>
 							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
 								<a style="cursor: pointer"  (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>
 								<div class="row">
 									<div class="cont-spec">
-										{{item.restaurantDescription.substring(1,300).trim()}}.... 
+										{{item.restaurantDescription.substring(0,300).trim()}}.... 
 									</div>
 									<div class="cont-rev">
 										<div class="star-rating">
@@ -142,18 +143,20 @@
 								<div class="tag-content" style="height: auto;">
 								<ul class="tags">
 									<li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of item.offerings">
-										<a class="tag"
-										 href="#">{{offer}}</a>
+										<a class="tag" style="cursor: pointer;    color: #fff !important;">{{offer}}</a>
 									</li>
 								</ul>
 							</div>
 								<div class="row ord-spec-row">
+										<div class="ord-spec">
+												Pre-scheduling required minimum: <strong>{{item.preorderforlaterafterdays}} </strong> Days
+											</div>
 									<div class="ord-spec">
-										<strong>{{item.minimumorder}} </strong> Minimum Person
+										 Minimum Serving: <strong>{{item.restaurantMin}} </strong>
 									</div>
-									<div class="ord-spec">
-										<strong>{{item.preorderforlaterafterdays}}</strong> Pre Order
-									</div>
+									<!-- <div class="ord-spec">
+										<strong>{{item.restaurantMax}}</strong>  Maximum Person
+									</div> -->
 									
 								</div>
 								<div class="row">

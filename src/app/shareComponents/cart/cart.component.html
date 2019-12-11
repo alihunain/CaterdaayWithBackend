@@ -5,7 +5,7 @@
    <div  *ngIf=" orders == undefined">
       <h6 class="restoname" style="text-align: center" >
       </h6>
-      <div style=" padding-top: 15px;text-align: center;">
+      <div style=" text-align: center;">
           No Item In Cart
       </div >
         <div class="checkoutdetail">
@@ -41,7 +41,7 @@
                 <b>
                   CAD
                 </b>
-                {{items.totalprice.toFixed(2)}}
+                {{items.totalprice}}
               </small>
             </td>
             <td>
@@ -57,7 +57,7 @@
             Sub Total : &nbsp; &nbsp;
             <span class="pull-right">
               <b> CAD</b>
-              <span> {{(orders.total).toFixed(2)}}</span>
+              <span> {{orders.total}}</span>
             </span>
           </b>
         </div>

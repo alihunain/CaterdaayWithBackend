@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, Element
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService, ToastRef } from 'ngx-toastr';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, MouseEvent, GoogleMapsAPIWrapper, AgmMap, LatLngBounds, LatLngBoundsLiteral } from '@agm/core';
 import { GlobalService } from '../../Services/global.service'
 import { Router, ActivatedRoute } from '@angular/router';
 import { KitchenService } from '../../Services/kitchen.service'
@@ -17,8 +17,8 @@ import { PARAMETERS } from '@angular/core/src/util/decorators';
 export class ProfileComponent implements OnInit {
   userdata:any;
   items=new Map();
-  lng:any;
-  lat:any;
+  lng:any =0;
+  lat:any=0;
   orderStatus:any;
   zoom=1;
   checkpassword:boolean=false;
@@ -31,6 +31,8 @@ export class ProfileComponent implements OnInit {
   orderForPopup:any;
   porderForPopup:any;
   param:any;
+  mymap;
+  @ViewChild('map') agmMap: AgmMap;
   currentclass="account";
   Profile = this.fb.group({
     email:['',[Validators.required]],
@@ -73,10 +75,29 @@ export class ProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute,private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
  
 
+;
+  @ViewChild('addresss')
+  public searchElementRef:ElementRef
   @ViewChild('city')
-  public city: ElementRef;
+  public cityRef:ElementRef
   @ViewChild('country')
-  public country:ElementRef
+  public countryRef:ElementRef
+  ngAfterViewInit(){
+    this.fitbo().then(()=>{
+      this.mapsAPILoader.load().then(() => {
+      
+        const LatLngBounds = new google.maps.LatLngBounds();
+        LatLngBounds.extend(new google.maps.LatLng(this.lat, this.lng));
+        this.mymap.fitBounds(LatLngBounds);
+        this.setCurrentLocation();
+        this.autoComplete();
+        this.getCustomer();
+        this.geoCoder = new google.maps.Geocoder;
+        });
+      });
+    
+   
+  }
    ngOnInit() {
     this.global.header = 3;
     this.checkLogin();
@@ -85,7 +106,7 @@ export class ProfileComponent implements OnInit {
 
        this.param =  params["point"];
        this.currentclass = params["point"];
-       console.log(this.currentclass);
+      
        this.eleRef.nativeElement.querySelector("#" + this.param).click();
      
       // this.eleRef.nativeElement.querySelector("#pastorder").classList.remove('active');
@@ -107,13 +128,13 @@ export class ProfileComponent implements OnInit {
       //   //
       //   //
       // }
-      console.log(this.currentclass,"subscribe");
+      
     })
     
-    console.log(this.currentclass);
+   
     this.setProfileValues();
     this.getCustomerRating();
-    this.getCustomer();
+   
     this.getAllKitchen().then((allKitchenRes)=>{
       if(allKitchenRes){
         this.getOrderDetails();
@@ -126,13 +147,6 @@ export class ProfileComponent implements OnInit {
     });
 
 
-    this.mapsAPILoader.load().then(() => {
-
-      this.setCurrentLocation();
- 
-      this.geoCoder = new google.maps.Geocoder;
-
-    });
   }
   AddClass(name){
 
@@ -296,9 +310,12 @@ export class ProfileComponent implements OnInit {
   selectOrder(order){
     this.checkOrderStatus(order);
 this.orderForPopup = order;
+
   }
   checkOrderStatus(order){
-    if(order.status =="accepted"){
+   
+    
+    if(order.status =="accepted" || order.status =="driveraccepted" || order.status =="ontheway"){
       this.orderStatus =2;
       }else if(order.status == "rejected"){
         this.orderStatus =1;
@@ -309,7 +326,7 @@ this.orderStatus = 3;
       }else{
         this.orderStatus=0;
       }
-      console.log(this.orderStatus);
+     
   }
   SelectPorder(order){
     this.checkOrderStatus(order);
@@ -340,7 +357,8 @@ this.orderStatus = 3;
       for(let i =porders.length-1; i >=0 ;i--){
         this.pastOrders.push(porders[i]);
       }
-      console.log(porders);
+
+ 
     },(error)=>{
       console.log(error);
     })
@@ -374,8 +392,9 @@ this.orderStatus = 3;
       console.log(error);
     })
   }
+
   autoComplete(){
-    let autocomplete = new google.maps.places.Autocomplete(this.eleRef.nativeElement.querySelector("#address"), {
+    let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
       types: ["address"]
     });
     autocomplete.addListener("place_changed", () => {
@@ -394,19 +413,35 @@ this.orderStatus = 3;
         //set latitude, longitude and zoom
         this.lat = place.geometry.location.lat().toString();
         this.lng = place.geometry.location.lng().toString();
-      
+        this.zoom = 10;
+        
+        const LatLngBounds = new google.maps.LatLngBounds();
+        LatLngBounds.extend(new google.maps.LatLng(this.lat, this.lng));
+        this.mymap.fitBounds(LatLngBounds);
         this.getAddress(this.lat,this.lng);
       });
     });
   }
 
-
+  fitbo() {
+    
+    return new Promise((resolve,reject)=>{
+ 
+      
+      this.agmMap.mapReady.subscribe(map => {
+        this.mymap = map;
+        let bounds = new google.maps.LatLngBounds();
+        bounds.extend(new google.maps.LatLng(this.lat, this.lng));
+        this.mymap.fitBounds(bounds);
+        resolve();
+      });
+    });
+  }
   getAllKitchen(){
-    console.log("I am hitting kitchen");
     return new Promise((resolve,reject)=>{
       this.kitchenService.allKitchen().subscribe((data:any)=>{
 
-        console.log("I am hitting kitchen");
+     
         let kitchens = data.message;
         this.allKitchens = new Map();
         for(let i = 0; i < kitchens.length;i++){
@@ -415,7 +450,7 @@ this.orderStatus = 3;
         resolve(true);
       },(error)=>{
 
-        console.log("I am hitting kitchen");
+
         
         reject(false);
       })
@@ -423,7 +458,7 @@ this.orderStatus = 3;
   }
   addAddress(){
       this.userservices.addCustomerAdress(this.userdata._id,this.Address.value).subscribe((data:any)=>{
-        console.log(data)
+       
         
         if(data.error == true){
 
@@ -472,7 +507,10 @@ this.orderStatus = 3;
    // <-- End -->
   // Address From  Google Map Function <-- Start -->
   getAddress(latitude, longitude) {
-
+ const LatLngBounds = new google.maps.LatLngBounds();
+        LatLngBounds.extend(new google.maps.LatLng(latitude, longitude));
+        this.mymap.fitBounds(LatLngBounds);
+        this.zoom = 5;
     this.geoCoder.geocode({ 'location': { lat: Number(latitude), lng: Number(longitude) } }, (results, status) => {
       if (status === 'OK') {
 

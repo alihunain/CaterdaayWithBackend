@@ -27,21 +27,26 @@ export class InnerSearchComponent implements OnInit {
   constructor(private global:GlobalService,private kitchenFilter: KitchenService, private mapsAPILoader: MapsAPILoader,public router: Router,private resturantService:ResturantService) { }
 
   async ngOnInit() {
-    
+
     this.global.header = 3;
     this.preloader = true;
     this.validation = false;
-  
+   await this.kitchenFilter.getfilterKitchen();
+    this.kitchenFilter.address = this.kitchenFilter.getAddress();
     if(this.kitchenFilter.filterKitchen.cousine === undefined){
       this.kitchenFilter.filterKitchen.cousine = new Array<string>();
       
     }
     this.Cuisines();
+
+
+
     if (this.kitchenFilter.GetKitchen().country == undefined || this.kitchenFilter.GetKitchen().country == null) {
       await this.mapsAPILoader.load();
       this.geoCoder = new google.maps.Geocoder;
       await this.setCurrentLocation();
    
+      this.kitchenFilter.setfilterKitchen();
      
       this.Search();
     }else{
@@ -50,7 +55,6 @@ export class InnerSearchComponent implements OnInit {
     this.city = this.kitchenFilter.filterKitchen.city;
     this.address= this.kitchenFilter.address;
     this.country = this.kitchenFilter.filterKitchen.country.toUpperCase();
-    this.kitchenFilter.setfilterKitchen();
   }
   Cuisines(){
     this.kitchenFilter.Cuisines().subscribe((data:any)=>{
@@ -73,7 +77,7 @@ export class InnerSearchComponent implements OnInit {
     this.kitchenFilter.Kitchenfilter(this.kitchenFilter.filterKitchen).subscribe((data: any) => {
   
       this.resturants = data.message;
-      console.log(data.message);
+  
       this.totalResturants= this.resturants.length;
 
       if(data.message.length == 0){

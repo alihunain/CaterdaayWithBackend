@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, Element
 import { Router } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 import { KitchenService } from '../../Services/kitchen.service'
+import { UserService} from '../../Services/user.service'
 import { Kitchen } from '../Models/Kitchen';
 import { ToastrService } from 'ngx-toastr';
 import { MapsAPILoader, MouseEvent } from '@agm/core';
@@ -20,7 +21,7 @@ declare var srcollEnterance: any;
 export class DashboardComponent implements OnInit, AfterViewInit {
   update:any;
   slideConfig = {
-    "slidesToShow": 5, 
+    "slidesToShow": 4, 
     "slidesToScroll": 1,
     "autoplay":true,
   "autoplaySpeed":2000,
@@ -59,13 +60,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   })
   addressField:boolean;
   cuisines:Array<any>;
-
+  currenturl:any;
   private geoCoder;
   @ViewChild('search')
   public searchElementRef: ElementRef;
-  constructor(private global:GlobalService,private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
+  constructor(private userService:UserService,private eleRef: ElementRef,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private ngZone: NgZone,private fb:FormBuilder,public router: Router, public changeDetectorRef: ChangeDetectorRef,public kitchenservice: KitchenService) { }
  
   ngOnInit() {
+    this.checkurl();
     this.kitchenservice.getAddress();
     this.kitchenservice.getfilterKitchen();
     this.kitchenservice.getresturant();
@@ -99,9 +101,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.kitchenservice.setfilterKitchen();
   }
   ngAfterViewInit(): void {
+  
+  }
+  checkurl(){
+    this.currenturl = window.location.href;
+    let checker = this.currenturl.split('/');
+ 
+    
+    if(checker[checker.length-2] == 'mailactivate' && checker[checker.length-3] == 'customer' ){
+      let data = {_id:checker[checker.length-1],status:true}
+      this.userService.MailActivaion(data).subscribe((res:any)=>{
+ 
+      })
+    }else if(checker[checker.length-1] == 'reset-password' && checker[checker.length-3] == 'customer'){
+   
+      this.eleRef.nativeElement.querySelector('#change').click();
+    }
+    
 
   }
- 
  
   onFind(){
     this.KitchenObject = this.Kitchen.value;
@@ -151,10 +169,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
       if (status === 'OK') {
         let isCity = false;
+      
         for(let i = 0 ; i < results.length && isCity == false;i++){
           let routes = results[i].types;
           for(let j = 0 ; j < routes.length;j++){
             let types = routes[j];
+       
             if(types == 'locality'){
               this.kitchenservice.filterKitchen.city =results[i].address_components[0].short_name;
               isCity = true;
@@ -164,7 +184,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       
         this.kitchenservice.filterKitchen.country = results[results.length-1].formatted_address.toLowerCase();
-      console.log(results[0]);
+   
         if (results[0]) {
           this.searchElementRef.nativeElement.value = results[0].formatted_address;
           this.kitchenservice.address = results[0].formatted_address;
@@ -186,7 +206,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     })
   }
   AddLocation(){
-    console.log(this.update);
+
     if(this.searchElementRef.nativeElement.value === "" || this.searchElementRef.nativeElement.value === null){
       this.addressField = true;
     }else if(this.update == null || this.update == undefined || this.update != this.searchElementRef.nativeElement.value){

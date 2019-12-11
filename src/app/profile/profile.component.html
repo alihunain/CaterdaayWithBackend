@@ -92,7 +92,7 @@
                     <div class="col-sm-10">          
                       <input type="number" formControlName="cellphone" class="form-control" id="cell" placeholder="Cell Phone" name="cell">
                       <div *ngIf="cellphone.invalid && (cellphone.dirty || cellphone.touched)">
-                          <div *ngIf="cellphone.errors.required" class="form-error alert-danger">cellphone Is Required</div>
+                          <div *ngIf="cellphone.errors.required" class="form-error alert-danger">Cell Phone Is Required</div>
                       </div>
                     </div>
                   </div>
@@ -111,7 +111,7 @@
                   <div class="col-sm-4 pr-0" *ngFor="let items of resturant.item">
                     <div class="media">
                       <div class="media-left">
-                        <img class="media-object imageitem-size" src="http://localhost:4024/uploads/{{items.image}}">
+                        <img class="media-object imageitem-size" src="https://www.caterdaay.com:4024/uploads/{{items.image}}">
                       </div>
                       <div class="media-body">
                         <h5 class="media-heading">
@@ -165,7 +165,7 @@
                     <h5>Zipcode</h5>
                   </div>
                   <div class="col-sm-9"  *ngIf="customerAddress.zip != undefined">
-                    <p>{{customerAddress.zipcode}}</p>
+                    <p>{{customerAddress.zip}}</p>
                   </div>
                 </div>
 
@@ -191,16 +191,16 @@
                 <div class="row" *ngFor="let orders of allOrders" style="margin-bottom: 10px">
                   <div class="col-sm-4">
                     <div class="myorder-img">
-                      <img src="http://localhost:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                      <img src="https://www.caterdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
                     </div>
                   </div>
                   <div class="col-sm-8">
                     <div class="myorder-content">
                       <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
-                      <p><span>Order ID:</span> {{orders._id}}</p>
+                      <p><span>Order ID:</span> {{orders._id.substr(18,6)}}</p>
                       <p><span>Order Amount:</span> CAD {{orders.total}}</p>
-                      <p><span>Placed at:</span> {{orders.ordertiming.create}}</p>
-                      <p><span>Delivery at:</span> {{orders.ordertiming.datetime}}</p>
+                      <p><span>Placed on:</span> {{orders.ordertiming.create}}</p>
+                      <p><span>Delivery on:</span> {{orders.ordertiming.datetime}}</p>
                       <p><a data-toggle="modal" style="cursor: pointer;" (click)="selectOrder(orders)"  data-target="#myModal4">VIEW DETAIL <span class="fa fa-angle-right"></span></a></p>
                     </div>
                   </div>
@@ -215,13 +215,13 @@
                   <div class="row" *ngFor="let orders of pastOrders" style="margin-bottom: 10px">
                     <div class="col-sm-4">
                       <div class="myorder-img">
-                        <img src="http://localhost:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                        <img src="https://www.caterdaay.com:4024/uploads/{{orders.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
                       </div>
                     </div>
                     <div class="col-sm-8">
                       <div class="myorder-content">
                         <p><span>{{orders.kitchenDetail.restaurantname}}</span> Order {{orders.status}}</p>
-                        <p><span>Order ID:</span> {{orders._id}}</p>
+                        <p><span>Order ID:</span> {{orders._id.substr(18,6)}}</p>
                         <p><span>Order Amount:</span> CAD {{orders.total}}</p>
                         <p><b>Placed Time: </b>{{orders.ordertiming.create}}</p>
                         <p><b>Delivery Time: </b>{{orders.ordertiming.datetime}}</p>
@@ -238,7 +238,7 @@
                 <div class="row">
                   <div class="col-sm-4">
                     <div class="myorder-img">
-                      <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                      <img src="www.caterdaay.com:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
                     </div>
                   </div>
                   <div class="col-sm-8">
@@ -258,7 +258,7 @@
                 <hr />
                 <div *ngIf=" userdata.cardinfo != undefined">
                 <div class="profile-box saved-card-box" *ngFor="let card of userdata.cardinfo">
-                    <div class="row">
+                    <!-- <div class="row">
                       <div class="col-sm-2">
                         <h6>Card Type</h6>
                       </div>
@@ -266,7 +266,7 @@
                         <p>{{card.cardtype}}</p>
                       </div>
                     </div>
-    
+     -->
                     <div class="row">
                       <div class="col-sm-2">
                         <h6>Card Number</h6>
@@ -276,23 +276,7 @@
                       </div>
                     </div>
     
-                    <div class="row">
-                      <div class="col-sm-2">
-                        <h6>Expiry Month</h6>
-                      </div>
-                      <div class="col-sm-10">
-                        <p></p>
-                      </div>
-                    </div>
-    
-                    <div class="row">
-                      <div class="col-sm-2">
-                        <h6>Expiry Year</h6>
-                      </div>
-                      <div class="col-sm-10">
-                        <p></p>
-                      </div>
-                    </div>
+                   
     
                     <div class="add-address-del-btn">
                       <span>Default Card</span><button (click)="deleteCard()" class="btn custom-btn">Delete</button>
@@ -346,7 +330,7 @@
           <div class="modal-body">
             <div class="row">
               <div class="col-sm-12 mb-20">
-                <agm-map [latitude]="lat" [usePanning]="true" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
+                <agm-map  #map [latitude]="lat" [usePanning]="true" [longitude]="lng" [zoom]="zoom" style="width: 440px;height: 300px;">
                   <agm-marker [latitude]="lat"  [longitude]="lng" [markerDraggable]="true"
                     (dragEnd)="markerDragEnd($event)"></agm-marker>
                 </agm-map>
@@ -372,7 +356,7 @@
               </div>
               <div class="form-group row">
                 <div class="col-sm-12">          
-                    <input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  id="address" >
+                    <input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  #addresss>
                 </div>
               </div>
               <div class="form-group row">
@@ -612,17 +596,19 @@
 
               <div class="profile-box">
                 <div class="row">
-                  <div class="col-sm-1 p-0">
-                    <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
+                  <div class="col-sm-1 p-0"  *ngIf="orderForPopup != undefined">
+                    <div *ngIf="orderForPopup.kitchenDetail.image.length != 0 && orderForPopup.kitchenDetail != undefined">
+                    <img src="https://www.caterdaay.com:4024/uploads/{{orderForPopup.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                  </div>
                   </div>
                   <div class="col-sm-11">
-                    <div class="profile-box2-content" *ngIf="orderForPopup != undefined">
+                    <div class="profile-box2-content" *ngIf="orderForPopup != undefined  ">
                       <p>{{orderForPopup.kitchenDetail.restaurantname}}</p>
                       <p>Order {{orderForPopup.status}}</p>
                       <p><b>Delivery Time: </b>{{orderForPopup.ordertiming.datetime}}</p>
                       <p><b>Placed Time: </b>{{orderForPopup.ordertiming.create}}</p>
                       <p><b>Address: </b> {{orderForPopup.kitchenDetail.address}}</p>
-                      <p><b>Order ID: </b> {{orderForPopup._id}}</p>
+                      <p><b>Order ID: </b> {{orderForPopup._id.substr(18,6)}}</p>
                       <p><b>Payment Type: </b>{{orderForPopup.paymenttype}}</p>
                       </div>
                   </div>
@@ -633,7 +619,7 @@
                 <h5>Daily Menu Item</h5>
                 <div class="row" *ngFor="let items of orderForPopup.combo">
                   <div class="col-sm-1 p-0">
-                    <img src="http://localhost:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
+                    <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box3-content">
@@ -741,9 +727,11 @@
 
               <div class="profile-box">
                 <div class="row">
-                  <div class="col-sm-1 p-0">
-                    <img src="http://localhost:4024/uploads/file-1564484655197.png" class="img-fluid" alt="img" />
-                  </div>
+                    <div class="col-sm-1 p-0"  *ngIf="porderForPopup != undefined">
+                        <div *ngIf="porderForPopup.kitchenDetail.image.length != 0 && porderForPopup.kitchenDetail != undefined">
+                        <img src="https://www.caterdaay.com:4024/uploads/{{porderForPopup.kitchenDetail.image[0]}}" class="img-fluid" alt="img" />
+                      </div>
+                      </div>
                   <div class="col-sm-11">
                     <div class="profile-box2-content" *ngIf="porderForPopup != undefined">
                       <p>{{porderForPopup.kitchenDetail.restaurantname}}</p>
@@ -751,7 +739,7 @@
                       <p><b>Delivery Time: </b>{{porderForPopup.ordertiming.datetime}}</p>
                       <p><b>Placed Time: </b>{{porderForPopup.ordertiming.create}}</p>
                       <p><b>Address: </b> {{porderForPopup.kitchenDetail.address}}</p>
-                      <p><b>Order ID: </b> {{porderForPopup._id}}</p>
+                      <p><b>Order ID: </b> {{porderForPopup._id.substr(18,6)}}</p>
                       <p><b>Payment Type: </b>{{porderForPopup.paymenttype}}</p>
                       </div>
                   </div>
@@ -762,7 +750,7 @@
                 <h5>Daily Menu Item</h5>
                 <div class="row" *ngFor="let items of porderForPopup.combo">
                   <div class="col-sm-1 p-0">
-                    <img src="http://localhost:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
+                    <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" class="img-fluid" alt="img" />
                   </div>
                   <div class="col-sm-11">
                     <div class="profile-box3-content">
@@ -795,7 +783,7 @@
                       <p><small>PKR</small> {{porderForPopup.subtotal.toFixed(2)}}</p>
                       <p><small>PKR</small> {{porderForPopup.deliveryCharges.toFixed(2)}}</p>
                       <p><small>PKR</small> {{porderForPopup.tax.toFixed(2)}}</p>
-                      <p><small>PKR</small> {{porderForPopup.total.toFixed}}</p>
+                      <p><small>PKR</small> {{porderForPopup.total.toFixed(2)}}</p>
                     </div>
                   </div>
                 </div>

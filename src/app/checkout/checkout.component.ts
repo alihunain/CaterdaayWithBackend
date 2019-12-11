@@ -8,9 +8,10 @@ import { ToastrService } from 'ngx-toastr'
 import { Promise, reject } from 'q';
 import { UserService } from '../../Services/user.service'
 import { FormBuilder, Validators } from '@angular/forms';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, MouseEvent, GoogleMapsAPIWrapper, AgmMap, LatLngBounds, LatLngBoundsLiteral } from '@agm/core';
 import * as moment from 'moment';
-import { asTextData } from '@angular/core/src/view';
+import { AngularDateTimePickerModule } from 'angular2-datetimepicker'
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -20,17 +21,24 @@ export class CheckoutComponent implements OnInit {
 
   constructor(private fb:FormBuilder,private ngZone: NgZone,private mapsAPILoader: MapsAPILoader,private user:UserService, private eleRef:ElementRef,private toastr:ToastrService,private resturant:ResturantService,private router: Router,private cart:CartService,private global:GlobalService,private kitchen:KitchenService) { }
   orders:any;
+  // @ViewChild('dayPicker') datePicker: DatePickerComponent; 
   @ViewChild('address')
   public searchElementRef: ElementRef;
+  closedate:boolean=false;
   delivery:any;
+  zoom=10;
+  mymap;
+  mindate:any;
+  datetouch:boolean=false;
+  maxdate:any;
   taxpercentage:any;
   currentUserId:any;
   coupon:any;
   saveCard:any;
   CardStatus:boolean=true;
   customerAddress:any;
-  lat:any;
-  lng:any;
+  lat:any=0;
+  lng:any=0;
   confirm:boolean=false;
   resturantMin: Number;
   resturantMax:Number;
@@ -38,13 +46,15 @@ export class CheckoutComponent implements OnInit {
   currentUserObj:any;
   dateValidation:boolean= false;
   resturantDetail:any;
+  @ViewChild('map') agmMap: AgmMap;
+  caterdaaycharge
   deliveryAddress = this.fb.group({
     name:['',[Validators.required]],
     email:['',[Validators.required,Validators.email]],
     phone:['',[Validators.required]]
   })
   deliveryTime =this.fb.group({
-    date:['',[Validators.required]],
+    ddate:['',Validators.required],
     time:['',[Validators.required]]
   })
   Address= this.fb.group({
@@ -69,29 +79,70 @@ export class CheckoutComponent implements OnInit {
   validCn:boolean=true;
   validM:boolean=true;
   validY:boolean=true;
-
+  Dateee: Date = new Date();
+  settings = {
+      bigBanner: true,
+      timePicker: true,
+      format: 'dd-MMM-yyyy hh:mm a',
+      defaultOpen: false
+  }
   
 
+ 
 
 
-
-
-
-
+  ngAfterViewInit() {
+ 
+    this.fitbo().then(()=>{
+      
+      
+    this.mapsAPILoader.load().then(() => {
+      
+      this.setCurrentLocation();
+  
+      this.geoCoder = new google.maps.Geocoder;
+      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+        types: ["address"]
+      });
+      autocomplete.addListener("place_changed", () => {
+     
+        this.ngZone.run(() => {
+    
+          //get the place result
+          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+  
+          //verify result
+          if (place.geometry === undefined || place.geometry === null) {
+            return;
+          }
+  
+  
+          //set latitude, longitude and zoom
+          this.lat = place.geometry.location.lat().toString();
+          this.lng = place.geometry.location.lng().toString();
+        
+          this.getAddress(this.lat,this.lng);
+        });
+      });
+    });
+    
+  });
+  }
 
 
 
   ngOnInit() {
+    
     this.resturant.getResturantid();
-
     this.user.getUser();
+    this.getCaterdaayCharges();
     this.cart.getItemOrder();
-   this.cart.getCurrentResturant();
-
+    this.cart.getCurrentResturant();
     this.cart.getCartCount();
     this.user.getUser();
     this.getResturantMinimum();
-    if(this.cart.cartCount < this.resturant)
+    this.getres();
+    if(this.cart.cartCount < Number( this.resturant))
     if(this.user.user == null || this.user.user == undefined){
      this.router.navigate(['/detail']);
    }
@@ -99,59 +150,60 @@ export class CheckoutComponent implements OnInit {
     this.currentUserId =this.user.user._id;
     this.orders = this.cart.itemsOrder;
 
+  
+   
     if(this.orders == null || this.orders == undefined){
       this.router.navigate(['/listing']);
     }
     this.cart.checkCart.subscribe(res =>{
       this.orders = res;
+    
      
     });
     let that = this;
     this.getUser();
-    this.getDeliveryCharges().then(()=>{
-      console.log("Delivery Cahrges");
-    this.getTaxResturant(this.resturant.Resturantid).then((res)=>{
-      console.log("I am hit");
-      that.orders.delivery = that.delivery;
-      that.orders.taxpercentage = that.taxpercentage;
-    
-      that.orders.taxAmount =((that.orders.total/100)*that.taxpercentage);
-      that.orders.totalqty = that.cart.getCartCount(); 
-  
-
-    });
-  });
-  this.mapsAPILoader.load().then(() => {
-
-    this.setCurrentLocation();
-
-    this.geoCoder = new google.maps.Geocoder;
-    let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-      types: ["address"]
-    });
-    autocomplete.addListener("place_changed", () => {
    
-      this.ngZone.run(() => {
-  
-        //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
-        //verify result
-        if (place.geometry === undefined || place.geometry === null) {
-          return;
-        }
-
-
-        //set latitude, longitude and zoom
-        this.lat = place.geometry.location.lat().toString();
-        this.lng = place.geometry.location.lng().toString();
+    
+    this.getTaxResturant(this.resturant.Resturantid).then((res)=>{
       
-        this.getAddress(this.lat,this.lng);
+     
+      that.orders.delivery = that.delivery.toFixed(2);
+      that.orders.taxAmount =((that.orders.total/100)*that.taxpercentage).toFixed(2);
+      that.orders.taxpercentage = that.taxpercentage.toFixed(2);
+      that.orders.totalAmount = (Number(that.orders.total)+Number(that.orders.taxAmount)+Number(that.orders.delivery)).toFixed(2);
+      that.orders.totalqty = that.cart.getCartCount();
+      that.orders.perhead = (Number(that.orders.total)+Number(that.orders.taxAmount)+Number(that.orders.delivery))
+      that.orders.perhead = Number(that.orders.perhead)/Number(that.orders.totalqty);
+      that.orders.perhead = that.orders.perhead.toFixed(2);
+
+
+    });
+
+  }
+  fitbo() {
+
+    return Promise((resolve,reject)=>{
+     
+      
+      this.agmMap.mapReady.subscribe(map => {
+        this.mymap = map;
+        let bounds = new google.maps.LatLngBounds();
+        bounds.extend(new google.maps.LatLng(this.lat, this.lng));
+        this.mymap.fitBounds(bounds);
+        this.zoom = 10;
+        resolve(true);
       });
     });
-  });
   }
- 
+
+
+ getres(){
+  this.resturant.resturantsDetails(this.cart.getCurrentResturant()).subscribe((data:any)=>{
+
+    this.resturantDetail = data.message;
+
+  });
+ }
   getDeliveryCharges(){
     return Promise((resolve, reject) => {
     this.kitchen.getDeliveryCharges().subscribe((data:any)=>{
@@ -167,11 +219,13 @@ export class CheckoutComponent implements OnInit {
    getTaxResturant(id){
     return Promise((resolve, reject) => {
       this.resturant.resturantsDetails(id).subscribe((data:any)=>{
-
+  
+        this.delivery = data.message.DeliveryCharges;
         this.taxpercentage = data.message.tax.value;
-        console.log( data.message);
-        console.log(this.taxpercentage,"tax is");
+        this.mindate = moment().add(data.message.preorderforlatertodays,'d');
+        this.maxdate = moment().add(data.message.preorderforlaterafterdays,'d');
 
+     
         resolve(true);
       },(error)=>{
         console.log(error);
@@ -193,6 +247,16 @@ export class CheckoutComponent implements OnInit {
       this.resturantMin = Number(data.message.restaurantMin);
       this.Check();
     })
+  }
+  getCaterdaayCharges(){
+    return Promise((resolve,reject)=>{
+      this.resturant.CaterdaayCharges().subscribe((data:any)=>{
+
+        this.caterdaaycharge = data.message[0].combocharge;
+    
+
+      })
+    });
   }
   Check(){
     if(this.cart.getCartCount() < this.resturantMin){
@@ -247,7 +311,7 @@ this.cart.RemoveCombo(item).then(()=>{
     }
   }
   PlaceOrder(){
-
+    
 
     let deliverytype =   this.eleRef.nativeElement.querySelector('input[name="delivery-method"]:checked').value;
     let payment = "Card";
@@ -255,17 +319,19 @@ this.cart.RemoveCombo(item).then(()=>{
       this.eleRef.nativeElement.querySelector("#confirm").click();
       return;
     }
-    console.log(Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery))
-    let amount =(this.orders.total+this.orders.taxAmount+this.orders.delivery).toFixed(2);
+    let amount =this.orders.totalAmount;
     //CurrentDate
-    let delivery = this.deliveryTime.get('date').value + " " + this.deliveryTime.get('time').value;
-    let devdate = moment(delivery).format('LLLL');
+    let delivery = this.deliveryTime.get('ddate').value + " " + this.deliveryTime.get('time').value;
+    let devdate = moment(this.Dateee).format('LLLL');
     let nowDate = moment().format('LLLL');
 
-   if(amount == 0){
-     amount  = 1;
+  
+   if(this.orders.totalAmount == 0){
+    this.orders.totalAmount  = 1;
    }
-    this.paycard =false;
+
+
+
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -281,13 +347,14 @@ this.cart.RemoveCombo(item).then(()=>{
         fulladdress:this.currentUserObj.customeraddresses[0],
         items:[],
         mealpackageDeliveryType:false,
-        name:this.currentUserObj.name,
+        name:this.currentUserObj.firstname,
         note:"",
         ordertiming:{
           type:"later",
           datetime:devdate,
           create: nowDate ,
         },
+        caterdaaycharges:this.caterdaaycharge,
         kitchenDetail:this.resturantDetail,
         ordertype:"",
         package:[],
@@ -298,7 +365,7 @@ this.cart.RemoveCombo(item).then(()=>{
         tax: this.orders.taxAmount,
         taxpercentage:this.taxpercentage,
         timezone:"America/Los_Angeles", //User selected country flow
-        total:amount
+        total:this.orders.totalAmount
       }
       let orderEmail = {
         customeremail:this.currentUserObj.email,
@@ -323,7 +390,6 @@ this.cart.RemoveCombo(item).then(()=>{
   
       })
     }else{
-      console.log(Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery))
       let amount = Math.floor( this.orders.total+this.orders.taxAmount+this.orders.delivery);
      if(amount == 0){
        amount  = 1;
@@ -335,7 +401,7 @@ this.cart.RemoveCombo(item).then(()=>{
         return;
       }else{
         let payment ={
-          amount:amount,
+          amount:this.orders.totalAmount,
           custid:this.currentUserObj._id,
           token:this.saveCard.token
         }
@@ -355,6 +421,7 @@ this.cart.RemoveCombo(item).then(()=>{
           mealpackageDeliveryType:false,
           name:this.currentUserObj.name,
           note:"",
+          caterdaaycharges:this.caterdaaycharge,
           ordertiming:{
             type:"later",
             datetime:devdate,
@@ -370,7 +437,7 @@ this.cart.RemoveCombo(item).then(()=>{
           subtotal:this.orders.total,
           tax: this.orders.taxAmount,
           timezone:"America/Los_Angeles", //User selected country flow
-          total:amount
+          total:this.orders.totalAmount
         }
         let orderEmail = {
           customeremail:this.currentUserObj.email,
@@ -451,26 +518,31 @@ this.cart.RemoveCombo(item).then(()=>{
   get phone(){
     return this.deliveryAddress.get('phone');
   }
-  get date(){
+  get ddate(){
     this.dateValid();
 
-    return this.deliveryTime.get('date');
+    return this.deliveryTime.get('ddate');
   }
   get time(){
     return this.deliveryTime.get('time');
   }
+ 
   dateValid(){
+    this.datetouch = true
 
-
+    if(this.resturantDetail == undefined){
+      this.dateValidation = false;
+      return;
+    }
 
     let mindate = new Date(Date.now());
     let maxdate = new Date(Date.now());
-    let date = new Date(Date.parse(this.deliveryTime.get('date').value));
+    let date = new Date(this.Dateee);
     let min =Number(this.resturantDetail.preorderforlaterafterdays);
     let max = Number(this.resturantDetail.preorderforlatertodays);
     mindate.setDate(mindate.getDate()+min);
     maxdate.setDate(maxdate.getDate()+max);
-  
+
      if(date >= mindate && date <= maxdate){
        this.dateValidation = true; 
      }else{
@@ -479,8 +551,12 @@ this.cart.RemoveCombo(item).then(()=>{
   }
     // Address From  Google Map Function <-- Start -->
     getAddress(latitude, longitude) {
-
+      
       this.geoCoder.geocode({ 'location': { lat: Number(latitude), lng: Number(longitude) } }, (results, status) => {
+        const LatLngBounds = new google.maps.LatLngBounds();
+      LatLngBounds.extend(new google.maps.LatLng(latitude, longitude));
+      this.mymap.fitBounds(LatLngBounds);
+      this.zoom = 5;
         if (status === 'OK') {
   
           let isCity = false;
@@ -593,7 +669,9 @@ this.cart.RemoveCombo(item).then(()=>{
       return final;
     }
     verifyCard(){
-    
+      if(this.address.value.length > 30){
+        this.Card.controls['address'].setValue(this.address.value.substring(1,30));
+      }
       this.user.verfityCard(this.Card.value).subscribe((data:any)=>{
         if(!data.error){
           // if(data.message.txn != undefined){
@@ -735,3 +813,4 @@ this.cart.RemoveCombo(item).then(()=>{
       return this.Card.get('zip');
     }
 }
+

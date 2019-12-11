@@ -57,7 +57,7 @@
                             <h5 class="mb-0">
                               <button class="btn btn-link" data-toggle="collapse"  [attr.data-target]="'#menu-list'+menu.uiId" aria-expanded="true"  [attr.aria-controls]="'#menu-list'+menu.uiId">
                                 <figure>
-                                  <img src="http://localhost:4024/uploads/{{menu.menuImage}}">
+                                  <img src="https://www.caterdaay.com:4024/uploads/{{menu.menuImage}}">
                                 </figure>
                                   {{menu.menuName}}
 
@@ -73,7 +73,7 @@
                                   <div class="b-menu">
                                     <figure>
                                         <!-- <img src="assets/images/dish-1.jpg"> -->
-                                      <img src="http://localhost:4024/uploads/{{items.itemImage}}">
+                                      <img src="https://www.caterdaay.com:4024/uploads/{{items.itemImage}}">
                                     </figure>
                                     <h4>{{items.itemName}}</h4>
                                     <p>{{items.Description}}</p>
@@ -688,7 +688,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-5 cat-det">
+        <div class="col-md-5 cat-det" style="left: 15px;">
           <div class="row mb-4">
             <div class="col-12">
               <h4 style="cursor: pointer;" class="rev-head">About Restaurant</h4>
@@ -697,7 +697,7 @@
           </div>
           <div class="row mb-3">
             <div class="col-12">
-                <agm-map id="HERE" style="height:300px;" 
+                <agm-map id="HERE" style="height:200px;width: auto" 
                
                 [latitude]="latitude" 
                 [longitude]="longitude"

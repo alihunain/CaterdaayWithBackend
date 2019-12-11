@@ -9,13 +9,13 @@
       <div class="modal-body">
         <button id="closePopup" type="button" class="close" data-dismiss="modal">&times;</button>
         <figure>
-          <img src="http://localhost:4024/uploads/{{popupItem.image}}" alt="" class="img-fluid">
+          <img src="https://www.caterdaay.com:4024/uploads/{{popupItem.image}}" alt="" class="img-fluid">
         </figure>
         <div class="popup-body">
           <div class="row popup-header">
             <div class="col-12">
               <h4>{{popupItem.name}}</h4>
-              <p>{{(popupItem.finalcomboprice)  | number}} &nbsp; CAD / person, minimum {{popupItem.min}} person</p>
+              <p>{{(popupItem.finalcomboprice)  | number}} &nbsp; CAD /   Minimum {{popupItem.min}} people serving</p>
             </div>
             <div class="col-12">
               <p class="small">{{popupItem.description}}</p>
@@ -42,7 +42,7 @@
                 <div class="col-12 pt-4 pb-4">
                   <div id="special-ins" (click)="textareaStatus()">
                     <i class="fa fa-commenting-o" aria-hidden="true"></i> Add any special instructions</div>
-                  <textarea style="display: block;" id="special-txt" *ngIf="textarea"></textarea>
+                  <textarea style="display: block;" id="special-txt"  *ngIf="textarea"></textarea>
                 </div>
                 <div class="col-12 text-center">
                   <input type="submit" *ngIf="dropdown.length  != 0" (click)="CartCombo(popupItem)" name="popup-cart" id="popup-cart" value="Add to Cart">
@@ -68,7 +68,7 @@
 
       <!-- Modal body -->
       <div class="modal-body">
-        <h4 class="modal-title text-center">Remove Cart?</h4>
+        <h4 class="modal-title text-center">Do you want to remove serving of other cater from cart?</h4>
         <input type="submit" id="popup-cart" name="popup-cart" (click)="emptyCart(true,selectedItem)" value="Yes">
         <input type="submit" id="popup-cart" name="popup-cart" (click)="emptyCart(false,selectedItem)" value="No" style="margin-left: 70px;">
       </div>
@@ -93,7 +93,7 @@
       <div class="col-12">
         <div class="search-titles-row">
           <h1>{{ResturantObj.restaurantname}}</h1>
-          <ul class="header-detail-list">
+          <ul class="header-detail-list" style="width: 270px;">
             <li *ngIf="ResturantObj.address != undefined">{{ResturantObj.address.substring(0,20).trim()}}</li>
             <li>
               <a href="tel:ResturantObj.phoneno1">{{ResturantObj.phoneno1}}</a>
@@ -121,7 +121,7 @@
       <ngx-slick-carousel [config]="slideeConfig" class="carousel col-12 search-slider" #slickModal="slick-carousel">
         <div class="search-slide" *ngFor="let image of ResturantObj.image">
 
-          <img src="http://localhost:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1110px;">
+          <img src="https://www.caterdaay.com:4024/uploads/{{image}}" style="max-height: 400px;max-width: 400px;min-width: 1110px;">
         </div>
       </ngx-slick-carousel>
 
@@ -235,7 +235,7 @@
               <div class="row">
                 <figure>
                   <img src="assets/images/halal-badge.png" class="halal-badge">
-                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="http://localhost:4024/uploads/{{items.itemImage}}" alt=""></a>
+                  <a href="#" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)"><img src="www.caterdaay.com:4024/uploads/{{items.itemImage}}" alt=""></a>
                   <div class="most-ord">Most Ordered</div>
                 </figure>
               </div>	
@@ -265,26 +265,26 @@
               </div>
               <div class="row">
                 <div class="col-md-6 menu-item" *ngFor="let items of bufferToDisplay">
-                  <div class="menu-item-inner">
+                  <div class="menu-item-inner" (click)="ResturantPopups(items)" data-toggle="modal" data-target="#hotel-popup">
                     <div class="row">
                       <figure>
                           <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
-                          <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
+                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" >
+                          <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" alt="">
                         </a>
 
                       </figure>
                     </div>
                     <div class="menu-item-desc">
                       <div class="row flex-col">
-                        <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal">
+                        <a style="cursor: pointer;" data-toggle="modal">
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
                         <h5 class="price">CAD {{items.finalcomboprice | number }}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
-                        <p>person, minimum {{items.min}} people</p>
+                        <p>Minimum {{items.min}} people serving</p>
                         <a style="cursor: pointer;">
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
@@ -293,7 +293,7 @@
                           <ul class="tags">
                             <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
                               <a class="tag"
-                               href="#">{{offer}}</a>
+                              style="cursor: pointer;    color: #fff !important;">{{offer}}</a>
                             </li>
                           </ul>
                         </div>
@@ -312,26 +312,26 @@
               </div>
               <div class="row">
                 <div class="col-md-6 menu-item" *ngFor="let items of LunchBuffet">
-                  <div class="menu-item-inner">
+                  <div class="menu-item-inner" (click)="ResturantPopups(items)"  data-toggle="modal" data-target="#hotel-popup">
                     <div class="row">
                       <figure>
                           <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
-                          <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
+                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" >
+                          <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" alt="">
                         </a>
 
                       </figure>
                     </div>
                     <div class="menu-item-desc">
                       <div class="row flex-col">
-                        <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal">
+                        <a style="cursor: pointer;"  data-toggle="modal">
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
                         <h5 class="price">CAD {{(items.finalcomboprice)   | number}}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
-                        <p>person, minimum {{items.min}} people</p>
+                          <p>Minimum {{items.min}} people serving</p>
                         <a style="cursor: pointer;">
                    
                         </a>
@@ -340,7 +340,7 @@
                           <ul class="tags">
                             <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
                               <a class="tag"
-                               href="#">{{offer}}</a>
+                              style="cursor: pointer;    color: #fff !important;">{{offer}}</a>
                             </li>
                           </ul>
                         </div>
@@ -358,26 +358,26 @@
               </div>
               <div class="row">
                 <div class="col-md-6 menu-item" *ngFor="let items of HighteaBuffet">
-                  <div class="menu-item-inner">
+                  <div class="menu-item-inner" (click)="ResturantPopups(items)"  data-toggle="modal" data-target="#hotel-popup"> 
                     <div class="row">
                       <figure>
                           <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
-                          <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
+                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" >
+                          <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" alt="">
                         </a>
 
                       </figure>
                     </div>
                     <div class="menu-item-desc">
                       <div class="row flex-col">
-                        <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal">
+                        <a style="cursor: pointer;"  data-toggle="modal">
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
                         <h5 class="price">CAD {{(items.finalcomboprice)  | number}}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
-                        <p>person, minimum {{items.min}} people</p>
+                          <p>Minimum {{items.min}} people serving</p>
                         <a style="cursor: pointer;">
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
@@ -386,7 +386,7 @@
                           <ul class="tags">
                             <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
                               <a class="tag"
-                               href="#">{{offer}}</a>
+                              style="cursor: pointer;    color: #fff !important;">{{offer}}</a>
                             </li>
                           </ul>
                         </div>
@@ -404,26 +404,27 @@
               </div>
               <div class="row">
                 <div class="col-md-6 menu-item" *ngFor="let items of DinnerBuffet">
-                  <div class="menu-item-inner">
+                  <div class="menu-item-inner" (click)="ResturantPopups(items)"  data-toggle="modal" data-target="#hotel-popup">
                     <div class="row">
                       <figure>
                           <img *ngIf="items.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" (click)="ResturantPopups(items)">
-                          <img src="http://localhost:4024/uploads/{{items.image}}" alt="">
+                        <a style="cursor: pointer;" data-toggle="modal" data-target="#hotel-popup" >
+                          <img src="https://www.caterdaay.com:4024/uploads/{{items.image}}" alt="">
                         </a>
 
                       </figure>
                     </div>
                     <div class="menu-item-desc">
                       <div class="row flex-col">
-                        <a style="cursor: pointer;" (click)="ResturantPopups(items)" data-toggle="modal">
+                        <a style="cursor: pointer;"  data-toggle="modal">
                           <h4>{{items.name}}</h4>
                         </a>
                         <p>{{items.description}}</p>
                         <h5 class="price">CAD {{(items.finalcomboprice) | number }}</h5>
                       </div>
                       <div class="row item-desc-footer align-items-center">
-                        <p>person, minimum {{items.min}} people</p>
+                          <p>Minimum {{items.min}} people serving</p>
+                          
                         <a style="cursor: pointer;">
                           <!-- <i class="fa fa-heart-o"></i> -->
                         </a>
@@ -432,7 +433,7 @@
                           <ul class="tags">
                             <li style="    display: inline-flex;padding: 10px 0" *ngFor="let offer of items.offerings">
                               <a class="tag"
-                               href="#">{{offer}}</a>
+                               style="cursor: pointer;    color: #fff !important;">{{offer}}</a>
                             </li>
                           </ul>
                         </div>
@@ -451,7 +452,7 @@
       <div class="col-md-4 right-sidebar">
         <div class="search-cart">
           <a href="JavaScript:Void(0)" (click)="changeCartStatus()">
-            <i class="fa fa-shopping-cart"></i> View Cart</a>
+            <i class="fa fa-shopping-cart"></i> View Cart ({{cart.cartCount}})</a>
           <app-cart *ngIf="showcart"></app-cart>
         </div>
         <div class="search-supp">
@@ -474,9 +475,12 @@
             <h4 class="rev-head">Reviews</h4>
           </div>
         </div>
+     
         <div class="row">
           <div class="col-12">
             <ul class="rev-list">
+      
+                <li ><b>There are currently no reviews available for this caterer</b></li>
               <li *ngFor="let resturantReview of resturantReviews.review">
                 <figure>
                   <img src="assets/images/avatar.png" alt="">
@@ -519,7 +523,7 @@
           </div>
         </div> -->
       </div>
-      <div class="col-md-5 cat-det">
+      <div class="col-md-5 cat-det" style="left: 15px;">
         <div class="row mb-4">
           <div class="col-12">
             <h4 class="rev-head" (click)="switchToAbout()">About Restaurant</h4>
@@ -529,7 +533,7 @@
         <div class="row mb-3">
           <div class="col-12">
 
-            <agm-map id="HERE" *ngIf="location" style="height:300px;" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+            <agm-map #map *ngIf="location" style="height:300px;" [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
               <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
             </agm-map>
 
@@ -547,7 +551,7 @@
               <li>
                 <strong>Phone:</strong> {{ResturantObj.phoneno1}}</li>
               <li>
-                <strong>Email:</strong> abc@yourdomain.com</li>
+                <strong>Email:</strong> {{ResturantObj.email}}</li>
             </ul>
           </div>
         </div>

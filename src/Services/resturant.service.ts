@@ -16,9 +16,15 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
   allItems(){
     return this.http.get(this.server.development.ms2 + "item").pipe(catchError(this.handleError));
   }
+  Owner(id){
+    return this.http.get(this.server.development.ms1 + "owners/" + id ).pipe(catchError(this.handleError));
+  }
    //this will return resturn avg rating
   resturantRating(resturantid){
     return this.http.get(this.server.development.ms4+"rating/restaurant-rating/"+resturantid).pipe(catchError(this.handleError))
+  }
+  CaterdaayCharges(){
+    return this.http.get(this.server.development.ms6+ "mealdaaycharges").pipe(catchError(this.handleError));
   }
   //this will return resturant details
   resturantsDetails(resturantid){
