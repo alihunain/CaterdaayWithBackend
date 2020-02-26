@@ -19,6 +19,12 @@ return this.http.get(this.server.development.ms4 + "rating/restaurant-rating-rev
   Owner(id){
     return this.http.get(this.server.development.ms1 + "owners/" + id ).pipe(catchError(this.handleError));
   }
+  EditOwner(id){
+    return this.http.put(this.server.development.ms1 + "owners/" + id._id,id ).pipe(catchError(this.handleError));
+  }
+  Notification(data){
+    return this.http.post(this.server.development.ms1 + "notifications",data).pipe(catchError(this.handleError));
+  }
    //this will return resturn avg rating
   resturantRating(resturantid){
     return this.http.get(this.server.development.ms4+"rating/restaurant-rating/"+resturantid).pipe(catchError(this.handleError))

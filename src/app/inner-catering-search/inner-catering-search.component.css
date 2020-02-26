@@ -31,3 +31,22 @@
     right: 0;
     top: 0;
 }
+
+.profile-data {
+    position: relative;
+}
+
+.profile-data a {
+    cursor: pointer;
+}
+.hide{
+    display: none;
+}
+.show{
+    display: block;
+}
+.profile-data img:first-child{
+    position:absolute;
+    top:0;
+    left:0;
+}

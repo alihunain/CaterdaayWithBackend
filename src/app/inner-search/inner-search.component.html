@@ -116,10 +116,13 @@
 							
 						<div *ngIf="!preloader">
 						<li *ngFor="let item of resturants">
-							<figure *ngIf="item.page == CurrentPage">
+							<figure *ngIf="item.page == CurrentPage" class="profile-data">
 								<!-- {{item.offerings.includes('Halal')}} -->
-								<img *ngIf="item.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
-								<a style="cursor: pointer" (click)="RequestOrder(item._id)"><img src="https://www.caterdaay.com:4024/uploads/{{item.image[0]}}" alt=""></a>
+								
+								<a (click)="RequestOrder(item._id)">
+									<img *ngIf="item.offerings.includes('Halal')"  src="assets/images/halal-badge.png"  class="halal-badge">
+									<img src="https://www.caterdaay.com:4024/uploads/{{item.image[0]}}" alt="">
+								</a>
 							</figure>
 							<div class="s-cont-desc" *ngIf="item.page == CurrentPage" >
 								<a style="cursor: pointer"  (click)="RequestOrder(item._id)"><h4>{{item.restaurantname}}</h4></a>

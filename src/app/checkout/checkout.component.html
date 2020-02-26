@@ -37,10 +37,10 @@
 									<input type="radio" value="Home Delivery" name="delivery-method" id="home-delivery" checked>
 									 Delivery
 								</label>
-								<label for="takeaway">
+								<!-- <label for="takeaway">
 									<input type="radio" value="Take Away" name="delivery-method" id="takeaway">
 									Take Away
-								</label>
+								</label> -->
 							</div>
 						</div>
 					</div>
@@ -72,31 +72,34 @@
 									<input type="email" formControlName="email" name="del-add-email" value="{{currentUserObj.email}}" class="form-control">
 									<div *ngIf="email.invalid && (email.dirty || email.touched)">
 										<div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
-										<div *ngIf="email.errors.email && !email.errors.required" class="form-error alert-danger">Invalid Email</div>
+										<div *ngIf="email.errors.email && !email.errors.required" class="form-error alert-danger">Invalid Email Address</div>
 								    </div>
 								</div>
 							</div>
 							<div class="col-md-12">
 								<div class="del-add" >
 									<ul *ngIf="currentUserObj.customeraddresses[0] != undefined">
-										<li><strong>Address:</strong><input type="text" name="del-add-add" value="{{currentUserObj.customeraddresses[0].address}}"></li>
+										<li ><strong>Address:</strong><input readonly style="cursor: pointer;" type="text"  name="del-add-add" value="{{currentUserObj.customeraddresses[0].address}}"></li>
 
-										<li><strong>City:</strong><input type="text" name="del-add-city" value="{{currentUserObj.customeraddresses[0].city}}"></li>
-										<li><strong>Country:</strong><input type="text" name="del-add-count" value="{{currentUserObj.customeraddresses[0].country}}"></li>
-										<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" value="{{currentUserObj.customeraddresses[0].phoneno}}"></li>
-										<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" value="{{currentUserObj.customeraddresses[0].zip}}"></li>
+										<li style="cursor: pointer;"><strong>City:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-city" value="{{currentUserObj.customeraddresses[0].city}}"></li>
+										<li style="cursor: pointer;"><strong>Country:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-count" value="{{currentUserObj.customeraddresses[0].country}}"></li>
+										<li style="cursor: pointer;"><strong>Phone No:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-num-1" value="{{currentUserObj.customeraddresses[0].phoneno}}"></li>
+										<li style="cursor: pointer;"><strong>Zip code:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-zip" value="{{currentUserObj.customeraddresses[0].zip || currentUserObj.customeraddresses[0].zipcode}}"></li>
 									</ul>
 									<ul *ngIf="currentUserObj.customeraddresses[0] == undefined">
-											<li><strong>Address:</strong><input type="text" name="del-add-add" ></li>
+											<li style="cursor: pointer;"><strong>Address:</strong><input readonly style="cursor: pointer;" type="text" name="del-add-add" ></li>
 	
-											<li><strong>City:</strong><input type="text" name="del-add-city" ></li>
-											<li><strong>Country:</strong><input type="text" name="del-add-count" ></li>
-											<li><strong>Phone No:</strong><input type="text" name="del-add-num-1" ></li>
-											<li><strong>Zipcode:</strong><input type="text" name="del-add-zip" ></li>
+											<li style="cursor: pointer;"><strong>City:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-city" ></li>
+											<li style="cursor: pointer;"><strong>Country:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-count" ></li>
+											<li style="cursor: pointer;"><strong>Phone No:</strong><input style="cursor: pointer;" readonly  type="text" name="del-add-num-1" ></li>
+											<li style="cursor: pointer;"><strong>Zip code:</strong><input style="cursor: pointer;" readonly type="text" name="del-add-zip" ></li>
 										</ul>
-									<div class="del-add-new">
-										<a style="cursor: pointer;" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil"></i> Add new address</a>
+									<div class="del-add-new" *ngIf="currentUserObj.customeraddresses[0] == undefined">
+										<a style="cursor: pointer;" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil"></i> Add address</a>
 									</div>
+									<div class="del-add-new" *ngIf="currentUserObj.customeraddresses[0] != undefined">
+											<a style="cursor: pointer;" data-toggle="modal" data-target="#myModal1"><i class="fa fa-pencil"></i> Edit address</a>
+										</div>
 								</div>
 							</div>
 							<div class="col-md-6">
@@ -111,8 +114,8 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<label>Who should the driver ask for ? <span>(optional)</span></label>
-									<input type="text" name="del-add-n" placeholder="John Smith" class="form-control">
+									<label>Driver Instruction <span>(optional)</span></label>
+									<input id="driver-inst" type="text" name="del-add-n" placeholder="Knock a door" class="form-control">
 							
 								</div>
 							</div>
@@ -179,7 +182,7 @@
 					</div>
 
 					<div class="row">
-						<div class="col-12">
+						<div class="col-sm-9 offset-sm-0">
 							<div>
 								<!-- <label for="cod" [ngClass]="{'checked': paycard==false}" (click)="paystatus(false)">
 									<input type="radio" value="Cash" name="pay-meth" id="cod" checked>
@@ -202,25 +205,25 @@
 										
 						
 										<div class="row">
-										  <div class="col-sm-2">
+										  <div class="col-sm-3">
 											<h6>Card No</h6>
 										  </div>
-										  <div class="col-sm-10">
+										  <div class="col-sm-9">
 											<p>{{card.cardnumber}}</p>
 										  </div>
 										</div>
 								
 						
-										<div class="add-address-del-btn" 	>
+										<div class="add-address-del-btn">
 										
 										<div *ngIf="saveCard != null && saveCard != undefined">
-												<button (click)="deleteCard()" class="btn custom-btn" style="margin:20px">Delete</button>
+												<button (click)="deleteCard()" class="btn custom-btn" style="margin:10px">Delete</button>
 										  <button (click)="selectCard(card)" class="btn custom-btn" *ngIf="saveCard.token != card.token">Select</button>
 											<button (click)="UnselectCard(card)" class="btn custom-btn" *ngIf="saveCard.token == card.token">Un-Select</button>
 										</div>
 								
 										<div *ngIf="saveCard == null || saveCard == undefined">
-												<button (click)="deleteCard()" class="btn custom-btn" style="margin:20px">Delete</button>
+												<button (click)="deleteCard()" class="btn custom-btn" style="margin:10px">Delete</button>
 											<button (click)="selectCard(card)" class="btn custom-btn" >Select</button>
 										</div>
 										</div>
@@ -236,8 +239,7 @@
 
 				<div class="checkout-btn mt-5 mb-5 pb-5">
 						<!-- <button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.dateValidation)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button> -->
-
-					<button class="btn custom-btn ng-star-inserted" [disabled]="(!this.deliveryAddress) || (!this.dateValidation) || (this.saveCard == null || this.saveCard == undefined)"  style="cursor: pointer;" (click)="PlaceOrder()">Place Order</button>
+					<button class="btn custom-btn ng-star-inserted" [disabled]="(!this.Address.valid) || (!this.dateValidation) || (this.saveCard == null || this.saveCard == undefined) || button"  style="cursor: pointer;" (click)="PlaceOrder()">Place an Order</button>
 				</div>
 			</div>
 
@@ -332,7 +334,7 @@
 								</div>
 							</div>
 							<div class="edit-ord">
-								<a (click)="EditOrder(orders.items[0].kitchenid)" style="cursor: pointer;" ><i class="fa fa-pencil" ></i> Edit your order</a>
+								<a (click)="EditOrder(orders.items[0].kitchenid)" style="cursor: pointer;    color: red;font-style: normal;" ><i class="fa fa-pencil" ></i> Review your order</a>
 							</div>
 							
 						</div>	
@@ -373,7 +375,7 @@
 					<input type="email" class="form-control" formControlName="phoneno" id="phone" placeholder="Phone No" name="phone">
 				  </div>
 				  <div class="col-sm-6">
-					<input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  #address >
+							<input type="text" class="form-control" id="country" formControlName="country" placeholder="Country" name="country"  #country>
 				  </div>
 				</div>
 				<div class="form-group row">
@@ -381,12 +383,13 @@
 					<input type="text" class="form-control" formControlName="city" id="city" placeholder="City" name="city" #city> 
 				  </div>
 				  <div class="col-sm-6">          
-					  <input type="text" class="form-control" formControlName="zip" id="zip" placeholder="ZipCode" name="zip">
+					  <input type="text" class="form-control" formControlName="zip" id="zip" placeholder="Zip Code" name="zip">
 					</div>
 				</div>
 				<div class="form-group row">
 				  <div class="col-sm-12">          
-					<input type="text" class="form-control" id="country" formControlName="country" placeholder="Country" name="country"  #country>
+							<input type="text" class="form-control" formControlName="address"  placeholder="Enter a Location" (keydown.enter)="$event.preventDefault()"  #address >
+
 				  </div>
 				</div>
 				<div class="form-group row">
@@ -407,7 +410,7 @@
 			<!-- Modal Header -->
 			<div class="modal-header">
 			  <h4 class="modal-title">Add New Card</h4>
-			  <button type="button" class="close" data-dismiss="modal" id="closeCardForm">&times;</button>
+			  <button type="button" class="close" data-dismiss="modal" (click)="resetCard()" id="closeCardForm">&times;</button>
 			</div>
 			
 			<!-- Modal body -->
@@ -429,9 +432,11 @@
 				  <label class="col-sm-4 col-form-label" for="expiration">Expiration Date:</label>
 				  <div class="col-sm-4">          
 					<input type="text" formControlName="expirymonth" class="form-control" id="mm" placeholder="MM" name="mm">
+			
 					<div *ngIf="expirymonth.invalid && (expirymonth.dirty || expirymonth.touched)">
-						<div *ngIf="expirymonth.errors.required" class="form-error alert-danger">expirymonth Is Required</div>
+						<div *ngIf="expirymonth.errors.required" class="form-error alert-danger">Expiry Month Is Required</div>
 					</div>
+			
 					<div  *ngIf="!expirymonth.invalid">
 						<div *ngIf="!validM" class="form-error alert-danger">Should be of 2 Character</div>
 					  </div>
@@ -439,7 +444,7 @@
 				  <div class="col-sm-4">          
 					<input type="text" formControlName="expiryyear" class="form-control" id="yy" placeholder="YY" name="yy">
 					<div *ngIf="expiryyear.invalid && (expiryyear.dirty || expiryyear.touched)">
-						<div *ngIf="expiryyear.errors.required" class="form-error alert-danger">expiryyear Is Required</div>
+						<div *ngIf="expiryyear.errors.required" class="form-error alert-danger">Expiry Year Is Required</div>
 					</div>
 					<div  *ngIf="!expiryyear.invalid">
 						<div *ngIf="!validY" class="form-error alert-danger">Should be of 2 Character</div>
@@ -451,7 +456,7 @@
 				  <div class="col-sm-8">          
 					<input type="text" formControlName="cvv" class="form-control" id="cvv" placeholder="CVV" name="cvv">
 					<div *ngIf="cvv.invalid && (cvv.dirty || cvv.touched)">
-						<div *ngIf="cvv.errors.required" class="form-error alert-danger">cvv Is Required</div>
+						<div *ngIf="cvv.errors.required" class="form-error alert-danger">CVV Is Required</div>
 					</div>
 					<div  *ngIf="!cvv.invalid">
 						<div *ngIf="!validCvv" class="form-error alert-danger">Should be of 3 Character</div>
@@ -463,7 +468,7 @@
 				  <div class="col-sm-8">          
 					<input type="text" formControlName="fname" class="form-control"   placeholder="Enter First Name" name="holder">
 					<div *ngIf="fname.invalid && (fname.dirty || fname.touched)">
-											  <div *ngIf="fname.errors.required" class="form-error alert-danger">fname Is Required</div>
+											  <div *ngIf="fname.errors.required" class="form-error alert-danger">First Name Is Required</div>
 									  </div>
 				  </div>
 				</div>
@@ -472,7 +477,7 @@
 					<div class="col-sm-8">          
 					  <input type="text" formControlName="lname" class="form-control" placeholder="Enter Last Name" name="holder">
 					  <div *ngIf="lname.invalid && (lname.dirty || lname.touched)">
-						  <div *ngIf="lname.errors.required" class="form-error alert-danger">lname Is Required</div>
+						  <div *ngIf="lname.errors.required" class="form-error alert-danger">Last Name Is Required</div>
 					  </div>
 					</div>
 				  </div>

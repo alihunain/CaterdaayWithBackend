@@ -72,8 +72,8 @@
 			<ul>
 				<li>
 					<a (click)="cartBoxAction($event)" class="cartDropDown">
-						
-						<i class="fa fa-shopping-cart colorgreen" aria-hidden="true"></i>
+						<span class="badge cartbadgeitem" style="position: absolute;top: 0px;right: 50%;"></span>
+						<i class="fa fa-shopping-cart colorgreen" aria-hidden="true"><p *ngIf="cart.cartCount != 0 && cart.cartCount != null && cart.cartCount != undefined">{{cart.cartCount || 0}}</p></i>
 						<div class="drawerBack" *ngIf="showCart"></div>
 						<app-cart class="cart" *ngIf="showCart && (router.url !== '/checkout')"></app-cart>
 

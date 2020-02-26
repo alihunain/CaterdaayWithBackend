@@ -10,6 +10,7 @@ import { GlobalService } from '../../Services/global.service'
 import { ToastrService } from 'ngx-toastr'
 import { NgAnimateScrollService } from 'ng-animate-scroll';
 import { promise } from 'protractor';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-inner-catering-search',
@@ -56,9 +57,13 @@ export class InnerCateringSearchComponent implements OnInit {
   constructor(private cd: ChangeDetectorRef, private ngZone: NgZone, private animateScrollService: NgAnimateScrollService, private toastr: ToastrService, private eleRef: ElementRef, private global: GlobalService, private resturantService: ResturantService, private router: Router, private mapsAPILoader: MapsAPILoader, public cart: CartService) {
 
   }
-
+ 
   ngOnInit() {
-
+    console.log(this.cart.popup);
+    if(this.cart.popup){
+      this.showcart = true;
+      this.cart.popup = false;
+    }
     this.cart.getCartCount();
     this.cart.getCurrentResturant();
     this.cart.getItemOrder();
@@ -83,6 +88,7 @@ export class InnerCateringSearchComponent implements OnInit {
   }
   ngAfterViewInit() {
     this.fitbo().then(()=>{
+      console.log("Subscribed");
       this.getResturantDetails().then(() => {
         let bounds = new google.maps.LatLngBounds();
         bounds.extend(new google.maps.LatLng(this.latitude, this.longitude));
@@ -99,24 +105,28 @@ export class InnerCateringSearchComponent implements OnInit {
   }
 
   fitbo() {
-    
+    console.log(this.latitude + " " + this.longitude);
     return new Promise((resolve,reject)=>{
 
       this.agmMap.mapReady.subscribe(map => {
+        console.log("Fitbo hits");
         this.mymap = map;
         let bounds = new google.maps.LatLngBounds();
         bounds.extend(new google.maps.LatLng(this.latitude, this.longitude));
         this.mymap.fitBounds(bounds);
         resolve();
       });
+   
     });
   }
   switchToAbout() {
+    this.agmMap.mapReady.unsubscribe();
     this.location = false;
   }
   switchToLocation() {
+    this.longitude = Number(this.longitude);
+    this.latitude = Number(this.latitude);
     this.location = true;
-    this.getResturantDetails()
   }
   changeCartStatus() {
     this.showcart = !this.showcart;
@@ -262,7 +272,7 @@ export class InnerCateringSearchComponent implements OnInit {
             this.max = Number(this.ResturantObj.restaurantMax);
             this.latitude = this.ResturantObj.lat;
             this.longitude = this.ResturantObj.lng;
-
+            console.log("long lat updated");
             resolve();
           })
 

@@ -42,7 +42,7 @@ import { WaiterSignupComponent } from './waiter-signup/waiter-signup.component';
 import { ResturantCountComponent } from './shareComponents/resturant-count/resturant-count.component';
 import { PrivacyNPolicyComponent } from './privacy-n-policy/privacy-n-policy.component';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
-
+import { FileSelectDirective,FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +85,7 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
   imports: [
 
     BrowserModule,
- 
+
     BrowserAnimationsModule,
     AppRoutingModule,
     CarouselModule,
@@ -93,6 +93,7 @@ import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
     ReactiveFormsModule,
     HttpClientModule,
     AngularDateTimePickerModule,
+    FileUploadModule,
     ToastrModule.forRoot({
       easing:'ease-in',
       easeTime:3000,

@@ -138,7 +138,7 @@ export class SignupComponent implements OnInit {
      
     },(error)=>{
       this.wait = false;
-      this.toastr.error('Unauthorized');
+      this.toastr.error('Invalid email or password. Please try again.');
     })
   
   }

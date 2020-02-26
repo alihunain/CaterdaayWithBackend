@@ -12,6 +12,7 @@ import { MapsAPILoader, MouseEvent, GoogleMapsAPIWrapper, AgmMap, LatLngBounds, 
 import * as moment from 'moment';
 import { AngularDateTimePickerModule } from 'angular2-datetimepicker'
 
+
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
@@ -31,6 +32,7 @@ export class CheckoutComponent implements OnInit {
   mindate:any;
   datetouch:boolean=false;
   maxdate:any;
+  button=false;
   taxpercentage:any;
   currentUserId:any;
   coupon:any;
@@ -45,6 +47,7 @@ export class CheckoutComponent implements OnInit {
   paycard:boolean=true;
   currentUserObj:any;
   dateValidation:boolean= false;
+  ownerId:any;
   resturantDetail:any;
   @ViewChild('map') agmMap: AgmMap;
   caterdaaycharge
@@ -142,6 +145,7 @@ export class CheckoutComponent implements OnInit {
     this.user.getUser();
     this.getResturantMinimum();
     this.getres();
+  
     if(this.cart.cartCount < Number( this.resturant))
     if(this.user.user == null || this.user.user == undefined){
      this.router.navigate(['/detail']);
@@ -207,7 +211,7 @@ export class CheckoutComponent implements OnInit {
   getDeliveryCharges(){
     return Promise((resolve, reject) => {
     this.kitchen.getDeliveryCharges().subscribe((data:any)=>{
-    
+  
       this.delivery = data.message[0].itemcharge;
       resolve(true);
     },(error)=>{
@@ -219,7 +223,8 @@ export class CheckoutComponent implements OnInit {
    getTaxResturant(id){
     return Promise((resolve, reject) => {
       this.resturant.resturantsDetails(id).subscribe((data:any)=>{
-  
+        this.ownerId= data.message.ownerId;
+        console.log(this.ownerId);
         this.delivery = data.message.DeliveryCharges;
         this.taxpercentage = data.message.tax.value;
         this.mindate = moment().add(data.message.preorderforlatertodays,'d');
@@ -237,6 +242,10 @@ export class CheckoutComponent implements OnInit {
 
   }
   EditOrder(id){
+    console.log(this.orders.items[0].kitchenid);
+    this.cart.popup = true;
+    console.log(this.cart.popup);
+    console.log("Hitiigng");
     this.resturant.Resturantid = id;
     this.router.navigate(['/detail'])
   }
@@ -295,7 +304,20 @@ this.cart.RemoveCombo(item).then(()=>{
   getUser(){
     this.user.getCustomer(this.currentUserId).subscribe((data:any)=>{
       this.currentUserObj = data.message;
-     
+     console.log(this.currentUserObj);
+     if(this.currentUserObj.customeraddresses != undefined){
+      if(this.currentUserObj.customeraddresses.length > 0){
+       this.Address.controls['phoneno'].setValue(this.currentUserObj.customeraddresses[0].phoneno);
+       this.Address.controls['address'].setValue(this.currentUserObj.customeraddresses[0].address);
+       this.Address.controls['city'].setValue(this.currentUserObj.customeraddresses[0].city);
+       if(this.currentUserObj.customeraddresses[0].zip == undefined){
+        this.Address.controls['zip'].setValue(this.currentUserObj.customeraddresses[0].zipcode);
+       }else{
+       this.Address.controls['zip'].setValue(this.currentUserObj.customeraddresses[0].zip);
+       }
+       this.Address.controls['country'].setValue(this.currentUserObj.customeraddresses[0].country);
+      }
+     }
   
     },(error)=>{
       console.log(error);
@@ -319,6 +341,7 @@ this.cart.RemoveCombo(item).then(()=>{
       this.eleRef.nativeElement.querySelector("#confirm").click();
       return;
     }
+    this.button  = true;
     let amount =this.orders.totalAmount;
     //CurrentDate
     let delivery = this.deliveryTime.get('ddate').value + " " + this.deliveryTime.get('time').value;
@@ -331,7 +354,7 @@ this.cart.RemoveCombo(item).then(()=>{
    }
 
 
-
+  
     if(this.paycard == false){
       let order = {
         currency:"CAD", //User selected country currency
@@ -376,13 +399,17 @@ this.cart.RemoveCombo(item).then(()=>{
     
           orderEmail.order = res.message;
           this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
-            this.cart.removeItemOrders();
-            this.cart.currentResturant = null;
-            this.cart.setcurrentResturant();
-            this.cart.cartCount = 0;
-            this.cart.setCartCount();
-            this.router.navigate(['/thankyou']);
-            
+            this.NotificationFunction(res.message._id).then(()=>{
+              this.cart.removeItemOrders();
+              this.cart.currentResturant = null;
+              this.cart.setcurrentResturant();
+              this.cart.cartCount = 0;
+              this.cart.setCartCount();
+              this.button  = false;
+              this.router.navigate(['/thankyou']);
+              
+            })
+          
           },(error)=>{
             console.log(error);
           })
@@ -422,6 +449,7 @@ this.cart.RemoveCombo(item).then(()=>{
           name:this.currentUserObj.name,
           note:"",
           caterdaaycharges:this.caterdaaycharge,
+          driverinst:this.eleRef.nativeElement.querySelector('#driver-inst').value,
           ordertiming:{
             type:"later",
             datetime:devdate,
@@ -444,6 +472,7 @@ this.cart.RemoveCombo(item).then(()=>{
           order:order,
           restaurantid:this.resturant.Resturantid
         }
+        console.log(this.eleRef.nativeElement.querySelector('#closeAdress').value , " 475");
         this.CollectPaymentByCard(payment).then((response)=>{
           
           if(response == false){
@@ -455,15 +484,33 @@ this.cart.RemoveCombo(item).then(()=>{
         
                orderEmail.order = res.message;
                this.kitchen.OrderEmail(orderEmail).subscribe((data:any)=>{
-                
+                this.NotificationFunction(res.message._id).then(()=>{
+
                  this.cart.removeItemOrders();
                  this.cart.currentResturant = null;
                  this.cart.setcurrentResturant();
                  this.cart.cartCount = 0;
                  this.cart.setCartCount();
+                 this.button  = false;
               this.router.navigate(['/thankyou']);
-                 
+                                   
+                },(error)=>{
+                  this.cart.removeItemOrders();
+                  this.cart.currentResturant = null;
+                  this.cart.setcurrentResturant();
+                  this.cart.cartCount = 0;
+                  this.button  = false;
+                  this.cart.setCartCount();
+               this.router.navigate(['/thankyou']);
+                })
                },(error)=>{
+                 this.cart.removeItemOrders();
+                 this.cart.currentResturant = null;
+                 this.cart.setcurrentResturant();
+                 this.cart.cartCount = 0;
+                 this.cart.setCartCount();
+                 this.button  = false;
+              this.router.navigate(['/thankyou']);
                  console.log(error);
                })
             
@@ -475,7 +522,36 @@ this.cart.RemoveCombo(item).then(()=>{
   }
 
 
+  NotificationFunction(orderId){
+     return Promise((resolve,reject)=>{
 
+     this.resturant.Owner(this.ownerId).subscribe((res:any)=>{
+       console.log(res.message)
+       let token = res.message.fcmToken;
+       let data = {
+         type:"user",
+         orderId:orderId,
+         tokens:token,
+         chefid:this.ownerId
+       }
+       console.log(data);
+       console.log("API Call");
+       this.resturant.Notification(data).subscribe((response:any)=>{
+         console.log(response);
+         let data2 = {_id:this.ownerId,fcmToken:response.message.ownertoken}
+         this.resturant.EditOwner(data2).subscribe(()=>{
+          resolve(true);
+         })
+         
+       },(error)=>{
+        reject(false);
+      })
+     },(error)=>{
+       reject(false);
+     })
+           
+    })
+  }
   CollectPaymentByCard(token){
     return  Promise((resolve,reject)=>{
     this.user.collectPaymentbyToken(token).subscribe((data:any)=>{
@@ -565,17 +641,42 @@ this.cart.RemoveCombo(item).then(()=>{
               let routes = results[i].types;
               for(let j = 0 ; j < routes.length;j++){
                 let types = routes[j];
+            
                 if(types == 'locality'){
-                  this.Address.get('city').setValue(results[i].address_components[0].short_name.toLowerCase());
+                  this.Address.get('city').setValue(results[i].address_components[0].short_name);
                   isCity = true;
                   break;
                 }
+              
               }
             }
-        
+            for(let i = 0 ; i < results.length;i++){
+              let routes = results[i].address_components;
+              for(let j = 0 ; j < routes.length;j++){
+                let types = routes[j].types;
+                for(let k = 0; k < types.length;k++){
+                  console.log(types);
+                  if(types[k] == 'postal_code'){
+                    console.log(types[k]);
+                    console.log(results[i].address_components[0]);
+                    this.Address.get('zip').setValue(results[i].address_components[0].short_name);
+                    break;
+                  }
+                }
+              }
+            }
+
+               
+              
+            //   }
+            // }
+          //   if(types == 'postal_code'){
+          //     this.Address.get('zip').setValue(results[i].address_components[0]);
+            
+          // }
             this.Address.get('address').setValue(results[0].formatted_address);
             
-            this.Address.get('country').setValue(results[results.length-1].formatted_address.toLowerCase());
+            this.Address.get('country').setValue(results[results.length-1].formatted_address);
   
             
           }
@@ -644,6 +745,9 @@ this.cart.RemoveCombo(item).then(()=>{
     
     formatCn(number){
       let currentcurrent= "";
+      if(number == undefined || number == null){
+        return currentcurrent;
+      }
       for(let i = 0 ; i < number.length;i++){
         if(number[i] == '-'){
           continue;
@@ -672,6 +776,16 @@ this.cart.RemoveCombo(item).then(()=>{
       if(this.address.value.length > 30){
         this.Card.controls['address'].setValue(this.address.value.substring(1,30));
       }
+      if(this.zip.value.length > 8){
+        this.Card.controls['zip'].setValue(this.zip.value.substring(0,8));
+      }
+      if(this.fname.value.length > 20){
+        this.Card.controls['fname'].setValue(this.zip.value.substring(0,19));
+      }
+      if(this.lname.value.length > 20){
+        this.Card.controls['lname'].setValue(this.zip.value.substring(0,19));
+      }
+      console.log(this.zip.value);
       this.user.verfityCard(this.Card.value).subscribe((data:any)=>{
         if(!data.error){
           // if(data.message.txn != undefined){
@@ -692,6 +806,20 @@ this.cart.RemoveCombo(item).then(()=>{
         console.log(error);
       })
     }
+    resetCard(){
+      this.Card.reset();
+      this.Card.controls['expirymonth'].setValue('');
+      this.Card.controls['cvv'].setValue('');
+      this.Card.controls['address'].setValue('');
+      this.Card.controls['cardnumber'].setValue('');
+      this.Card.controls['expiryyear'].setValue('');
+      this.Card.controls['fname'].setValue('');
+      this.Card.controls['lname'].setValue('');
+      this.Card.controls['zip'].setValue('');
+    }
+   uper(val){
+     return val.charAt(0).toUpperCase() + val.substring(1);
+   }
     generateCardToken(credentials){
       this.user.generateToken(credentials).subscribe((data:any)=>{
         if(data.message.txn.errorCode != undefined){
@@ -711,10 +839,13 @@ this.cart.RemoveCombo(item).then(()=>{
     if(this.CardStatus){
       this.addCard(card);
       this.saveCard = card.cardinfo[0];
+      this.resetCard();
+   
       this.toastr.success("Card Saved Sucessfully");
   }else{
     this.saveCard = card.cardinfo[0];
     this.toastr.success("Sucessfully Added For This Order");
+    this.resetCard();
     this.eleRef.nativeElement.querySelector("#closeCardForm").click();
   }
       },(error)=>{
@@ -777,7 +908,9 @@ this.cart.RemoveCombo(item).then(()=>{
       return this.Card.get('cardnumber');
     }
     get cvv(){
-  
+      if(this.Card.get('cvv').value == null){
+        return;
+      }
       if(this.Card.get('cvv').value.length != 3){
         this.validCvv = false;
       }else{
@@ -786,6 +919,9 @@ this.cart.RemoveCombo(item).then(()=>{
       return this.Card.get('cvv');
     }
     get expirymonth(){
+      if(this.Card.get('expirymonth').value == null){
+        return;
+      }
       if(this.Card.get('expirymonth').value.length != 2){
         this.validM = false;
       }else{
@@ -795,6 +931,9 @@ this.cart.RemoveCombo(item).then(()=>{
      
     }
     get expiryyear(){
+      if(this.Card.get('expiryyear').value == null){
+        return;
+      }
       if(this.Card.get('expiryyear').value.length != 2){
         this.validY = false;
       }else{

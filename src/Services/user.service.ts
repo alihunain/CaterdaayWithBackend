@@ -72,7 +72,7 @@ export class UserService {
     return this.http.get(this.server.development.ms3+ "customers" ).pipe(catchError(this.handleError));
   }
   deleteCustomerAdress(userid:any,request){
-    return this.http.put(this.server.development.ms3+"customer-address/" + userid,request ).pipe(catchError(this.handleError));
+    return this.http.put(this.server.development.ms3+"customers/" + userid,request ).pipe(catchError(this.handleError));
   }
   UpdateProfile(userid,profile:any){
 return this.http.put(this.server.development.ms3 + "customers/" + userid,profile).pipe(catchError(this.handleError));

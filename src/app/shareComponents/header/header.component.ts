@@ -5,8 +5,6 @@ import { KitchenService } from '../../../Services/kitchen.service'
 import { GlobalService } from '../../../Services/global.service'
 import { CartService } from '../../../Services/cart.service'
 import { Router } from '@angular/router';
-
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -18,12 +16,15 @@ export class HeaderComponent implements OnInit {
   Countrys: any;
   Signin: boolean = true;
   Show = false;
+  cartCount = 0;
   Countryname: string = "Select Country";
-  constructor(public router: Router, private eleRef: ElementRef, public global: GlobalService, public userService: UserService, private toastr: ToastrService, private kitchenservice: KitchenService, private cart: CartService) { }
+  constructor(public router: Router, private eleRef: ElementRef, public global: GlobalService, public userService: UserService, private toastr: ToastrService, private kitchenservice: KitchenService, public cart: CartService) { }
   showCart = false;
   ngOnInit() {
     this.getCountries();
+    this.Countryname = 'Canada';
     this.Signin = true;
+
     this.userService.checkCurrentUser.subscribe(res => {
 
       if (this.userService.user != undefined && this.userService.user != null) {

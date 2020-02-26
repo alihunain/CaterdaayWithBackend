@@ -33,7 +33,7 @@ export class ProfileComponent implements OnInit {
   param:any;
   mymap;
   @ViewChild('map') agmMap: AgmMap;
-  currentclass="account";
+  currentclass="";
   Profile = this.fb.group({
     email:['',[Validators.required]],
     lastname:['',[Validators.required]],
@@ -67,12 +67,13 @@ export class ProfileComponent implements OnInit {
   validCn:boolean=true;
   validM:boolean=true;
   validY:boolean=true;
+  reload:boolean = false;
   private geoCoder;
 
 
 
 
-  constructor(private route: ActivatedRoute,private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private fb:FormBuilder,private toastr:ToastrService,private ngZone: NgZone) { }
+  constructor(private route: ActivatedRoute,private kitchenService:KitchenService,private resturantservices:ResturantService, private router:Router,private global:GlobalService,private mapsAPILoader: MapsAPILoader,private userservices:UserService,private eleRef: ElementRef,private ngZone: NgZone,private fb:FormBuilder,private toastr:ToastrService) { }
  
 
 ;
@@ -83,6 +84,7 @@ export class ProfileComponent implements OnInit {
   @ViewChild('country')
   public countryRef:ElementRef
   ngAfterViewInit(){
+
     this.fitbo().then(()=>{
       this.mapsAPILoader.load().then(() => {
       
@@ -93,22 +95,70 @@ export class ProfileComponent implements OnInit {
         this.autoComplete();
         this.getCustomer();
         this.geoCoder = new google.maps.Geocoder;
+        let currenturl = window.location.href;
+        if(currenturl.includes("?")){
+          this.reload = false;
+        this.currentclass = 'profile';
+        setTimeout(()=>{
+       
+        
+            if(currenturl.includes("=") && currenturl.includes("point")){
+              let point = currenturl.split('?')[1].split('=')[1];
+              // this.currentclass = "account";
+              let htmlelement=  this.eleRef.nativeElement.querySelector("#" + point);
+              console.log(htmlelement);
+              if(htmlelement != null || htmlelement != undefined){
+              
+               this.eleRef.nativeElement.querySelector("#" + this.param).click();
+               console.log("Working")
+               this.currentclass = this.param["point"];  
+               
+                this.currentclass = point;
+                
+                console.log(htmlelement);
+              }else{
+                this.eleRef.nativeElement.querySelector("#" + "account").click();
+                console.log("Working")
+                this.currentclass = "account";  
+                
+                 this.currentclass = "account";
+                 
+                 console.log(htmlelement);
+              }
+       
+            }
+           
+        },100)
+      }else{
+        this.eleRef.nativeElement.querySelector("#" + "account").click();
+        console.log("Working")
+        this.currentclass = "account";  
+        
+         this.currentclass = "account";
+      }
         });
+      
       });
     
    
   }
+
    ngOnInit() {
+    
     this.global.header = 3;
     this.checkLogin();
     this.userdata =this.userservices.user;
     this.route.queryParams.subscribe(params=>{
-
+      console.log("subscribe hit");
        this.param =  params["point"];
-       this.currentclass = params["point"];
-      
-       this.eleRef.nativeElement.querySelector("#" + this.param).click();
-     
+
+      let element = this.eleRef.nativeElement.querySelector("#" + this.param);
+      if(element == null && element == undefined){
+        this.param = 'account'
+      }
+        this.eleRef.nativeElement.querySelector("#" + this.param).click();
+       this.currentclass = params["point"];  
+       
       // this.eleRef.nativeElement.querySelector("#pastorder").classList.remove('active');
       // this.eleRef.nativeElement.querySelector("#savecard").classList.remove('active');
       // if(this.param == "account"){
@@ -149,7 +199,6 @@ export class ProfileComponent implements OnInit {
 
   }
   AddClass(name){
-
   this.eleRef.nativeElement.querySelector('#' +  name).click();
   this.currentclass = name;
   }
@@ -226,10 +275,10 @@ export class ProfileComponent implements OnInit {
     })  
   }
   deleteUserAddress(){
-    let userid = {
-      "_id":this.userdata._id
-    }
-    this.userservices.addCustomerAdress(this.userdata._id,userid).subscribe((data:any)=>{
+    this.userservices.getCustomer(this.userdata._id).subscribe((data:any)=>{
+      this.userdata = data.message;
+   this.userdata.customeraddresses = [];
+    this.userservices.deleteCustomerAdress(this.userdata._id,this.userdata).subscribe((data:any)=>{
       if(!data.error){
         this.customerAddress = data.message.customeraddresses;
  
@@ -239,6 +288,7 @@ export class ProfileComponent implements OnInit {
     },(error)=>{
       console.log(error);
     })
+  })
   }
 
   getFavourite(){
@@ -521,16 +571,30 @@ this.orderStatus = 3;
             for(let j = 0 ; j < routes.length;j++){
               let types = routes[j];
               if(types == 'locality'){
-                this.Address.get('city').setValue(results[i].address_components[0].short_name.toLowerCase());
+                this.Address.get('city').setValue(results[i].address_components[0].short_name);
                 isCity = true;
                 break;
               }
             }
           }
-      
+          for(let i = 0 ; i < results.length;i++){
+            let routes = results[i].address_components;
+            for(let j = 0 ; j < routes.length;j++){
+              let types = routes[j].types;
+              for(let k = 0; k < types.length;k++){
+                // console.log(types);
+                if(types[k] == 'postal_code'){
+                  console.log(types[k]);
+                  console.log(results[i].address_components[0]);
+                  this.Address.get('zip').setValue(results[i].address_components[0].short_name);
+                  break;
+                }
+              }
+            }
+          }
           this.Address.get('address').setValue(results[0].formatted_address);
           
-          this.Address.get('country').setValue(results[results.length-1].formatted_address.toLowerCase());
+          this.Address.get('country').setValue(results[results.length-1].formatted_address);
 
           
         }

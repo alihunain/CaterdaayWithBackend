@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class CartService {
+  public popup=false;
   public cartCount =0;
   public itemsOrder: any;
   private cartupdate = new Subject<any>();

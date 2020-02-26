@@ -45,7 +45,7 @@
 									<input type="email" formControlName="email"  class="form-control" placeholder="Email">
 									<div *ngIf="email.invalid && (email.dirty || email.touched)">
 											<div *ngIf="email.errors.required" class="form-error alert-danger">Email Is Required</div>
-											<div *ngIf="email.errors.email" class="form-error alert-danger">invalid Email Is Required</div>
+											<div *ngIf="email.errors.email" class="form-error alert-danger">invalid Email Address</div>
 									</div>
 								</div>
 							</div>
@@ -70,7 +70,7 @@
 					
 							<div class="col-md-12">
 								<div class="form-group">
-									<input type="text" formControlName="address" class="form-control" placeholder="Address">
+									<input type="text" formControlName="address" class="form-control" placeholder="Address" #search (keydown.enter)="$event.preventDefault()">
 									<div *ngIf="address.invalid && (address.dirty || address.touched)">
 											<div *ngIf="address.errors.required" class="form-error alert-danger">Address Is Required</div>
 									</div>
@@ -86,17 +86,17 @@
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" formControlName="state"  class="form-control" placeholder="State">
+									<input type="text" formControlName="state"  class="form-control" placeholder="State/Province">
 									<div *ngIf="state.invalid && (state.dirty || state.touched)">
-											<div *ngIf="state.errors.required" class="form-error alert-danger">State Is Required</div>
+											<div *ngIf="state.errors.required" class="form-error alert-danger">State/Province Is Required</div>
 									</div>
 								</div>
 							</div>
 							<div class="col-md-6">
 								<div class="form-group">
-									<input type="text" formControlName="identity" class="form-control" placeholder="National Identity">
+									<input type="text" formControlName="identity" class="form-control" placeholder="Government ID/SSN#">
 									<div *ngIf="identity.invalid && (identity.dirty || identity.touched)">
-											<div *ngIf="identity.errors.required" class="form-error alert-danger">Identity is Required</div>
+											<div *ngIf="identity.errors.required" class="form-error alert-danger">Government ID/SSN# is Required</div>
 									</div>
 								</div>
 							</div>
@@ -104,7 +104,7 @@
 								<div class="form-group">
 									<textarea formControlName="yourself" placeholder="About Youself" class="form-control"></textarea>
 									<div *ngIf="yourself.invalid && (yourself.dirty || yourself.touched)">
-											<div *ngIf="yourself.errors.required" class="form-error alert-danger">Introduction Is Required</div>
+											<div *ngIf="yourself.errors" class="form-error alert-danger">Minimum 100 Characters Is Required</div>
 									</div>
 								</div>
 							</div>
