@@ -30,7 +30,7 @@
     "angularjs-toaster": "^3.0.0",
     "bootstrap": "^3.4.1",
     "core-js": "^2.5.4",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "moment": "^2.24.0",
     "ng-animate-scroll": "^7.1.0",
     "ng-pick-datetime": "^7.0.0",
